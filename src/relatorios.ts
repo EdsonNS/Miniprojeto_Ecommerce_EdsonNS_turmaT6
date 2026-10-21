@@ -1,0 +1,1 @@
+//relatorios.ts: funções de consolidação e apresentação dos resultados

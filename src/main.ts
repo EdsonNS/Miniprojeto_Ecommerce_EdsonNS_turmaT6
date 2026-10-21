@@ -1,3 +1,4 @@
+//main.ts: inicialização da aplicação e demonstração das funcionalidades.
 import promptSync = require('prompt-sync');
 import {cadastrarCliente, listarClientes} from './clientes';
 import type {Cliente} from './types';

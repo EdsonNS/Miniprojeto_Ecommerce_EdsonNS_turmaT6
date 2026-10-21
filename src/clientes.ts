@@ -1,3 +1,5 @@
+//clientes.ts: cadastro e consulta de clientes.
+
 import type { Cliente } from './types.ts';
 
 const clientes : Cliente[]=[];
