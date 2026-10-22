@@ -13,3 +13,4 @@ const novoCliente:Cliente = {
 
 cadastrarCliente(novoCliente);
 console.log(listarClientes());
+
