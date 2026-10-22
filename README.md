@@ -40,7 +40,7 @@ Nome do projeto: Mini-Projeto Avaliativo - Módulo 1 - Semana 07
 
 ● Exemplos das principais operações.
 
-<TO DO>
+    TO DO
 
 ● Regras de negócio implementadas.
     Um produto cadastrado no catálogo, pode ser adicionado ao carrinho utilizado na criação de um pedido e contabilizado nos relatórios de vendas.
