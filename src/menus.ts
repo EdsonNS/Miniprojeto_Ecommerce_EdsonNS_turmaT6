@@ -27,6 +27,8 @@ import type {OpcaoMenu} from './types';
 
 const prompt = promptSync();
 
+// Definição do tipo: um array contendo [número, texto, função]
+//type OpcaoMenu = [number, string, () => void];
 
 function criarMenu(opcoes: OpcaoMenu[]): void {
   let executar = true;

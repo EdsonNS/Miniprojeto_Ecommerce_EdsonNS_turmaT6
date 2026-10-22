@@ -63,3 +63,15 @@ Nome do projeto:
 ● Limitações conhecidas do sistema.
 
     O projeto não utiliza páginas web, nem a integração com meios de pagamento ou conexão com banco de dados.
+
+● Referências:
+
+como validar email e senha em javascript
+https://cursos.alura.com.br/app/forum/topic/80469
+
+anotações em aula
+
+exemplos feitos em sala
+https://github.com/VitorAPN/Projeto
+
+

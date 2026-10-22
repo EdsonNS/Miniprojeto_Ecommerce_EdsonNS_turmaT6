@@ -7,7 +7,6 @@ type Cliente = {
     email:string
 }
 
-
 type Produto = {
     id: number
     nome: string
@@ -36,5 +35,7 @@ type OpcaoMenu = [number, string, () => void];
 export type {   
     Cliente,
     Produto,
+    ItemPedido,
+    Pedido,
     OpcaoMenu
 }

@@ -38,5 +38,5 @@ const menuProdutoEstoque: OpcaoMenu[] = [
 ];
 
 // Executa o menu
-criarMenu(meuMenu);
+criarMenu(menuPrincipal);
 
