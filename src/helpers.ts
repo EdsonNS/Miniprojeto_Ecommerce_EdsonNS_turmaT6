@@ -1,24 +1,20 @@
 //helpers.ts: funções reutilizáveis
 
-function validaTexto(texto: string): boolean {
-    if (texto.trim() === '') {
-        console.log('Não pode ser vazio')
-        return false;
-    }
-    return true
+//Closure que gera um incremento
+function criarGeradorId(): () => number {
+  let sequencial: number = 0;  
+  return function(): number {
+    sequencial++;
+    return sequencial; 
+  };
 }
 
-function isTextoValido(){
-
-    
-    const minhaVar: string | null | undefined = "";
-/*
-• const: Declara uma constante, ou seja, uma variável cujo valor não pode ser reatribuído depois.
-• minhaVar: É o nome da variável.
-• : string | null | undefined: É a tipagem do TypeScript. Significa que essa variável aceita
- apenas três tipos de valores: um texto (string), um valor nulo (null), ou um valor indefinido (undefined).
-• = "": Atribui o valor inicial à variável. Neste caso, uma string vazia (sem nenhum caractere).
-*/
+function isTextoValido(minhaVar,msgErro:string | null | undefined):boolean{        
+    /*
+    • minhaVar: É o nome do parâmetro.
+    • : string | null | undefined: É a tipagem do TypeScript. Significa que essa variável aceita
+    apenas três tipos de valores: um texto (string), um valor nulo (null), ou um valor indefinido (undefined).
+    */
 
     if (!minhaVar || minhaVar.trim() === "") {
       // A variável é nula, indefinida, vazia ou só contém espaços
@@ -27,12 +23,30 @@ function isTextoValido(){
       No JavaScript/TypeScript, os valores null, undefined e "" (string vazia) são
        considerados falsy (se comportam como falso)
        */
-
+        ifIsTextoValidoPrint(msgErro);
+        return false;
+        
+    } else {
+        return true;
     }
-
 }
 
-function isEmailValido(email: string): boolean {
+
+function ifIsTextoValidoPrint(msgToPrint:string | null | undefined):boolean{
+    if (!msgToPrint || msgToPrint.trim() === ""){
+        return false;
+    } else {            
+        console.log(msgToPrint);
+        return true;
+    }
+}
+
+function isEmailValido(email: string,msgErro:string): boolean {
+
+  if (isTextoValido(email,msgErro)) {
+    return false;
+  }
+
    //Fonte: https://cursos.alura.com.br/app/forum/topic/80469
    //como validar email e senha em javascript
     
@@ -49,14 +63,16 @@ function isEmailValido(email: string): boolean {
     • [^\\s@]+: Um ou mais caracteres para a extensão final (como com, org, com.br).
     • $: Fim da linha.
   */
-  if (!email) {
+
+  if (emailRegex.test(email)){
+    return true;
+  }else{
+    ifIsTextoValidoPrint(msgErro);
     return false;
-  }
-
-  return emailRegex.test(email);
+  };
 }
 
-export {
-    validaTexto,
-    isEmailValido
-}
+export { isTextoValido, 
+         isEmailValido,
+        criarGeradorId
+    }

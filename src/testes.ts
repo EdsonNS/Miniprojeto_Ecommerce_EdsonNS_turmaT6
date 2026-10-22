@@ -7,6 +7,12 @@ ou finalizar uma compra sem itens.
 
  */
 
+function ifIsTextoValidoPrint(){
+
+    
+}
+
+
 function testeSitucaoInvalida_CadastrarUmProdutoComPrecoNegativo(){
 
 
