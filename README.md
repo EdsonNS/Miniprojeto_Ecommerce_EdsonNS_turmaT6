@@ -9,23 +9,29 @@ Nome do projeto:
 
 ● Objetivo da aplicação:
 
-    Desenvolver uma aplicação de gerenciamento de e-commerce utilizando TypeScript e Node.js, aplicando os conceitos estudados durante o módulo.
+    Desenvolver uma aplicação de gerenciamento de e-commerce utilizando TypeScript e Node.js, 
+	aplicando os conceitos estudados durante o módulo.
     
-    O sistema deverá trabalhar com produtos, clients, carrinhos e pedidos. Organizar os dados por meio de tipos, criar funções reutilizáveis, implementar regras de negócio e produzir relatórios simples.
+    O sistema deverá trabalhar com produtos, clients, carrinhos e pedidos. Organizar os dados 
+	por meio de tipos, criar funções reutilizáveis, implementar regras de negócio e produzir relatórios simples.
 
-    O objetivo não é criar um sistema comercial completo, mas organizar e desenvolver as principais funcionalidades de uma aplicação de e-commerce.
+    O objetivo não é criar um sistema comercial completo, mas organizar e desenvolver as principais 
+	funcionalidades de uma aplicação de e-commerce.
 
 ● Funcionalidades implementadas.
 
-    Administrar um catálogo de produtos, gerenciar compras e registrar pedidos, mantendo as informações consistentes durante a execução. 
+    Administrar um catálogo de produtos, gerenciar compras e registrar pedidos, mantendo as informações 
+	consistentes durante a execução. 
 
 ● Tecnologias utilizadas.
 
-     TypeScript, JavaScript e Node.js, aplicando os conceitos estudados durante o módulo, como: variáveis, funções, arrays, laços de repetição.
+     TypeScript, JavaScript e Node.js, aplicando os conceitos estudados durante o módulo, como: variáveis,
+	 funções, arrays, laços de repetição.
 
 ● Estrutura dos arquivos.
 
-    A aplicação está organizada em arquivos e módulos, utilizando tipagem explícita nos principais dados e disponibilizando funções responsáveis pelas operações do sistema.
+    A aplicação está organizada em arquivos e módulos, utilizando tipagem explícita nos principais dados 
+	e disponibilizando funções responsáveis pelas operações do sistema.
 
 ● Instruções de compilação e execução.
 
@@ -51,7 +57,8 @@ Nome do projeto:
 	
 ● Regras de negócio implementadas.
 
-    Um produto cadastrado no catálogo, pode ser adicionado ao carrinho utilizado na criação de um pedido e contabilizado nos relatórios de vendas.
+    Um produto cadastrado no catálogo, pode ser adicionado ao carrinho utilizado na criação de um pedido
+	e contabilizado nos relatórios de vendas.
     
 ● Limitações conhecidas do sistema.
 
