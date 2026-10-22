@@ -22,11 +22,11 @@ Digite uma opção:
 }
     */
 import promptSync from 'prompt-sync';
+import type {OpcaoMenu} from './types';
+
 
 const prompt = promptSync();
 
-// Definição do tipo: um array contendo [número, texto, função]
-type OpcaoMenu = [number, string, () => void];
 
 function criarMenu(opcoes: OpcaoMenu[]): void {
   let executar = true;
@@ -55,6 +55,10 @@ function criarMenu(opcoes: OpcaoMenu[]): void {
   }
 }
 
+
+
+
+
 // ==========================================
 // EXEMPLO DE USO
 // ==========================================
@@ -63,7 +67,7 @@ const acaoListar = () => console.log('\n📋 Listando todos os usuários...');
 const acaoCriar = () => console.log('\n➕ Criando novo registro...');
 const acaoSair = () => console.log('\n👋 Encerrando o programa...');
 
-// Array de opções estruturado exatamente como solicitado
+// Array de opções estruturado
 const meuMenu: OpcaoMenu[] = [
   [1, 'Listar Usuários', acaoListar],
   [2, 'Criar Registro', acaoCriar],
@@ -72,3 +76,5 @@ const meuMenu: OpcaoMenu[] = [
 
 // Executa o menu
 criarMenu(meuMenu);
+
+export {criarMenu};
