@@ -9,7 +9,7 @@ function criarGeradorId(): () => number {
   };
 }
 
-function isTextoValido(minhaVar,msgErro:(string | null | undefined)):boolean{        
+function isTextoValido(minhaVar:(string | null | undefined),msgErro:(string | null | undefined)):boolean{        
     /*
     • minhaVar: É o nome do parâmetro.
     • : string | null | undefined: É a tipagem do TypeScript. Significa que essa variável aceita

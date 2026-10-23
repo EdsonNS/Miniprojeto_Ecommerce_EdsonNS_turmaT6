@@ -31,8 +31,8 @@ const prompt = promptSync();
 //type OpcaoMenu = [number, string, () => void];
 
 function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
-  let executar = true;
-
+  let executar:boolean = true;
+  let numTentaiva:number=0;
   while (executar) {
     console.log(`\n=== ${titulo} ===`);
     // Exibe as opções do array
@@ -54,7 +54,8 @@ function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
       }; 
       
     } else {
-      console.log('\n❌ Opção inválida! Tente novamente.');
+      numTentaiva++;      
+      console.log('\n(numTentaiva>5?"👽":numTentaiva>3?"🥱":"❌")) Opção inválida! Tente novamente.');
     }
   }
 }
@@ -62,7 +63,7 @@ function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
 
 
 
-
+/*
 // ==========================================
 // EXEMPLO DE USO
 // ==========================================
@@ -80,5 +81,6 @@ const meuMenu: OpcaoMenu[] = [
 
 // Executa o menu
 criarMenu("Menu Principal",meuMenu);
+*/
 
 export {criarMenu};

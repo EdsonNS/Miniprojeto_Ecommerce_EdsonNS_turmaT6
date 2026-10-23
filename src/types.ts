@@ -32,6 +32,14 @@ type Pedido = {
 // Definição do tipo: um array contendo [número, texto, função]
 type OpcaoMenu = [number, string, () => (void|boolean)];
 
+// Definição do tipo: interação com o usuário
+type PerguntasRespostas = {
+    pergunta:string
+    numTentativa:number
+    msgErro:string
+    msgAcerto:string
+}
+
 export type {   
     Cliente,
     Produto,
