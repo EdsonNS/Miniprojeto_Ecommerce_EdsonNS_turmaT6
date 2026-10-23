@@ -68,10 +68,8 @@ function isEmailValido(email:(string | null | undefined),msgErro:(string | null 
     const emailStr= String(email).trim();
     
   if (emailRegex.test(emailStr)){
-     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     return true;
   }else{
-    console.log("ccccccccccccccccccccccccccc")
     ifIsTextoValidoPrint(msgErro);
     return false;
   };
@@ -81,13 +79,13 @@ function isEmailValido(email:(string | null | undefined),msgErro:(string | null 
 function ehInteiroPositivo(valor: unknown): boolean {
   // Elimina null, undefined e booleanos
   if (valor === null || valor === undefined || typeof valor === 'boolean') {
-    ifIsTextoValidoPrint("Valor não pode ser null, undefined ou booleanos!");
+    ifIsTextoValidoPrint("\n❌ Valor não pode ser null, undefined ou booleanos!");
     return false;
   }
 
   // Elimina strings vazias ou que contêm apenas espaços em branco
   if (typeof valor === 'string' && valor.trim() === '') {
-    ifIsTextoValidoPrint("Valor não pode ser vazio!");
+    ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
     return false;
   }
 
@@ -98,15 +96,42 @@ function ehInteiroPositivo(valor: unknown): boolean {
   if (Number.isInteger(numeroConvertido) && numeroConvertido >=1) {
     return true;
   } else {
-    ifIsTextoValidoPrint("Valor tem que ser Interiro e maior que zero!");
+    ifIsTextoValidoPrint("\n❌ Valor tem que ser Interiro e maior que zero!");
     return false;
   }
 
 }
 
 
+function ehNumericoPositivo(valor: unknown): boolean {
+  // Elimina null, undefined e booleanos
+  if (valor === null || valor === undefined || typeof valor === 'boolean') {
+    ifIsTextoValidoPrint("\n❌ Valor não pode ser null, undefined ou booleanos!");
+    return false;
+  }
+
+  // Elimina strings vazias ou que contêm apenas espaços em branco
+  if (typeof valor === 'string' && valor.trim() === '') {
+    ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
+    return false;
+  }
+
+  // Converte para número
+  const numeroConvertido = Number(valor);
+
+  // Verifica se é um número válido E se é maior que zero
+  if (numeroConvertido >=1) {
+    return true;
+  } else {
+    ifIsTextoValidoPrint("\n❌ Valor tem que ser maior que zero!");
+    return false;
+  }
+
+}
+
 export { isTextoValido, 
          isEmailValido,
         criarGeradorId,
-        ehInteiroPositivo
+        ehInteiroPositivo,
+        ehNumericoPositivo
     }

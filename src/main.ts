@@ -3,16 +3,18 @@ import promptSync = require('prompt-sync');
 import {cargaIncialClientes, exibeMenuClientes} from './clientes';
 import type {Cliente, OpcaoMenu} from './types';
 import {criarMenu} from './menus';
+import { cargaIncialEstoque,exibeMenuEstoque } from './produtos';
 
 const prompt = promptSync({sigint: true})
 
 function inicializarCargas(){
     cargaIncialClientes();
+    cargaIncialEstoque();
 }
 
 function exibeMenuPrincipal(){
   const menuPrincipal: OpcaoMenu[] = [
-    [1, '👉 Menu Produtos e Estoque', () => { return false; }],
+    [1, '👉 Menu Produtos e Estoque', exibeMenuEstoque],
     [2, '👉 Menu Clientes', exibeMenuClientes],
     [3, '👉 Menu Pedidos', () => { return false; }],
     [4, '👉 Menu Relatórios', () => { return false; }],  

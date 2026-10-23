@@ -9,11 +9,11 @@ type Cliente = {
 
 type Produto = {
     id: number
-    nome: string
     categoria: string
+    nome: string
     preco: number
     qtdeEstoque: number
-    visivel:boolean //excluído mas 
+    visivel:boolean //indica que foi excluído  
 }
 
 type ItemPedido = {
