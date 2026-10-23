@@ -36,10 +36,10 @@ function exibeMenuClientes(){
     [1, '👉 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
     [2, '👉 Listar Clientes', () => {listarClientes(); return false;}],
     [3, '👉 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
-    [9, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
-  criarMenu(true,"Menu Clientes",menuClientes);
+  criarMenu(true,"Menu Clientes",menuClientes,"");
 }
 
 

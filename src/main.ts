@@ -16,12 +16,13 @@ function exibeMenuPrincipal(){
   const menuPrincipal: OpcaoMenu[] = [
     [1, '👉 Menu Produtos e Estoque', exibeMenuEstoque],
     [2, '👉 Menu Clientes', exibeMenuClientes],
-    [3, '👉 Menu Pedidos', () => { return false; }],
-    [4, '👉 Menu Relatórios', () => { return false; }],  
-    [9, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [3, '👉 Menu Carrinho de Compra', () => { return false; }],   
+    [4, '👉 Menu Pedidos', () => { return false; }],
+    [5, '👉 Menu Relatórios', () => { return false; }],  
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
   ];
-  criarMenu(false,"Menu Principal",menuPrincipal);
+  criarMenu(false,"Menu Principal",menuPrincipal,"");
 }
 
 function main():void{

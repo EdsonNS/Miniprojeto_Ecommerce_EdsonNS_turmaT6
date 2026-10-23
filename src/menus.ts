@@ -30,7 +30,7 @@ const prompt = promptSync();
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 
-function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[]): void {
+function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[], msgAleta:string): void {
   if (cls) {
   // Limpa o terminal imediatamente
   console.clear(); 
@@ -45,7 +45,9 @@ function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[]): void {
     opcoes.forEach(([numero, texto]) => {
       console.log(`${numero}. ${texto}`);
     });
-
+    if (msgAleta!==""){
+      console.log(msgAleta);
+    }
     // Lê a entrada do usuário de forma síncrona
     const escolhaStr: string  = String(prompt('Escolha uma opção: '));
     const  escolhaNum: number = parseInt(escolhaStr, 10);
@@ -60,28 +62,25 @@ function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[]): void {
       }; 
       
     } else {
-      numTentaiva++;   
-      const msgOpcaoInvalida:string=" Opção inválida! Tente novamente.";
-      if (numTentaiva>5){
-            console.clear();
-            console.log(" 👽 ",msgOpcaoInvalida);
-      }else{
-        if (numTentaiva>3){
-            console.clear();
-            console.log(" 🥱 ",msgOpcaoInvalida);
-        } else {
-            console.clear();
-            console.log(" ❌ ",msgOpcaoInvalida);
-        }  
+          numTentaiva++;   
+          const msgOpcaoInvalida:string=" Opção inválida! Tente novamente.";
+          let emoji:string="";
 
-      }   
-      
-    }
-  }
+          if (numTentaiva > 7) {
+            emoji="😴";
+          } else if (numTentaiva > 5) {
+            emoji="👽";
+          } else if (numTentaiva > 3) {
+            emoji="🥱";
+          } else {
+            emoji="❌";
+          }
+          console.clear();
+          console.log(emoji,msgOpcaoInvalida);
+
+    }   
+  }   
 }
-
-
-
 
 /*
 // ==========================================
