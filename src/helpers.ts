@@ -41,7 +41,7 @@ function ifIsTextoValidoPrint(msgToPrint:(string | null | undefined)):boolean{
     }
 }
 
-function isEmailValido(email: string,msgErro:(string | null | undefined)): boolean {
+function isEmailValido(email:(string | null | undefined),msgErro:(string | null | undefined)): boolean {
 
   if (!isTextoValido(email,msgErro)) {
     return false;

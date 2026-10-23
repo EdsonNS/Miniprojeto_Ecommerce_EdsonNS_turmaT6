@@ -44,52 +44,71 @@ function exibeMenuClientes(){
 
 type PerguntasRespostas = {
     pergunta:string
-    numTentativa:number
+    resposta:string
+    numTentativa:number    
     msgErro:string
-    msgAcerto:string
+    msgAcerto:string            
+    funcaoValidadora:(minhaVar:(string | null | undefined),msgErro:(string | null | undefined))=>(boolean)
+    retornoFuncao:boolean
 }
 
 function cadastrarCliente():boolean {
     let tentativa:number=1;
     const maxTentativas:number=3;
-    const minhasRespostas:PerguntasRespostas[] = [
+    const pergResp:PerguntasRespostas[] = [
+        //Validar se o nome e o e-mail foram informados.
         {
             pergunta:'👉 Digite o nome do cliente ',
-            numTentativa:0,
+            resposta:"",
+            numTentativa:1,
             msgErro:"\n❌ Digite um nome válido",
-            msgAcerto:"✔️"
+            msgAcerto:"✔️",
+            funcaoValidadora:isTextoValido,
+            retornoFuncao:false,
         },
+        //Validar se o nome e o e-mail foram informados.
         {
-            pergunta:'👉 Digite o nome do cliente ',
-            numTentativa:0,
-            msgErro:"\n❌ Digite um nome válido",
-            msgAcerto:"✔️"
+            pergunta:'👉 Digite o email do cliente ',
+            resposta:"",
+            numTentativa:1,
+            msgErro:"\n❌ Digite corretamente o e-mail.",
+            msgAcerto:"✔️",
+            funcaoValidadora:isEmailValido,
+            retornoFuncao:false,
         },
+        //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
         {
-            pergunta:'👉 Digite o nome do cliente ',
-            numTentativa:0,
-            msgErro:"\n❌ Digite um nome válido",
-            msgAcerto:"✔️"
-        },
-        
+            pergunta:'👉 Digite o email do cliente ',
+            resposta:"",
+            numTentativa:1,
+            msgErro:"\n❌ Digite corretamente o e-mail.",
+            msgAcerto:"✔️",
+            funcaoValidadora:isEmailValido,
+            retornoFuncao:false,
+        }          
+       
     ];
 
+     
+    for (const perguntaAtual of pergResp) {
+        let podeTentarNovamente:boolean=true;
+        do {        
+            perguntaAtual.resposta=String(prompt( perguntaAtual.pergunta));
+            perguntaAtual.numTentativa++;
+            perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora( perguntaAtual.resposta,perguntaAtual.msgErro);
+            podeTentarNovamente = (!perguntaAtual.retornoFuncao && perguntaAtual.numTentativa<=maxTentativas);
+            if (podeTentarNovamente){
+                console.log(`\n⚠️ Tente novamente. Tentativa ${perguntaAtual.numTentativa} de ${maxTentativas}:`);
+            }
 
+        }while (podeTentarNovamente);
 
-
-    do {
-        //Validar se o nome e o e-mail foram informados.
-        const iNome: string = prompt('👉 Digite o nome do cliente ');
-        if (!isTextoValido(iNome,"\n❌ Digite um nome válido.\n\n🚫 Cliente não foi cadastrado, tente novamente...")){
-            tentativa++;
+        if (!perguntaAtual.retornoFuncao){
+            console.log("\n🚫 Cliente não foi cadastrado! Voltando para o Menu de opções...");
             return false;
         }
+    }    
 
-        const iEmail: string = prompt('\n❌ Digite o email do cliente ');  
-        if (!isEmailValido(iEmail,"\n👉 Digite corretamente o e-mail.")){
-            tentativa++;
-            return false;
-        } 
         //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
         const clienteEncontrado = getClienteByEmail(iEmail);
         if (clienteEncontrado) {
@@ -97,7 +116,7 @@ function cadastrarCliente():boolean {
             tentativa++;
             return false;
         } 
-        } while (tentativa<=maxTentativas)
+    
     if (pushCliente(iNome,iEmail)){
         console.log(`\n🎉 Cliente ${iNome} cadastrado com sucesso!`); 
         return true;
