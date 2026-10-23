@@ -36,19 +36,25 @@ function exibeMenuClientes(){
     [1, '👉 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
     [2, '👉 Listar Clientes', () => {listarClientes(); return false;}],
     [3, '👉 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
-    [0, '🔙 Retornar', () => {console.log("\n👋retornando..."); return true; }]
+    [9, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
-  criarMenu("Menu Clientes",menuClientes);
+  criarMenu(true,"Menu Clientes",menuClientes);
 }
 
 
-type PerguntasRespostas = {
+//type PerguntasRespostas = {
+//type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
+type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
+    idPergunta:number
     pergunta:string
     resposta:string
     numTentativa:number    
     msgErro:string
     msgAcerto:string            
-    funcaoValidadora:(minhaVar:(string | null | undefined),msgErro:(string | null | undefined))=>(boolean)
+    //funcaoValidadora:(minhaVar:(string | null | undefined),msgErro:(string | null | undefined))=>(boolean)
+    //funcaoValidadora: (...args: TArgs) => TReturn; // Aceita qualquer assinatura de função
+    funcaoValidadora: (...args: any[]) => (boolean); // Aceita qualquer assinatura de função
     retornoFuncao:boolean
 }
 
@@ -58,6 +64,7 @@ function cadastrarCliente():boolean {
     const pergResp:PerguntasRespostas[] = [
         //Validar se o nome e o e-mail foram informados.
         {
+            idPergunta:1,
             pergunta:'👉 Digite o nome do cliente ',
             resposta:"",
             numTentativa:1,
@@ -67,7 +74,7 @@ function cadastrarCliente():boolean {
             retornoFuncao:false,
         },
         //Validar se o nome e o e-mail foram informados.
-        {
+        {   idPergunta:2,
             pergunta:'👉 Digite o email do cliente ',
             resposta:"",
             numTentativa:1,
@@ -78,24 +85,33 @@ function cadastrarCliente():boolean {
         },
         //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
         {
-            pergunta:'👉 Digite o email do cliente ',
+            idPergunta:3,
+            pergunta:"",//não interage com usuário
             resposta:"",
-            numTentativa:1,
-            msgErro:"\n❌ Digite corretamente o e-mail.",
+            numTentativa:(maxTentativas+1), //só tenta uma vez, já deixa esgotado o número de tentativas
+            msgErro:"\n❌ E-mail já está em uso pelo cliente com o ID: ", //xxxID será substituido em tempo de execução
             msgAcerto:"✔️",
-            funcaoValidadora:isEmailValido,
+            funcaoValidadora:funcaoVerificaEmailUnico,
             retornoFuncao:false,
         }          
        
     ];
 
      
+     
     for (const perguntaAtual of pergResp) {
         let podeTentarNovamente:boolean=true;
-        do {        
-            perguntaAtual.resposta=String(prompt( perguntaAtual.pergunta));
-            perguntaAtual.numTentativa++;
-            perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora( perguntaAtual.resposta,perguntaAtual.msgErro);
+        do {
+            perguntaAtual.numTentativa++;  
+            if (perguntaAtual.pergunta!=""){//Se tem pergunta, Interage com usuário
+                perguntaAtual.resposta=(String(prompt( perguntaAtual.pergunta))).trim();//já pergunta, converte e remove espaços
+                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora( perguntaAtual.resposta,perguntaAtual.msgErro);
+
+            }  else {//não interage com usuário, faz só validações das respostas anteriores
+                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora(pergResp,perguntaAtual.msgErro);//repassa o array com todas as respostas anteriores
+
+            }            
+            
             podeTentarNovamente = (!perguntaAtual.retornoFuncao && perguntaAtual.numTentativa<=maxTentativas);
             if (podeTentarNovamente){
                 console.log(`\n⚠️ Tente novamente. Tentativa ${perguntaAtual.numTentativa} de ${maxTentativas}:`);
@@ -109,20 +125,33 @@ function cadastrarCliente():boolean {
         }
     }    
 
-        //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
-        const clienteEncontrado = getClienteByEmail(iEmail);
-        if (clienteEncontrado) {
-            console.log(`\n❌ E-mail já está em uso pelo cliente com o ID ${clienteEncontrado.id}`);
-            tentativa++;
-            return false;
-        } 
+    const perguntaUm = pergResp.find(item => item.idPergunta === 1);//recupera resposta da pergunta 1 (nome)
+    const nomeRespondido = perguntaUm!.resposta;
+    const perguntaDois = pergResp.find(item => item.idPergunta === 2);
+    const emailRespondido = perguntaDois!.resposta;
     
-    if (pushCliente(iNome,iEmail)){
-        console.log(`\n🎉 Cliente ${iNome} cadastrado com sucesso!`); 
+    if (pushCliente(nomeRespondido,emailRespondido.toLocaleLowerCase())){ //finalmente cadastra o cliente e usa email em minúsculo
+        console.log(`\n🎉 Cliente ${nomeRespondido} cadastrado com sucesso!`); 
         return true;
     };
     return false;
 
+}
+
+function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgErro:string):boolean{
+
+    const perguntaDois = perguntasRespostas.find(item => item.idPergunta === 2);
+    const emailRespondido = perguntaDois!.resposta;
+    //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
+    const clienteEncontrado = getClienteByEmail(emailRespondido);
+    if (clienteEncontrado) {
+        console.log("-------------");
+
+        console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
+        return false;
+    }
+console.log("yyyyyyyyyyyy");
+    return true;
 }
 
 

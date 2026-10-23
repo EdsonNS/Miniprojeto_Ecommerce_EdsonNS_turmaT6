@@ -51,7 +51,9 @@ function isEmailValido(email:(string | null | undefined),msgErro:(string | null 
    //como validar email e senha em javascript
     
   // Regex padrão baseado na especificação RFC 5322 simplificada
-  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   /*
     Explicação da Regex utilizada
     O padrão /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/ funciona da seguinte forma:
@@ -63,10 +65,13 @@ function isEmailValido(email:(string | null | undefined),msgErro:(string | null 
     • [^\\s@]+: Um ou mais caracteres para a extensão final (como com, org, com.br).
     • $: Fim da linha.
   */
-
-  if (emailRegex.test(email)){
+    const emailStr= String(email).trim();
+    
+  if (emailRegex.test(emailStr)){
+     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     return true;
   }else{
+    console.log("ccccccccccccccccccccccccccc")
     ifIsTextoValidoPrint(msgErro);
     return false;
   };

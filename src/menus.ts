@@ -30,10 +30,16 @@ const prompt = promptSync();
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 
-function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
+function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[]): void {
+  if (cls) {
+  // Limpa o terminal imediatamente
+  console.clear(); 
+  }
+
   let executar:boolean = true;
   let numTentaiva:number=0;
   while (executar) {
+    //console.clear(); 
     console.log(`\n=== ${titulo} ===`);
     // Exibe as opções do array
     opcoes.forEach(([numero, texto]) => {
@@ -54,8 +60,22 @@ function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
       }; 
       
     } else {
-      numTentaiva++;      
-      console.log('\n(numTentaiva>5?"👽":numTentaiva>3?"🥱":"❌")) Opção inválida! Tente novamente.');
+      numTentaiva++;   
+      const msgOpcaoInvalida:string=" Opção inválida! Tente novamente.";
+      if (numTentaiva>5){
+            console.clear();
+            console.log(" 👽 ",msgOpcaoInvalida);
+      }else{
+        if (numTentaiva>3){
+            console.clear();
+            console.log(" 🥱 ",msgOpcaoInvalida);
+        } else {
+            console.clear();
+            console.log(" ❌ ",msgOpcaoInvalida);
+        }  
+
+      }   
+      
     }
   }
 }

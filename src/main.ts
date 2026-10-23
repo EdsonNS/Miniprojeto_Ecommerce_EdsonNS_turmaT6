@@ -16,17 +16,24 @@ function exibeMenuPrincipal(){
     [2, '👉 Menu Clientes', exibeMenuClientes],
     [3, '👉 Menu Pedidos', () => { return false; }],
     [4, '👉 Menu Relatórios', () => { return false; }],  
-    [0, '🔙 Sair', () => { console.log("\n👋saindo..."); return true; }]
+    [9, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
   ];
-  criarMenu("Menu Principal",menuPrincipal);
+  criarMenu(false,"Menu Principal",menuPrincipal);
 }
 
 function main():void{
+  // Limpa o terminal imediatamente
+  console.clear();   
   inicializarCargas();
   exibeMenuPrincipal();
 }
-
 main();
+
+// Limpa o terminal imediatamente
+console.clear(); 
+
+
 
 
 
