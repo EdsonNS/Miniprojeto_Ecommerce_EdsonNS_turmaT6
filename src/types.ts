@@ -13,6 +13,7 @@ type Produto = {
     categoria: string
     preco: number
     qtdeEstoque: number
+    visivel:boolean //excluído mas 
 }
 
 type ItemPedido = {
@@ -33,11 +34,18 @@ type Pedido = {
 type OpcaoMenu = [number, string, () => (void|boolean)];
 
 // Definição do tipo: interação com o usuário
-type PerguntasRespostas = {
+//type PerguntasRespostas = {
+type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
+    idPergunta:number
     pergunta:string
-    numTentativa:number
+    resposta:string
+    numTentativa:number    
     msgErro:string
-    msgAcerto:string
+    msgAcerto:string            
+    //funcaoValidadora:(minhaVar:(string | null | undefined),msgErro:(string | null | undefined))=>(boolean)
+    //funcaoValidadora: (...args: TArgs) => TReturn; // Aceita qualquer assinatura de função
+    funcaoValidadora: (...args: any[]) => (boolean); // Aceita qualquer assinatura de função
+    retornoFuncao:boolean
 }
 
 export type {   
@@ -45,5 +53,6 @@ export type {
     Produto,
     ItemPedido,
     Pedido,
-    OpcaoMenu
+    OpcaoMenu,
+    PerguntasRespostas
 }

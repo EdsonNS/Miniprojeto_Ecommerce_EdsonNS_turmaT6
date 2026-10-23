@@ -1,6 +1,6 @@
 //clientes.ts: cadastro e consulta de clientes.
 import promptSync = require('prompt-sync');
-import type {Cliente, OpcaoMenu} from './types';
+import type {Cliente, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
 import  { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
 
@@ -43,20 +43,6 @@ function exibeMenuClientes(){
 }
 
 
-//type PerguntasRespostas = {
-//type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
-type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
-    idPergunta:number
-    pergunta:string
-    resposta:string
-    numTentativa:number    
-    msgErro:string
-    msgAcerto:string            
-    //funcaoValidadora:(minhaVar:(string | null | undefined),msgErro:(string | null | undefined))=>(boolean)
-    //funcaoValidadora: (...args: TArgs) => TReturn; // Aceita qualquer assinatura de função
-    funcaoValidadora: (...args: any[]) => (boolean); // Aceita qualquer assinatura de função
-    retornoFuncao:boolean
-}
 
 function cadastrarCliente():boolean {
     let tentativa:number=1;
@@ -145,12 +131,9 @@ function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgE
     //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
     const clienteEncontrado = getClienteByEmail(emailRespondido);
     if (clienteEncontrado) {
-        console.log("-------------");
-
         console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
         return false;
     }
-console.log("yyyyyyyyyyyy");
     return true;
 }
 
