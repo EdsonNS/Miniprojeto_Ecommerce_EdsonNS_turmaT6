@@ -30,11 +30,11 @@ const prompt = promptSync();
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 
-function criarMenu(opcoes: OpcaoMenu[]): void {
+function criarMenu(titulo:string, opcoes: OpcaoMenu[]): void {
   let executar = true;
 
   while (executar) {
-    console.log('\n=== MENU DE OPÇÕES ===');
+    console.log(`\n=== ${titulo} ===`);
     // Exibe as opções do array
     opcoes.forEach(([numero, texto]) => {
       console.log(`${numero}. ${texto}`);
@@ -48,9 +48,11 @@ function criarMenu(opcoes: OpcaoMenu[]): void {
     const opcaoEncontrada = opcoes.find(([numero]) => numero === escolhaNum);
 
     if (opcaoEncontrada) {
-      const [,, funcao] = opcaoEncontrada;
-      funcao();         // Executa a função correspondente
-      executar = false; // Encerra o menu
+      const funcao = opcaoEncontrada[2]; // Pega o terceiro elemento
+      if (funcao()){ // Executa a função, se retornar false continua exibindo o Menu
+          executar = false; // Encerra o menu
+      }; 
+      
     } else {
       console.log('\n❌ Opção inválida! Tente novamente.');
     }
@@ -77,6 +79,6 @@ const meuMenu: OpcaoMenu[] = [
 ];
 
 // Executa o menu
-criarMenu(meuMenu);
+criarMenu("Menu Principal",meuMenu);
 
 export {criarMenu};

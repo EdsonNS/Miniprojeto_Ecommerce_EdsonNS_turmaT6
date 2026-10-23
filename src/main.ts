@@ -5,29 +5,30 @@ import type {Cliente, OpcaoMenu} from './types';
 import {criarMenu} from './menus';
 
 const prompt = promptSync({sigint: true})
-const menuPrincipal: OpcaoMenu[] = [
-  [1, 'Menu Produtos e Estoque', acaoListar],
-  [2, 'Menu Clientes', exibeMenuClientes],
-  [3, 'Menu Pedidos', acaoCriar],
-  [4, 'Menu Relatórios', acaoCriar],  
-  [0, 'Sair', acaoSair]
-];
-
-
 
 function inicializarCargas(){
     cargaIncialClientes();
-
 }
 
-function main():void(){
+function exibeMenuPrincipal(){
+  const menuPrincipal: OpcaoMenu[] = [
+    [1, 'Menu Produtos e Estoque', () => { return false; }],
+    [2, 'Menu Clientes', exibeMenuClientes],
+    [3, 'Menu Pedidos', () => { return false; }],
+    [4, 'Menu Relatórios', () => { return false; }],  
+    [0, 'Sair', () => { return true; }]
+  ];
+  criarMenu("Menu Principal",menuPrincipal);
+}
+
+function main():void{
   inicializarCargas();
-
+  exibeMenu();
 }
+
 main();
 
-cadastrarCliente(novoCliente);
-console.log(listarClientes());
+
 
 
 

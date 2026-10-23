@@ -9,7 +9,7 @@ function criarGeradorId(): () => number {
   };
 }
 
-function isTextoValido(minhaVar,msgErro:string | null | undefined):boolean{        
+function isTextoValido(minhaVar,msgErro:(string | null | undefined)):boolean{        
     /*
     • minhaVar: É o nome do parâmetro.
     • : string | null | undefined: É a tipagem do TypeScript. Significa que essa variável aceita
@@ -32,7 +32,7 @@ function isTextoValido(minhaVar,msgErro:string | null | undefined):boolean{
 }
 
 
-function ifIsTextoValidoPrint(msgToPrint:string | null | undefined):boolean{
+function ifIsTextoValidoPrint(msgToPrint:(string | null | undefined)):boolean{
     if (!msgToPrint || msgToPrint.trim() === ""){
         return false;
     } else {            
@@ -41,9 +41,9 @@ function ifIsTextoValidoPrint(msgToPrint:string | null | undefined):boolean{
     }
 }
 
-function isEmailValido(email: string,msgErro:string): boolean {
+function isEmailValido(email: string,msgErro:(string | null | undefined)): boolean {
 
-  if (isTextoValido(email,msgErro)) {
+  if (!isTextoValido(email,msgErro)) {
     return false;
   }
 
@@ -72,7 +72,36 @@ function isEmailValido(email: string,msgErro:string): boolean {
   };
 }
 
+
+function ehInteiroPositivo(valor: unknown): boolean {
+  // Elimina null, undefined e booleanos
+  if (valor === null || valor === undefined || typeof valor === 'boolean') {
+    ifIsTextoValidoPrint("Valor não pode ser null, undefined ou booleanos!");
+    return false;
+  }
+
+  // Elimina strings vazias ou que contêm apenas espaços em branco
+  if (typeof valor === 'string' && valor.trim() === '') {
+    ifIsTextoValidoPrint("Valor não pode ser vazio!");
+    return false;
+  }
+
+  // Converte para número
+  const numeroConvertido = Number(valor);
+
+  // Verifica se é um número inteiro válido E se é maior que zero
+  if (Number.isInteger(numeroConvertido) && numeroConvertido >=1) {
+    return true;
+  } else {
+    ifIsTextoValidoPrint("Valor tem que ser Interiro e maior que zero!");
+    return false;
+  }
+
+}
+
+
 export { isTextoValido, 
          isEmailValido,
-        criarGeradorId
+        criarGeradorId,
+        ehInteiroPositivo
     }

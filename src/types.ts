@@ -30,7 +30,7 @@ type Pedido = {
 }
 
 // Definição do tipo: um array contendo [número, texto, função]
-type OpcaoMenu = [number, string, () => void];
+type OpcaoMenu = [number, string, () => (void|boolean)];
 
 export type {   
     Cliente,

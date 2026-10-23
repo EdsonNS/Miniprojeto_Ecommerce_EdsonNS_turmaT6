@@ -1,15 +1,8 @@
 //clientes.ts: cadastro e consulta de clientes.
 import promptSync = require('prompt-sync');
-import type { Cliente } from './types';
+import type {Cliente, OpcaoMenu} from './types';
 import {criarMenu} from './menus';
-import  { isEmailValido,isTextoValido,criarGeradorId } from './helpers';
-/*
-type Cliente = {
-    id:number
-    nome:string
-    email:string
-}
-*/
+import  { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
 
 const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
@@ -39,9 +32,16 @@ function pushCliente(iNome:string,iEmail:string):boolean {
 
 
 function exibeMenuClientes(){
-    criarMenu();
-
+  const menuClientes: OpcaoMenu[] = [
+    [1, 'Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
+    [2, 'Listar Clientes', () => {listarClientes(); return false;}],
+    [3, 'Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [0, 'Sair', () => { return true; }]
+  ];
+  criarMenu("Menu Clientes",menuClientes);
 }
+
+
 
 function cadastrarCliente():boolean {
     
@@ -55,17 +55,43 @@ function cadastrarCliente():boolean {
         return false;
     } 
     if (pushCliente(iNome,iEmail)){
-
+        console.log(`Cliente ${iNome} cadastrado com sucesso!`); 
+        return true;
     };
+    return false;
+
+}
+
+
+
+function listarClientes():boolean{
+    console.log("lista de clientes:");
+    console.log( clientes);
     return true;
+}
+
+function buscarClientePeloID():Cliente | undefined {
+    const numIntPositivo: string = prompt('Digite o ID do cliente a ser localizado: ');
+    if (!ehInteiroPositivo(numIntPositivo)){
+        return undefined;
+    }
+    const idCliente:number = Number(numIntPositivo.trim());
+    const clienteEncontrado = getClienteById(idCliente);
+    if (!clienteEncontrado) {
+        console.log(`Cliente com o ID ${idCliente} não foi encontrado.`);
+        return undefined;
+    } else {
+        console.log(`Cliente com o ID ${idCliente} encontrado:`);
+        console.log(clienteEncontrado);
+    }
+    
+    return clienteEncontrado;
 
 }
 
-
-
-function listarClientes():Cliente[]{
-    return clientes;
+function getClienteById(idCliente:number):Cliente | undefined {
+    return clientes.find(cliente => cliente.id === idCliente);
 }
 
 
-export {cadastrarCliente, listarClientes, cargaIncialClientes, exibeMenuClientes};
+export { cargaIncialClientes, exibeMenuClientes, getClienteById};
