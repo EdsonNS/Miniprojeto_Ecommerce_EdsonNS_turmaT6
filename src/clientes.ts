@@ -2,7 +2,8 @@
 import promptSync = require('prompt-sync');
 import type {Cliente, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
-import  { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
+import { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
+import { fazPerguntas} from './interacoesUsuario'
 
 const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
@@ -29,20 +30,6 @@ function pushCliente(iNome:string,iEmail:string):boolean {
     clientes.push(novoCliente);
     return true;
 }
-
-
-function exibeMenuClientes(){
-  const menuClientes: OpcaoMenu[] = [
-    [1, '👉 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [2, '👉 Listar Clientes', () => {listarClientes(); return false;}],
-    [3, '👉 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
-  ];
-  criarMenu(true,"Menu Clientes",menuClientes,"");
-}
-
-
 
 function cadastrarCliente():boolean {
     let tentativa:number=1;
@@ -83,34 +70,11 @@ function cadastrarCliente():boolean {
        
     ];
 
-     
-     
-    for (const perguntaAtual of pergResp) {
-        let podeTentarNovamente:boolean=true;
-        do {
-            perguntaAtual.numTentativa++;  
-            if (perguntaAtual.pergunta!=""){//Se tem pergunta, Interage com usuário
-                perguntaAtual.resposta=(String(prompt( perguntaAtual.pergunta))).trim();//já pergunta, converte e remove espaços
-                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora( perguntaAtual.resposta,perguntaAtual.msgErro);
-
-            }  else {//não interage com usuário, faz só validações das respostas anteriores
-                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora(pergResp,perguntaAtual.msgErro);//repassa o array com todas as respostas anteriores
-
-            }            
-            
-            podeTentarNovamente = (!perguntaAtual.retornoFuncao && perguntaAtual.numTentativa<=maxTentativas);
-            if (podeTentarNovamente){
-                console.log(`\n⚠️ Tente novamente. Tentativa ${perguntaAtual.numTentativa} de ${maxTentativas}:`);
-            }
-
-        }while (podeTentarNovamente);
-
-        if (!perguntaAtual.retornoFuncao){
-            console.log("\n🚫 Cliente não foi cadastrado! Voltando para o Menu de opções...");
-            return false;
-        }
-    }    
-
+    //a variável "pergResp" é editada pela função abaixo
+    if (!fazPerguntas("Cliente", "Principal", pergResp, maxTentativas)){
+        return false;
+    }
+ 
     const perguntaUm = pergResp.find(item => item.idPergunta === 1);//recupera resposta da pergunta 1 (nome)
     const nomeRespondido = perguntaUm!.resposta;
     const perguntaDois = pergResp.find(item => item.idPergunta === 2);
@@ -136,8 +100,6 @@ function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgE
     }
     return true;
 }
-
-
 
 function listarClientes():boolean{
     console.log("lista de clientes:");
@@ -173,4 +135,10 @@ function getClienteById(idCliente:number):Cliente | undefined {
 }
 
 
-export { cargaIncialClientes, exibeMenuClientes, getClienteById};
+export { 
+    cargaIncialClientes, 
+    getClienteById,
+    cadastrarCliente, 
+    listarClientes,
+    buscarClientePeloID
+};

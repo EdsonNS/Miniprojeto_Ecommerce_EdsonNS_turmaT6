@@ -23,9 +23,76 @@ Digite uma opção:
     */
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
-
-
+import { buscarClientePeloID, cadastrarCliente, listarClientes } from './clientes';
+import { buscarProdutoPeloID, buscarProdutoPorParteNomeInformado, cadastrarProduto, editarProduto, filtrarProdutoPorCategoria, getFiltroCategiria, listarProdutosDisponiveis, listarProdutosExcluidos, listarProdutosIndisponiveis, removerProduto, setFiltroCategoria } from './produtos';
 const prompt = promptSync();
+
+
+///////////////////////////////////////////////////////////////////////
+//                          Menu Principal
+///////////////////////////////////////////////////////////////////////
+
+
+function exibeMenuPrincipal(){
+  const menuPrincipal: OpcaoMenu[] = [
+    [1, '👉 Menu Produtos e Estoque', exibeMenuEstoque],
+    [2, '👉 Menu Clientes', exibeMenuClientes],
+    [3, '👉 Menu Carrinho de Compra', () => { return false; }],   
+    [4, '👉 Menu Pedidos', () => { return false; }],
+    [5, '👉 Menu Relatórios', () => { return false; }],  
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
+  ];
+  criarMenu(false,"Menu Principal",menuPrincipal,"");
+}
+
+
+///////////////////////////////////////////////////////////////////////
+//                          Menu Clientes
+///////////////////////////////////////////////////////////////////////
+
+
+function exibeMenuClientes(){
+  const menuClientes: OpcaoMenu[] = [
+    [1, '👉 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
+    [2, '👉 Listar Clientes', () => {listarClientes(); return false;}],
+    [3, '👉 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+  ];
+  criarMenu(true,"Menu Clientes",menuClientes,"");
+}
+
+///////////////////////////////////////////////////////////////////////
+//                          Menu Estoque
+///////////////////////////////////////////////////////////////////////
+
+function exibeMenuEstoque(){
+  const menuProduto: OpcaoMenu[] = [
+    [1, '👉 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
+    [2, '👉 Editar Produto', () => {editarProduto(); return false;}],
+    [3, '👉 Remover Produto', () => {removerProduto(); return false;}],    
+    [4, '👉 Filtar Produto por Categoria', () => {filtrarProdutoPorCategoria(); return false;}],
+    [5, '👉 Remover Filtro de Produto por Categoria', () => {setFiltroCategoria(""); return false;}],
+    [6, '👉 Listar Produto disponíveis', () => {listarProdutosDisponiveis(); return false;}],
+    [7, '👉 Listar Produto indisponíveis', () => {listarProdutosIndisponiveis(); return false;}],
+    [8, '👉 Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
+    [9, '👉 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
+    [10, '👉 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
+    
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+  ];
+  let msgAlerta:string = ""
+  if (getFiltroCategiria()!==""){
+    msgAlerta = `🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
+  }
+  criarMenu(true,"Menu Produto",menuProduto,msgAlerta);
+}
+
+
+
+
 
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
@@ -102,4 +169,4 @@ const meuMenu: OpcaoMenu[] = [
 criarMenu("Menu Principal",meuMenu);
 */
 
-export {criarMenu};
+export {criarMenu, exibeMenuPrincipal,exibeMenuClientes,exibeMenuEstoque};

@@ -56,6 +56,13 @@ const prompt = promptSync({ sigint: true });
 
 let filtroCategoria:string="";
 
+function getFiltroCategiria():string{
+    return filtroCategoria;
+}
+function setFiltroCategoria(categoria:string){
+    filtroCategoria=categoria;
+}
+
 //iniciar com menos 10 produtos cadastrados para facilitar os
 //testes das funcionalidades
 function cargaIncialEstoque():boolean{
@@ -98,28 +105,6 @@ function pushProduto(categoria: string,nome: string,preco: number,qtdeEstoque: n
 }
 
 
-function exibeMenuEstoque(){
-  const menuProduto: OpcaoMenu[] = [
-    [1, '👉 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
-    [2, '👉 Editar Produto', () => {editarProduto(); return false;}],
-    [3, '👉 Remover Produto', () => {removerProduto(); return false;}],    
-    [4, '👉 Filtar Produto por Categoria', () => {filtrarProdutoPorCategoria(); return false;}],
-    [5, '👉 Remover Filtro de Produto por Categoria', () => {filtroCategoria=""; return false;}],
-    [6, '👉 Listar Produto disponíveis', () => {listarProdutosDisponiveis(); return false;}],
-    [7, '👉 Listar Produto indisponíveis', () => {listarProdutosIndisponiveis(); return false;}],
-    [8, '👉 Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
-    [9, '👉 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
-    [10, '👉 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
-    
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
-  ];
-  let msgAlerta:string = ""
-  if (filtroCategoria!==""){
-    msgAlerta = `🚨 Filtro de categoria está ativado: ["${filtroCategoria}"]`;
-  }
-  criarMenu(true,"Menu Produto",menuProduto,msgAlerta);
-}
 
 function cadastrarProduto():boolean {
     let tentativa:number=1;
@@ -234,6 +219,25 @@ function buscarProdutoPeloID():Produto | undefined {
 
 }
 
+function listarProdutosDisponiveis(){
+
+}
+
+function listarProdutosIndisponiveis(){
+
+}
+
+function listarProdutosExcluidos(){
+
+}
+
+   function editarProduto(){
+
+   }
+    function removerProduto(){
+
+    }
+
 function filtrarProdutoPorCategoria():boolean{
 
 
@@ -261,4 +265,17 @@ return estoque.filter(elemento =>
 }
 
 
-export { cargaIncialEstoque, exibeMenuEstoque};
+export { 
+    cargaIncialEstoque,
+    cadastrarProduto,
+    editarProduto,
+    removerProduto,
+    filtrarProdutoPorCategoria,
+    listarProdutosDisponiveis,
+    listarProdutosIndisponiveis,
+    listarProdutosExcluidos,
+    buscarProdutoPeloID,
+    buscarProdutoPorParteNomeInformado,
+    getFiltroCategiria,
+    setFiltroCategoria
+};

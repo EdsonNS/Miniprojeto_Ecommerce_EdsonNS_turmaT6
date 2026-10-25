@@ -66,12 +66,14 @@ Nome do projeto:
 
 ● Referências:
 
-como validar email e senha em javascript
-https://cursos.alura.com.br/app/forum/topic/80469
+>anotações em aula
 
-anotações em aula
-
-exemplos feitos em sala
+>exemplos feitos em sala
 https://github.com/VitorAPN/Projeto
 
+>Módulo Console.log colorido
+Cortesia do aluno Sidemar 
+https://discord.com/channels/1369678920995045498/1461059777378385971/1563630150900518943
 
+>como validar email e senha em javascript
+https://cursos.alura.com.br/app/forum/topic/80469
