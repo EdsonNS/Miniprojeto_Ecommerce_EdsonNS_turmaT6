@@ -22,6 +22,7 @@ type Produto = {
 
 type ItemPedido = {
     nomeEntidade: "ItemPedido";//Propriedade Discriminadora (Tagged Union)
+    id: number
     produtoId: number
     qtdeComprada:number
     valorUnitario:number

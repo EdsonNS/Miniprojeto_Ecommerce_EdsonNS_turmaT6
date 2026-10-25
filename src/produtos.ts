@@ -115,25 +115,25 @@ function cadastrarProduto():boolean {
         //Validar se nomes, categorias, etc  foram informados.
         {
             idPergunta:1,
-            pergunta:'👉 Digite o nome do categoria ',
+            pergunta:'👉 Digite o nome do categoria: ',
             resposta:"",
             numTentativa:1,
-            msgErro:"\n❌ Digite um nome válido para a categoria",
+            msgErro:"\n❌ Digite um nome válido para a categoria ",
             msgAcerto:"✔️",
             funcaoValidadora:isTextoValido,
             retornoFuncao:false,
         },        {
             idPergunta:2,
-            pergunta:'👉 Digite o nome do produto ',
+            pergunta:'👉 Digite o nome do produto: ',
             resposta:"",
             numTentativa:1,
-            msgErro:"\n❌ Digite um nome válido para o produto",
+            msgErro:"\n❌ Digite um nome válido para o produto ",
             msgAcerto:"✔️",
             funcaoValidadora:isTextoValido,
             retornoFuncao:false,
         },        {
             idPergunta:3,
-            pergunta:'👉 Digite o preço unitário do produto ',
+            pergunta:'👉 Digite o preço unitário do produto: ',
             resposta:"",
             numTentativa:1,
             msgErro:"\n❌ Digite um valor numérico válido",
@@ -142,7 +142,7 @@ function cadastrarProduto():boolean {
             retornoFuncao:false,
         },
         {   idPergunta:4,
-            pergunta:'👉 Digite a quantidade em estoque',
+            pergunta:'👉 Digite a quantidade em estoque: ',
             resposta:"",
             numTentativa:1,
             msgErro:"", //função já emite mensagem própria de erro
@@ -174,15 +174,17 @@ function cadastrarProduto():boolean {
 
 
 function listarProdutos():boolean{
-    console.log("lista de produtos:");
+    console.log("lista de produtos: ");
     console.log( estoque);
     return true;
 }
 
 function buscarProdutoPeloID():Produto | undefined {
-    return buscarEntidadePeloID("Produto",getProdutoById);
+    return buscarEntidadePeloID("Exibir","Produto",getProdutoById);
 }
-
+function editarProduto(){
+    return buscarEntidadePeloID('Editar',"Produto",getProdutoById);
+}
 
 function listarProdutosDisponiveis(){
 
@@ -196,18 +198,15 @@ function listarProdutosExcluidos(){
 
 }
 
-function editarProduto(){
 
 
-
-}
-    function removerProduto(){
+function removerProduto(){
 
     }
 
 function filtrarProdutoPorCategoria():boolean{
 
-
+    setFiltroCategoria("xxx");
 
   return true;
 }

@@ -74,7 +74,7 @@ function exibeMenuClientes(){
 }
 
 ///////////////////////////////////////////////////////////////////////
-//                          Menu Estoque
+//                          Menu Estoque (Produtos)
 ///////////////////////////////////////////////////////////////////////
 
 function exibeMenuEstoque(){
@@ -82,10 +82,10 @@ function exibeMenuEstoque(){
     [1, '👉 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
     [2, '👉 Editar Produto', () => {editarProduto(); return false;}],
     [3, '👉 Remover Produto', () => {removerProduto(); return false;}],    
-    [4, '👉 Filtar Produto por Categoria', () => {filtrarProdutoPorCategoria(); return false;}],
+    [4, '👉 Ativar  Filtro de Produto por Categoria', () => {filtrarProdutoPorCategoria(); return false;}],
     [5, '👉 Remover Filtro de Produto por Categoria', () => {setFiltroCategoria(""); return false;}],
-    [6, '👉 Listar Produto disponíveis', () => {listarProdutosDisponiveis(); return false;}],
-    [7, '👉 Listar Produto indisponíveis', () => {listarProdutosIndisponiveis(); return false;}],
+    [6, '👉 Listar Produto disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
+    [7, '👉 Listar Produto indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
     [8, '👉 Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
     [9, '👉 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
     [10, '👉 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
@@ -122,9 +122,9 @@ function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[], msgAleta:stri
     opcoes.forEach(([numero, texto]) => {
       console.log(`${numero}. ${texto}`);
     });
-    if (msgAleta!==""){
+    //if (msgAleta!==""){
       console.log(msgAleta);
-    }
+    //}
     // Lê a entrada do usuário de forma síncrona
     const escolhaStr: string  = String(prompt('Escolha uma opção: '));
     const  escolhaNum: number = parseInt(escolhaStr, 10);

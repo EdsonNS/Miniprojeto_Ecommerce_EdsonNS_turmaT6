@@ -39,7 +39,7 @@ function cadastrarCliente():boolean {
         //Validar se o nome e o e-mail foram informados.
         {
             idPergunta:1,
-            pergunta:'👉 Digite o nome do cliente ',
+            pergunta:'👉 Digite o nome do cliente: ',
             resposta:"",
             numTentativa:1,
             msgErro:"\n❌ Digite um nome válido",
@@ -49,7 +49,7 @@ function cadastrarCliente():boolean {
         },
         //Validar se o nome e o e-mail foram informados.
         {   idPergunta:2,
-            pergunta:'👉 Digite o email do cliente ',
+            pergunta:'👉 Digite o email do cliente: ',
             resposta:"",
             numTentativa:1,
             msgErro:"\n❌ Digite corretamente o e-mail.",
@@ -110,7 +110,7 @@ function listarClientes():boolean{
 
 //interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
 function buscarClientePeloID():Cliente | undefined {
-    return buscarEntidadePeloID("Cliente",getClienteById);
+    return buscarEntidadePeloID("Exibir","Cliente",getClienteById);
 }
 
 function getClienteByEmail(idEmail:string):Cliente | undefined {
