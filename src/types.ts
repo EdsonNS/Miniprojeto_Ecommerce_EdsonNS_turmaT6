@@ -1,13 +1,17 @@
 
 //types.ts: definição dos tipos utilizados pelo sistema
 
+
 type Cliente = {
-    id:number
-    nome:string
-    email:string
+    nomeEntidade: "Cliente";
+    //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
+    id:number;
+    nome:string;
+    email:string;
 }
 
 type Produto = {
+    nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
     id: number
     categoria: string
     nome: string
@@ -17,18 +21,24 @@ type Produto = {
 }
 
 type ItemPedido = {
+    nomeEntidade: "ItemPedido";//Propriedade Discriminadora (Tagged Union)
     produtoId: number
     qtdeComprada:number
     valorUnitario:number
 }
 
 type Pedido = {
+    nomeEntidade: "Pedido";//Propriedade Discriminadora (Tagged Union)
     id: number
     clienteId: number
     itens:ItemPedido[]
     valorTotal:number
     data:Date
 }
+
+//Union Types (Tipos de União). Para juntar vários tipos possíveis em um único tipo, 
+// utiliza-se o caractere barra vertical (|).
+type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 
 // Definição do tipo: um array contendo [número, texto, função]
 type OpcaoMenu = [number, string, () => (void|boolean)];
@@ -49,6 +59,7 @@ type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
 }
 
 export type {   
+    Entidades,
     Cliente,
     Produto,
     ItemPedido,

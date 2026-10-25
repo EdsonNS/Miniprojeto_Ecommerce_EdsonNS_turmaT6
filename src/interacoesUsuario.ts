@@ -1,5 +1,9 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
-import type {PerguntasRespostas} from './types';
+import { ehInteiroPositivo } from './helpers';
+import type {PerguntasRespostas,Produto, Entidades} from './types';
+import promptSync = require('prompt-sync');
+const prompt = promptSync({ sigint: true });
+
 
 function fazPerguntas(nomeEntidade:string, menuAnterior:string, pergResp:PerguntasRespostas[],maxTentativas:number){
     //percorre as perguntas
@@ -24,7 +28,7 @@ function fazPerguntas(nomeEntidade:string, menuAnterior:string, pergResp:Pergunt
         }while (podeTentarNovamente);
 
         if (!perguntaAtual.retornoFuncao){
-            console.log(`\n🚫 ${nomeEntidade} não foi cadastrado! Voltando para o Menu de ${menuAnterior}...`);
+            console.log(`\n🚫 ${nomeEntidade} não foi cadastrado! Voltando para o Menu ${menuAnterior}...`);
             return false;
         }
     }
@@ -32,4 +36,32 @@ function fazPerguntas(nomeEntidade:string, menuAnterior:string, pergResp:Pergunt
 
 }
 
-export {fazPerguntas};
+
+// o tipo genérico <T> para que retorne exatamente o tipo da função que foi passada
+//
+//type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+function buscarEntidadePeloID<T extends Entidades>(
+    nomeEntidade: string, 
+    funcaoGetEntidadeById: (id: number) => T
+): T {
+    const numIntPositivo: string = prompt(`👉 Digite o ID do ${nomeEntidade} a ser localizado: `);
+    
+    if (!ehInteiroPositivo(numIntPositivo)) {
+        return undefined as T; // Força o retorno condizente com o genérico
+    }
+
+    const idEntidade: number = Number(numIntPositivo.trim());
+    const entidadeEncontrado: T = funcaoGetEntidadeById(idEntidade);
+
+    if (!entidadeEncontrado) {
+        console.log(`\n❌ ${nomeEntidade} com o ID ${idEntidade} não foi encontrado.`);
+        return undefined as T;
+    } else {
+        console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado:`);
+        console.log(entidadeEncontrado);
+    }
+
+    return entidadeEncontrado;
+}
+
+export {fazPerguntas,buscarEntidadePeloID};

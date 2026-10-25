@@ -3,7 +3,7 @@ import promptSync = require('prompt-sync');
 import type {Cliente, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
 import { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
-import { fazPerguntas} from './interacoesUsuario'
+import { buscarEntidadePeloID, fazPerguntas} from './interacoesUsuario'
 
 const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
@@ -25,7 +25,8 @@ function pushCliente(iNome:string,iEmail:string):boolean {
     const novoCliente: Cliente = {
         id: geraIdCliente(),
         nome: iNome,
-        email: iEmail
+        email: iEmail,
+        nomeEntidade: 'Cliente'
     }
     clientes.push(novoCliente);
     return true;
@@ -70,7 +71,7 @@ function cadastrarCliente():boolean {
        
     ];
 
-    //a variável "pergResp" é editada pela função abaixo
+    //aviso: a variável "pergResp" é editada pela função abaixo
     if (!fazPerguntas("Cliente", "Principal", pergResp, maxTentativas)){
         return false;
     }
@@ -107,23 +108,9 @@ function listarClientes():boolean{
     return true;
 }
 
+//interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
 function buscarClientePeloID():Cliente | undefined {
-    const numIntPositivo: string = prompt('👉 Digite o ID do cliente a ser localizado: ');
-    if (!ehInteiroPositivo(numIntPositivo)){
-        return undefined;
-    }
-    const idCliente:number = Number(numIntPositivo.trim());
-    const clienteEncontrado = getClienteById(idCliente);
-    if (!clienteEncontrado) {
-        console.log(`\n❌ Cliente com o ID ${idCliente} não foi encontrado.`);
-        return undefined;
-    } else {
-        console.log(`\n🎉 Cliente com o ID ${idCliente} encontrado:`);
-        console.log(clienteEncontrado);
-    }
-    
-    return clienteEncontrado;
-
+    return buscarEntidadePeloID("Cliente",getClienteById);
 }
 
 function getClienteByEmail(idEmail:string):Cliente | undefined {
@@ -141,4 +128,5 @@ export {
     cadastrarCliente, 
     listarClientes,
     buscarClientePeloID
+
 };

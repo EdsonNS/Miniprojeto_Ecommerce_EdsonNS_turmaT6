@@ -24,7 +24,17 @@ Digite uma opção:
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
 import { buscarClientePeloID, cadastrarCliente, listarClientes } from './clientes';
-import { buscarProdutoPeloID, buscarProdutoPorParteNomeInformado, cadastrarProduto, editarProduto, filtrarProdutoPorCategoria, getFiltroCategiria, listarProdutosDisponiveis, listarProdutosExcluidos, listarProdutosIndisponiveis, removerProduto, setFiltroCategoria } from './produtos';
+import {  buscarProdutoPeloID, 
+          buscarProdutoPorParteNomeInformado, 
+          cadastrarProduto,
+          editarProduto, 
+          filtrarProdutoPorCategoria, 
+          getFiltroCategiria,
+          listarProdutosDisponiveis, 
+          listarProdutosExcluidos, 
+          listarProdutosIndisponiveis, 
+          removerProduto, 
+          setFiltroCategoria } from './produtos';
 const prompt = promptSync();
 
 
@@ -170,3 +180,7 @@ criarMenu("Menu Principal",meuMenu);
 */
 
 export {criarMenu, exibeMenuPrincipal,exibeMenuClientes,exibeMenuEstoque};
+
+
+
+

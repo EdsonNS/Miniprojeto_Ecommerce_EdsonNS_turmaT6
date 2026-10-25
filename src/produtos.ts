@@ -45,14 +45,16 @@ const menuProdutoEstoque: OpcaoMenu[] = [
 */
 
 //clientes.ts: cadastro e consulta de clientes.
-import promptSync = require('prompt-sync');
 import type { OpcaoMenu,PerguntasRespostas, Produto} from './types';
 import {criarMenu} from './menus';
 import  { isTextoValido,criarGeradorId, ehInteiroPositivo, ehNumericoPositivo } from './helpers';
+import { fazPerguntas,buscarEntidadePeloID } from './interacoesUsuario';
+import promptSync = require('prompt-sync');
+const prompt = promptSync({ sigint: true });
 
 const estoque : Produto[]=[];
 const geraIdProduto = criarGeradorId();
-const prompt = promptSync({ sigint: true });
+
 
 let filtroCategoria:string="";
 
@@ -63,8 +65,7 @@ function setFiltroCategoria(categoria:string){
     filtroCategoria=categoria;
 }
 
-//iniciar com menos 10 produtos cadastrados para facilitar os
-//testes das funcionalidades
+//iniciar com 10 produtos cadastrados para facilitar os testes das funcionalidades
 function cargaIncialEstoque():boolean{
   console.log("\n⚠️ Iniciando Carga Inicial do Estoque...");
   pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho P", 130,10, true);
@@ -95,10 +96,11 @@ function pushProduto(categoria: string,nome: string,preco: number,qtdeEstoque: n
     const novoProduto: Produto = {
         id: geraIdProduto(),
         categoria: categoria,
-        nome: nome,        
+        nome: nome,
         preco: preco,
         qtdeEstoque: qtdeEstoque,
-        visivel:visivel //se for excluído
+        visivel: visivel, //se for excluído
+        nomeEntidade: 'Produto'
     }
     estoque.push(novoProduto);
     return true;
@@ -150,34 +152,11 @@ function cadastrarProduto():boolean {
         },
     ];
 
+    //a variável "pergResp" é editada pela função abaixo
+    if (!fazPerguntas("Produto", "Principal", pergResp, maxTentativas)){
+        return false;
+    }     
      
-     
-    for (const perguntaAtual of pergResp) {
-        let podeTentarNovamente:boolean=true;
-        do {
-            perguntaAtual.numTentativa++;  
-            if (perguntaAtual.pergunta!=""){//Se tem pergunta, Interage com usuário
-                perguntaAtual.resposta=(String(prompt( perguntaAtual.pergunta))).trim();//já pergunta, converte e remove espaços
-                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora( perguntaAtual.resposta,perguntaAtual.msgErro);
-
-            }  else {//não interage com usuário, faz só validações das respostas anteriores
-                perguntaAtual.retornoFuncao=perguntaAtual.funcaoValidadora(pergResp,perguntaAtual.msgErro);//repassa o array com todas as respostas anteriores
-
-            }            
-            
-            podeTentarNovamente = (!perguntaAtual.retornoFuncao && perguntaAtual.numTentativa<=maxTentativas);
-            if (podeTentarNovamente){
-                console.log(`\n⚠️ Tente novamente. Tentativa ${perguntaAtual.numTentativa} de ${maxTentativas}:`);
-            }
-
-        }while (podeTentarNovamente);
-
-        if (!perguntaAtual.retornoFuncao){
-            console.log("\n🚫 Produto não foi cadastrado! Voltando para o Menu de opções...");
-            return false;
-        }
-    }    
-
     const perguntaUm = pergResp.find(item => item.idPergunta === 1);//recupera resposta da pergunta 1 (nome)
     const categoriaProduto:string = perguntaUm!.resposta;
     const perguntaDois = pergResp.find(item => item.idPergunta === 2);
@@ -201,23 +180,9 @@ function listarProdutos():boolean{
 }
 
 function buscarProdutoPeloID():Produto | undefined {
-    const numIntPositivo: string = prompt('👉 Digite o ID do produto a ser localizado: ');
-    if (!ehInteiroPositivo(numIntPositivo)){
-        return undefined;
-    }
-    const idProduto:number = Number(numIntPositivo.trim());
-    const produtoEncontrado = getProdutoById(idProduto);
-    if (!produtoEncontrado) {
-        console.log(`\n❌ Produto com o ID ${idProduto} não foi encontrado.`);
-        return undefined;
-    } else {
-        console.log(`\n🎉 Produto com o ID ${idProduto} encontrado:`);
-        console.log(produtoEncontrado);
-    }
-    
-    return produtoEncontrado;
-
+    return buscarEntidadePeloID("Produto",getProdutoById);
 }
+
 
 function listarProdutosDisponiveis(){
 
@@ -231,9 +196,11 @@ function listarProdutosExcluidos(){
 
 }
 
-   function editarProduto(){
+function editarProduto(){
 
-   }
+
+
+}
     function removerProduto(){
 
     }
@@ -252,15 +219,13 @@ function getProdutoById(idProduto:number):Produto | undefined {
 
 function buscarProdutoPorParteNomeInformado(){
 
+/*
+    const chaveBusca="";
 
-const chaveBusca="";
-
-
-
-return estoque.filter(elemento => 
-  elemento.nome?.toLowerCase().includes(chaveBusca.toLowerCase());
-);
-
+    return estoque.filter(elemento => 
+        elemento.nome?.toLowerCase().includes(chaveBusca.toLowerCase())
+    );
+*/
 
 }
 

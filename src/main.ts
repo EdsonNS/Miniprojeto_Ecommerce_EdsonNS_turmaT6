@@ -2,11 +2,19 @@
 
 import promptSync = require('prompt-sync');
 import {cargaIncialClientes} from './clientes';
-import type {Cliente, OpcaoMenu} from './types';
+import type {Cliente, Entidades, OpcaoMenu} from './types';
 import {criarMenu, exibeMenuClientes, exibeMenuEstoque, exibeMenuPrincipal} from './menus';
 import { cargaIncialEstoque } from './produtos';
 
 const prompt = promptSync({sigint: true})
+
+
+function inicializa(){ 
+  console.clear();  //Limpa o terminal imediatamente 
+  inicializarCargas();
+  //Como não estamos usando Interfaces, vou nomear as Entidades
+
+}
 
 function inicializarCargas(){
     cargaIncialClientes();
@@ -15,9 +23,8 @@ function inicializarCargas(){
 
 
 function main():void{
-  // Limpa o terminal imediatamente
-  console.clear();   
-  inicializarCargas();
+ 
+  inicializa();
   exibeMenuPrincipal();
 }
 main();

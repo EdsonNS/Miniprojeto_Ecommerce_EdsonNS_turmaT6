@@ -2,8 +2,8 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "rootDir": "./src", // Onde começam seus arquivos de código (mude para "./src" se seu código estiver em uma pasta src)
+    "outDir": "./dist", // Onde os arquivos compilados vão ser salvos
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -17,7 +17,7 @@
 
     // Other Outputs
     "sourceMap": true,
-    "declaration": true,
+    "declaration": true, // Se você gera arquivos .d.ts
     "declarationMap": true,
 
     // Stricter Typechecking Options
@@ -40,5 +40,10 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist" ,                   // IMPORTANTE: Adicione a pasta dist aqui para o TS nunca tentar lê-la como entrada
+    "src/teste1.ts" 
+  ]
 }
