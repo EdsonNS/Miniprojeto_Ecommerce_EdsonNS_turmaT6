@@ -1,7 +1,7 @@
 /dist
 /node_modules
 /package-lock.json
-/teste1.ts
-/teste2.ts
-/teste4.ts
-/teste4.ts
+/src/teste1.ts
+/src/teste2.ts
+/src/teste4.ts
+/src/teste4.ts
