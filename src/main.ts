@@ -9,6 +9,7 @@ import { cargaIncialEstoque } from './produtos';
 const prompt = promptSync({sigint: true})
 
 
+
 function inicializa(){ 
   console.clear();  //Limpa o terminal imediatamente 
   inicializarCargas();

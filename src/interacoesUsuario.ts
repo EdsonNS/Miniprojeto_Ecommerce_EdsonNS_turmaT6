@@ -1,6 +1,7 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
 import { ehInteiroPositivo } from './helpers';
 import type {PerguntasRespostas,Produto, Entidades} from './types';
+import {definirCamposNumerosInteiros} from './types';
 import promptSync = require('prompt-sync');
 const prompt = promptSync({ sigint: true });
 
@@ -98,7 +99,7 @@ function buscarEntidadePeloID<T extends Entidades>(
 ///////////////////////////////////////////////////////
 
 function editarEntidade(entidade: Entidades): void {
-  // 1. Validação inicial
+
   if (!entidade) {
     console.log("❌ Nenhuma entidade válida foi fornecida para edição.");
     return;
@@ -107,18 +108,18 @@ function editarEntidade(entidade: Entidades): void {
   console.log(`\n--- Editando: ${entidade.nomeEntidade.toUpperCase()} (ID: ${entidade.id}) ---`);
   console.log("\nInstruções: Pressione [Enter] sem digitar nada para manter o valor atual.\n");
 
-  // 2. Loop por todas as chaves do objeto
+  //  Loop por todas as chaves do objeto
   for (const chave in entidade) {
     // Evita ler propriedades herdadas do protótipo
     if (!Object.prototype.hasOwnProperty.call(entidade, chave)) continue;
 
-    // 3. Bloqueio de propriedades protegidas
+    // Bloqueio de propriedades protegidas
     if (chave === 'id' || chave === 'nomeEntidade') {
       //console.log(`🔒 [${chave}]: ${entidade[chave as keyof typeof entidade]} (Não pode ser alterado)`);
       continue;
     }
 
-    // Pegamos o valor atual de forma segura
+    // Pega o valor atual de forma segura
     const valorAtual = entidade[chave as keyof typeof entidade];
     //Se a entidade que está sendo editada for o Cliente
     //const valorAtual = entidade[chave as 'tipo' | 'id' | 'nome' | 'email']
@@ -129,7 +130,6 @@ function editarEntidade(entidade: Entidades): void {
     O TypeScript reclama dizendo: "Eu não posso deixar você acessar entidade[chave], 
     porque chave pode ser qualquer texto (como 'banana'), e o objeto Cliente ou 
     Produto não tem uma propriedade chamada 'banana'."
-
 
     . Desestruturando a sintaxe: as keyof typeof entidade
 
@@ -160,36 +160,49 @@ function editarEntidade(entidade: Entidades): void {
       continue;
     }
 
-    // 4. Conversão e validação de tipos baseada no valor original
+    // Conversão e validação de tipos baseada no valor original
     if (typeof valorAtual === 'number') {
         
-        (Number.isInteger(numeroConvertido) && numeroConvertido >=1) 
+        const recordDeEntidadesComCamposNumberInteiros: Record<string, string[]> = definirCamposNumerosInteiros();
+        const tipoEntidade = entidade.nomeEntidade; // "Produto" | "Pedido" | "ItemPedido"
+        const camposNumberInteirosDaEntidade = recordDeEntidadesComCamposNumberInteiros[tipoEntidade] || [];
+        const precisaSerInteiroPositivo = camposNumberInteirosDaEntidade.includes(chave);
 
-      const novoNumero = Number(resposta);
-      if (!isNaN(novoNumero)) {
-        (entidade as any)[chave] = novoNumero;
-        /*         
-        A expressão (entidade as any)[chave] = novoNumero; (e as similares logo abaixo dela)
-         é um artifício usado para burlar temporariamente a rigidez do TypeScript, 
-        permitindo que você grave um novo valor dentro do objeto sem que o 
-        compilador aponte um erro de tipo
-         */
-      } else {
-        console.log(`⚠️ Valor inválido para número. Mantendo: ${valorAtual}`);
-      }
+        if (precisaSerInteiroPositivo) {
+            if (ehInteiroPositivo(resposta)){
+                const numeroConvertido = Number(resposta);
+                (entidade as any)[chave] = numeroConvertido;
+            }else{
+                 console.log(`⚠️ Valor inválido para número inteiro e positivo. Mantendo: ${valorAtual}`);
+            }
+        }else { 
+            // Trata como número decimal comum, podendo ter vírgula (fracionário)
+            const novoNumero = Number(resposta);
+            if (!isNaN(novoNumero)) {
+                (entidade as any)[chave] = novoNumero;
+                /*         
+                A expressão (entidade as any)[chave] = novoNumero; (e as similares logo abaixo dela)
+                é um artifício usado para burlar temporariamente a rigidez do TypeScript, 
+                permitindo que você grave um novo valor dentro do objeto sem que o 
+                compilador aponte um erro de tipo
+                */
+            } else {
+                console.log(`⚠️ Valor inválido para número. Mantendo: ${valorAtual}`);
+            }
+         }
     } else if (typeof valorAtual === 'boolean') {
-      // Aceita 'true', 't', '1', 'sim', 's' como verdadeiro
-      const respostaLower = resposta.toLowerCase().trim();
-      if (respFalse.includes(respostaLower)) {
-        (entidade as any)[chave] = false;
-      } else if (respTrue.includes(respostaLower)) {
-        (entidade as any)[chave] = true; 
-      } else  {
-        console.log(`⚠️ Valor inválido para booleano. Mantendo: ${valorAtual}`);
-      }
+        // Aceita 'true', 't', '1', 'sim', 's' como verdadeiro
+        const respostaLower = resposta.toLowerCase().trim();
+        if (respFalse.includes(respostaLower)) {
+            (entidade as any)[chave] = false;
+        } else if (respTrue.includes(respostaLower)) {
+            (entidade as any)[chave] = true; 
+        } else  {
+            console.log(`⚠️ Valor inválido para booleano. Mantendo: ${valorAtual}`);
+        }
     } else {
-      // Se for string ou outro tipo, salva diretamente
-      (entidade as any)[chave] = resposta;
+        // Se for string ou outro tipo, salva diretamente
+        (entidade as any)[chave] = resposta;
     }
   }
 

@@ -1,7 +1,20 @@
-
 //types.ts: definição dos tipos utilizados pelo sistema
 
-type Inteiro = number & { brand: "Inteiro"};
+//Union Types (Tipos de União). Para juntar vários tipos possíveis em um único tipo, 
+// utiliza-se o caractere barra vertical (|).
+type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+
+//isto não devia estar aqui, mas ainda não aprendemos a usar interface
+function definirCamposNumerosInteiros(): Record<string, string[]> {
+    const camposNumerosInteiros: Record<string, string[]> = {
+        Cliente:['id'],    
+        Produto: ['id', 'qtdeEstoque'],
+        Pedido: ['id', 'clienteId'],
+        ItemPedido: ['id', 'produtoId'] // Se houver algum
+    };
+    return camposNumerosInteiros;
+}
+
 type Cliente = {
     nomeEntidade: "Cliente";
     //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
@@ -12,11 +25,11 @@ type Cliente = {
 
 type Produto = {
     nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
-    id: Inteiro
+    id: number
     categoria: string
     nome: string
     preco: number
-    qtdeEstoque: Inteiro
+    qtdeEstoque: number
     visivel:boolean //indica que foi excluído  
 }
 
@@ -37,9 +50,7 @@ type Pedido = {
     data:Date
 }
 
-//Union Types (Tipos de União). Para juntar vários tipos possíveis em um único tipo, 
-// utiliza-se o caractere barra vertical (|).
-type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+
 
 // Definição do tipo: um array contendo [número, texto, função]
 type OpcaoMenu = [number, string, () => (void|boolean)];
@@ -66,5 +77,10 @@ export type {
     ItemPedido,
     Pedido,
     OpcaoMenu,
-    PerguntasRespostas
+    PerguntasRespostas,
+    
+}
+export  {   
+
+    definirCamposNumerosInteiros
 }

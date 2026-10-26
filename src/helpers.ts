@@ -96,7 +96,7 @@ function ehInteiroPositivo(valor: unknown): boolean {
   if (Number.isInteger(numeroConvertido) && numeroConvertido >=1) {
     return true;
   } else {
-    ifIsTextoValidoPrint("\n❌ Valor tem que ser Interiro e maior que zero!");
+    ifIsTextoValidoPrint("\n❌ Valor tem que ser Inteiro e maior que zero!");
     return false;
   }
 
