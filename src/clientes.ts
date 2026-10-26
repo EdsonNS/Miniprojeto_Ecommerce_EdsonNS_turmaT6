@@ -72,6 +72,7 @@ function cadastrarCliente():boolean {
     ];
 
     //aviso: a variável "pergResp" é editada pela função abaixo
+    //function fazPerguntas(nomeEntidade:string, menuAnterior:string, pergResp:PerguntasRespostas[],maxTentativas:number){
     if (!fazPerguntas("Cliente", "Principal", pergResp, maxTentativas)){
         return false;
     }

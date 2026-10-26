@@ -46,7 +46,7 @@ function fazPerguntas(nomeEntidade:string, menuAnterior:string, pergResp:Pergunt
 //
 //type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 function buscarEntidadePeloID<T extends Entidades>(
-    acao:("Editar"|"Exibir"), //adapta a frase a ser exibida pro usuário
+    acao:("Editar"|"Exibir"|"Excluir"), //adapta a frase a ser exibida pro usuário
     nomeEntidade: string, 
     funcaoGetEntidadeById: (id: number) => T
 ): T {
@@ -58,6 +58,7 @@ function buscarEntidadePeloID<T extends Entidades>(
             break;
         case "Exibir": interacaoPergunta+='exibido: ';
             break;
+        case "Excluir": interacaoPergunta+='excluído: '; 
     } 
 
     const numIntPositivo: string = prompt(interacaoPergunta);
@@ -80,6 +81,9 @@ function buscarEntidadePeloID<T extends Entidades>(
             case "Exibir": 
                  console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
                 break;
+            case 'Excluir': 
+                 console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
+                break;                
             }
         console.log(entidadeEncontrado);       
 
@@ -158,6 +162,9 @@ function editarEntidade(entidade: Entidades): void {
 
     // 4. Conversão e validação de tipos baseada no valor original
     if (typeof valorAtual === 'number') {
+        
+        (Number.isInteger(numeroConvertido) && numeroConvertido >=1) 
+
       const novoNumero = Number(resposta);
       if (!isNaN(novoNumero)) {
         (entidade as any)[chave] = novoNumero;

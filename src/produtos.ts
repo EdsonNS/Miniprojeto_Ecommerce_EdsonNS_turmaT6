@@ -55,14 +55,44 @@ const prompt = promptSync({ sigint: true });
 const estoque : Produto[]=[];
 const geraIdProduto = criarGeradorId();
 
-
 let filtroCategoria:string="";
 
 function getFiltroCategiria():string{
     return filtroCategoria;
 }
-function setFiltroCategoria(categoria:string){
-    filtroCategoria=categoria;
+function setFiltroCategoria(outraCategoria:string){
+    filtroCategoria=outraCategoria;
+}
+
+function removerFiltroProdutoPorCategoria(){
+    filtroCategoria="";
+}
+
+// Obtém a lista filtrada
+
+function getProdutosVisiveis():Produto[]{
+    const obterProdutosVisiveis = (): Produto[] => estoque.filter(p => p.visivel);
+    return obterProdutosVisiveis();
+}
+
+function getListaCategorias():string[] {
+
+    const produtosVisiveis=getProdutosVisiveis();
+    const categoriasUnicas: string[] = [...new Set(produtosVisiveis.map(produto => produto.categoria))];
+    return categoriasUnicas;
+    /*
+    Para obter um array com valores únicos das categorias do estoque, 
+    a forma mais eficiente e moderna em JavaScript/TypeScript é utilizar
+     o Set combinado com o método .map(). 
+     O Set descarta automaticamente qualquer valor duplicado.
+
+    Funcionamento:
+
+    1. estoque.map(p => p.categoria): Cria um novo array contendo apenas as strings de categoria
+    de cada produto (ex: ["Roupas masculinas", "Roupas masculinas", "Roupas Femininas", ...]).
+    2. new Set(...): O objeto Set armazena apenas valores únicos, removendo todas as repetições de texto.
+    3. [... ] (Spread Operator): Transforma o Set de volta em um array convencional do TypeScript (string[]).
+    */
 }
 
 //iniciar com 10 produtos cadastrados para facilitar os testes das funcionalidades
@@ -173,41 +203,89 @@ function cadastrarProduto():boolean {
 }
 
 
-function listarProdutos():boolean{
-    console.log("lista de produtos: ");
-    console.log( estoque);
-    return true;
-}
-
 function buscarProdutoPeloID():Produto | undefined {
     return buscarEntidadePeloID("Exibir","Produto",getProdutoById);
 }
+
 function editarProduto(){
     return buscarEntidadePeloID('Editar',"Produto",getProdutoById);
 }
 
 function listarProdutosDisponiveis(){
 
+    const produtosVisiveis=getProdutosVisiveis();
+    const produtosVisiveisEmEstoque = (): Produto[] => produtosVisiveis.filter(p => p.qtdeEstoque>0);
+    console.log("lista de produtos disponíveis (Em estoque):");
+    console.log( produtosVisiveisEmEstoque());
+    return true;
+
 }
 
 function listarProdutosIndisponiveis(){
+    /*
+
+    type Produto = {
+    nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
+    id: number
+    categoria: string
+    nome: string
+    preco: number
+    qtdeEstoque: number
+    visivel:boolean //indica que foi excluído  }
+
+    */
+    const produtosVisiveis=getProdutosVisiveis();
+    const produtosVisiveisComEstoqueZerado = (): Produto[] => produtosVisiveis.filter(p => p.qtdeEstoque==0);
+
+    console.log("lista de produtos indisponíveis (estoque zerado):");
+    console.log( produtosVisiveisComEstoqueZerado);
+    return true;
+
 
 }
 
 function listarProdutosExcluidos(){
-
+    const obterProdutosExcluidos = (): Produto[] => estoque.filter(p => p.visivel===false);
+    return obterProdutosExcluidos();
 }
 
 
 
 function removerProduto(){
 
-    }
 
-function filtrarProdutoPorCategoria():boolean{
 
-    setFiltroCategoria("xxx");
+}
 
+
+function ativarFiltroProdutoPorCategoria():boolean{
+
+     const categorias=getListaCategorias();
+
+
+    // 1. Organiza a lista em ordem alfabética (crescente)
+    categorias.sort();
+
+    // 2. Cria o array com opções de menu
+    const menuEscolheCategoria: OpcaoMenu[] = [];
+
+    // 3. Passa item por item da lista colocando no formato da lista de menu
+    categorias.forEach((categoria, index) => {
+    menuEscolheCategoria.push([
+        index + 1, // Começa no 1 e vai somando
+        categoria, // Nome da categoria
+        () => {
+        setFiltroCategoria(categoria); // Usa o mesmo nome aqui dentro
+        return false;
+        },
+    ]);
+    });
+    menuEscolheCategoria.push([98, '🔓📌 Remover Filtro de Produto por Categoria', () => {removerFiltroProdutoPorCategoria(); return false;}]);
+    menuEscolheCategoria.push([99, '🧹 Limpar a tela', () => { console.clear(); return false; }]);
+    menuEscolheCategoria.push([0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]);
+    criarMenu(true,"Escolher uma Categoria",menuEscolheCategoria);
+
+  
   return true;
 }
 
@@ -234,12 +312,13 @@ export {
     cadastrarProduto,
     editarProduto,
     removerProduto,
-    filtrarProdutoPorCategoria,
+    ativarFiltroProdutoPorCategoria,
+    removerFiltroProdutoPorCategoria,
     listarProdutosDisponiveis,
     listarProdutosIndisponiveis,
     listarProdutosExcluidos,
     buscarProdutoPeloID,
     buscarProdutoPorParteNomeInformado,
-    getFiltroCategiria,
-    setFiltroCategoria
+    getFiltroCategiria
+    
 };

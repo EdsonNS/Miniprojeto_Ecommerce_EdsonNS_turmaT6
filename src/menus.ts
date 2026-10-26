@@ -24,20 +24,27 @@ Digite uma opção:
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
 import { buscarClientePeloID, cadastrarCliente, listarClientes } from './clientes';
-import {  buscarProdutoPeloID, 
+import {  ativarFiltroProdutoPorCategoria, buscarProdutoPeloID, 
           buscarProdutoPorParteNomeInformado, 
           cadastrarProduto,
-          editarProduto, 
-          filtrarProdutoPorCategoria, 
+          editarProduto,            
           getFiltroCategiria,
           listarProdutosDisponiveis, 
           listarProdutosExcluidos, 
           listarProdutosIndisponiveis, 
+          removerFiltroProdutoPorCategoria, 
           removerProduto, 
-          setFiltroCategoria } from './produtos';
+            } from './produtos';
 const prompt = promptSync();
 
 
+function getMsgAlerta():string{
+  let msgAlerta:string = "";
+  if (getFiltroCategiria().trim() !== ''){
+    msgAlerta = `🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
+  }
+  return msgAlerta;
+}
 ///////////////////////////////////////////////////////////////////////
 //                          Menu Principal
 ///////////////////////////////////////////////////////////////////////
@@ -45,15 +52,15 @@ const prompt = promptSync();
 
 function exibeMenuPrincipal(){
   const menuPrincipal: OpcaoMenu[] = [
-    [1, '👉 Menu Produtos e Estoque', exibeMenuEstoque],
-    [2, '👉 Menu Clientes', exibeMenuClientes],
-    [3, '👉 Menu Carrinho de Compra', () => { return false; }],   
-    [4, '👉 Menu Pedidos', () => { return false; }],
-    [5, '👉 Menu Relatórios', () => { return false; }],  
+    [1, '📦 Menu Produtos e Estoque', exibeMenuEstoque],
+    [2, '👥 Menu Clientes', exibeMenuClientes],
+    [3, '🛒 Menu Carrinho de Compra', () => { return false; }],   
+    [4, '📝 Menu Pedidos', () => { return false; }],
+    [5, '🖨️ Menu Relatórios', () => { return false; }],  
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
   ];
-  criarMenu(false,"Menu Principal",menuPrincipal,"");
+  criarMenu(false,"Menu Principal",menuPrincipal);
 }
 
 
@@ -64,13 +71,13 @@ function exibeMenuPrincipal(){
 
 function exibeMenuClientes(){
   const menuClientes: OpcaoMenu[] = [
-    [1, '👉 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [2, '👉 Listar Clientes', () => {listarClientes(); return false;}],
-    [3, '👉 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [1, '🪪 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
+    [2, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
+    [3, '🔍 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
-  criarMenu(true,"Menu Clientes",menuClientes,"");
+  criarMenu(true,"👥 Menu Clientes",menuClientes);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -79,35 +86,28 @@ function exibeMenuClientes(){
 
 function exibeMenuEstoque(){
   const menuProduto: OpcaoMenu[] = [
-    [1, '👉 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
-    [2, '👉 Editar Produto', () => {editarProduto(); return false;}],
-    [3, '👉 Remover Produto', () => {removerProduto(); return false;}],    
-    [4, '👉 Ativar  Filtro de Produto por Categoria', () => {filtrarProdutoPorCategoria(); return false;}],
-    [5, '👉 Remover Filtro de Produto por Categoria', () => {setFiltroCategoria(""); return false;}],
-    [6, '👉 Listar Produto disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
-    [7, '👉 Listar Produto indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
-    [8, '👉 Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
-    [9, '👉 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
-    [10, '👉 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
+    [1, '🪪 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
+    [2, '📝 Editar Produto', () => {editarProduto(); return false;}],
+    [3, '🗑️ Remover Produto', () => {removerProduto(); return false;}],    
+    [4, '🔒📌 Ativar  Filtro de Produto por Categoria', () => {ativarFiltroProdutoPorCategoria(); return false;}],
+    [5, '🔓📌 Remover Filtro de Produto por Categoria', () => {removerFiltroProdutoPorCategoria(); return false;}],
+    [6, '🖨️🪫 Listar Produto disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
+    [7, '🖨️🔋 Listar Produto indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
+    [8, '🖨️🗑️ Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
+    [9, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
+    [10, '🔍🔤 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
     
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
-  let msgAlerta:string = ""
-  if (getFiltroCategiria()!==""){
-    msgAlerta = `🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
-  }
-  criarMenu(true,"Menu Produto",menuProduto,msgAlerta);
+  criarMenu(true,"📦 Menu Produto",menuProduto);
 }
-
-
-
 
 
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 
-function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[], msgAleta:string): void {
+function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[]): void {
   if (cls) {
   // Limpa o terminal imediatamente
   console.clear(); 
@@ -123,7 +123,7 @@ function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[], msgAleta:stri
       console.log(`${numero}. ${texto}`);
     });
     //if (msgAleta!==""){
-      console.log(msgAleta);
+    console.log("--->",getMsgAlerta(),"<----");
     //}
     // Lê a entrada do usuário de forma síncrona
     const escolhaStr: string  = String(prompt('Escolha uma opção: '));
@@ -158,6 +158,10 @@ function criarMenu(cls:boolean,titulo:string, opcoes: OpcaoMenu[], msgAleta:stri
     }   
   }   
 }
+
+
+
+
 
 /*
 // ==========================================

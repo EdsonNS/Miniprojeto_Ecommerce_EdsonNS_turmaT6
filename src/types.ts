@@ -1,7 +1,7 @@
 
 //types.ts: definição dos tipos utilizados pelo sistema
 
-
+type Inteiro = number & { brand: "Inteiro"};
 type Cliente = {
     nomeEntidade: "Cliente";
     //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
@@ -12,11 +12,11 @@ type Cliente = {
 
 type Produto = {
     nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
-    id: number
+    id: Inteiro
     categoria: string
     nome: string
     preco: number
-    qtdeEstoque: number
+    qtdeEstoque: Inteiro
     visivel:boolean //indica que foi excluído  
 }
 
