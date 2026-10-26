@@ -2,56 +2,59 @@
 
 //Closure que gera um incremento
 function criarGeradorId(): () => number {
-  let sequencial: number = 0;  
-  return function(): number {
+  let sequencial: number = 0;
+  return function (): number {
     sequencial++;
-    return sequencial; 
+    return sequencial;
   };
 }
 
-function isTextoValido(minhaVar:(string | null | undefined),msgErro:(string | null | undefined)):boolean{        
-    /*
+function isTextoValido(
+  minhaVar: string | null | undefined,
+  msgErro: string | null | undefined,
+): boolean {
+  /*
     • minhaVar: É o nome do parâmetro.
     • : string | null | undefined: É a tipagem do TypeScript. Significa que essa variável aceita
     apenas três tipos de valores: um texto (string), um valor nulo (null), ou um valor indefinido (undefined).
     */
 
-    if (!minhaVar || minhaVar.trim() === "") {
-      // A variável é nula, indefinida, vazia ou só contém espaços
+  if (!minhaVar || minhaVar.trim() === "") {
+    // A variável é nula, indefinida, vazia ou só contém espaços
 
-      /*
+    /*
       No JavaScript/TypeScript, os valores null, undefined e "" (string vazia) são
        considerados falsy (se comportam como falso)
        */
-        ifIsTextoValidoPrint(msgErro);
-        return false;
-        
-    } else {
-        return true;
-    }
+    ifIsTextoValidoPrint(msgErro);
+    return false;
+  } else {
+    return true;
+  }
 }
 
-
-function ifIsTextoValidoPrint(msgToPrint:(string | null | undefined)):boolean{
-    if (!msgToPrint || msgToPrint.trim() === ""){
-        return false;
-    } else {            
-        console.log(msgToPrint);
-        return true;
-    }
+function ifIsTextoValidoPrint(msgToPrint: string | null | undefined): boolean {
+  if (!msgToPrint || msgToPrint.trim() === "") {
+    return false;
+  } else {
+    console.log(msgToPrint);
+    return true;
+  }
 }
 
-function isEmailValido(email:(string | null | undefined),msgErro:(string | null | undefined)): boolean {
-
-  if (!isTextoValido(email,msgErro)) {
+function isEmailValido(
+  email: string | null | undefined,
+  msgErro: string | null | undefined,
+): boolean {
+  if (!isTextoValido(email, msgErro)) {
     return false;
   }
 
-   //Fonte: https://cursos.alura.com.br/app/forum/topic/80469
-   //como validar email e senha em javascript
-    
+  //Fonte: https://cursos.alura.com.br/app/forum/topic/80469
+  //como validar email e senha em javascript
+
   // Regex padrão baseado na especificação RFC 5322 simplificada
-  
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   /*
@@ -65,26 +68,27 @@ function isEmailValido(email:(string | null | undefined),msgErro:(string | null 
     • [^\\s@]+: Um ou mais caracteres para a extensão final (como com, org, com.br).
     • $: Fim da linha.
   */
-    const emailStr= String(email).trim();
-    
-  if (emailRegex.test(emailStr)){
+  const emailStr = String(email).trim();
+
+  if (emailRegex.test(emailStr)) {
     return true;
-  }else{
+  } else {
     ifIsTextoValidoPrint(msgErro);
     return false;
-  };
+  }
 }
-
 
 function ehInteiroPositivo(valor: unknown): boolean {
   // Elimina null, undefined e booleanos
-  if (valor === null || valor === undefined || typeof valor === 'boolean') {
-    ifIsTextoValidoPrint("\n❌ Valor não pode ser null, undefined ou booleanos!");
+  if (valor === null || valor === undefined || typeof valor === "boolean") {
+    ifIsTextoValidoPrint(
+      "\n❌ Valor não pode ser null, undefined ou booleanos!",
+    );
     return false;
   }
 
   // Elimina strings vazias ou que contêm apenas espaços em branco
-  if (typeof valor === 'string' && valor.trim() === '') {
+  if (typeof valor === "string" && valor.trim() === "") {
     ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
     return false;
   }
@@ -92,26 +96,28 @@ function ehInteiroPositivo(valor: unknown): boolean {
   // Converte para número
   const numeroConvertido = Number(valor);
 
-  // Verifica se é um número inteiro válido E se é maior que zero
-  if (Number.isInteger(numeroConvertido) && numeroConvertido >=1) {
+  // Verifica se é um número inteiro válido E se é maior ou igual a zero
+  if (Number.isInteger(numeroConvertido) && numeroConvertido >= 0) {
     return true;
   } else {
-    ifIsTextoValidoPrint("\n❌ Valor tem que ser Inteiro e maior que zero!");
+    ifIsTextoValidoPrint(
+      "\n❌ Valor tem que ser Inteiro e maior ou igual a zero!",
+    );
     return false;
   }
-
 }
-
 
 function ehNumericoPositivo(valor: unknown): boolean {
   // Elimina null, undefined e booleanos
-  if (valor === null || valor === undefined || typeof valor === 'boolean') {
-    ifIsTextoValidoPrint("\n❌ Valor não pode ser null, undefined ou booleanos!");
+  if (valor === null || valor === undefined || typeof valor === "boolean") {
+    ifIsTextoValidoPrint(
+      "\n❌ Valor não pode ser null, undefined ou booleanos!",
+    );
     return false;
   }
 
   // Elimina strings vazias ou que contêm apenas espaços em branco
-  if (typeof valor === 'string' && valor.trim() === '') {
+  if (typeof valor === "string" && valor.trim() === "") {
     ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
     return false;
   }
@@ -119,19 +125,19 @@ function ehNumericoPositivo(valor: unknown): boolean {
   // Converte para número
   const numeroConvertido = Number(valor);
 
-  // Verifica se é um número válido E se é maior que zero
-  if (numeroConvertido >=1) {
+  // Verifica se é um número válido E se é maior ou igual a zero
+  if (numeroConvertido >= 0) {
     return true;
   } else {
-    ifIsTextoValidoPrint("\n❌ Valor tem que ser maior que zero!");
+    ifIsTextoValidoPrint("\n❌ Valor tem que ser maior ou igual a zero!");
     return false;
   }
-
 }
 
-export { isTextoValido, 
-         isEmailValido,
-        criarGeradorId,
-        ehInteiroPositivo,
-        ehNumericoPositivo
-    }
+export {
+  isTextoValido,
+  isEmailValido,
+  criarGeradorId,
+  ehInteiroPositivo,
+  ehNumericoPositivo,
+};

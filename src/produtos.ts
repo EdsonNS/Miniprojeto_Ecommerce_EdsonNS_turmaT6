@@ -238,7 +238,7 @@ function listarProdutosIndisponiveis(){
     const produtosVisiveisComEstoqueZerado = (): Produto[] => produtosVisiveis.filter(p => p.qtdeEstoque==0);
 
     console.log("lista de produtos indisponíveis (estoque zerado):");
-    console.log( produtosVisiveisComEstoqueZerado);
+    console.log( produtosVisiveisComEstoqueZerado());
     return true;
 
 
