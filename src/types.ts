@@ -15,6 +15,16 @@ function definirCamposNumerosInteiros(): Record<string, string[]> {
     return camposNumerosInteiros;
 }
 
+function definirCamposComRestricaoNaEdicao(): Record<string, string[]> {
+    const camposComEdicaoRestrita: Record<string, string[]> = {
+        Cliente:['id'],    
+        Produto: ['id', 'qtdeEstoque'],
+        Pedido: ['id', 'clienteId'],
+        ItemPedido: ['id', 'produtoId', 'indisponivel'] // Se houver algum
+    };
+    return camposComEdicaoRestrita;
+}
+
 type Cliente = {
     nomeEntidade: "Cliente";
     //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
@@ -39,6 +49,7 @@ type ItemPedido = {
     produtoId: number
     qtdeComprada:number
     valorUnitario:number
+    indisponivel:boolean
 }
 
 type Pedido = {
@@ -48,6 +59,7 @@ type Pedido = {
     itens:ItemPedido[]
     valorTotal:number
     data:Date
+    finalizado:boolean
 }
 
 

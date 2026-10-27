@@ -71,8 +71,11 @@ function removerFiltroProdutoPorCategoria(){
 // Obtém a lista filtrada
 
 function getProdutosVisiveis():Produto[]{
-    const obterProdutosVisiveis = (): Produto[] => estoque.filter(p => p.visivel);
-    return obterProdutosVisiveis();
+    return estoque.filter(p => p.visivel);
+}
+
+function getProdutosNaoVisiveis():Produto[]{
+    return estoque.filter(p => !p.visivel);
 }
 
 function getListaCategorias():string[] {
@@ -97,26 +100,51 @@ function getListaCategorias():string[] {
 
 //iniciar com 10 produtos cadastrados para facilitar os testes das funcionalidades
 function cargaIncialEstoque():boolean{
+
+/*
+type Produto = {
+    nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
+    id: number
+    categoria: string
+    nome: string
+    preco: number
+    qtdeEstoque: number
+    visivel:boolean //indica que foi excluído  
+}
+*/
+
   console.log("\n⚠️ Iniciando Carga Inicial do Estoque...");
-  pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho P", 130,10, true);
+  pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho P", 130,0, true);
   pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho M", 140,11, true);
   pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho G", 150,12, true);
+  pushProduto("Roupas masculinas","Exemplo 1 de produto excluído", 150,12, false);
+  pushProduto("Roupas masculinas","Exemplo 1 de produto estoque zerado", 150,0, true);
+  
 
   pushProduto("Roupas masculinas","Calça Masculina Azul Tamanho P", 130,13, true);
   pushProduto("Roupas masculinas","Calça Masculina Azul Tamanho M", 140,14, true);
   pushProduto("Roupas masculinas","Calça Masculina Azul Tamanho G", 150,15, true);
+  pushProduto("Roupas masculinas","Exemplo 2 de produto excluído", 150,12, false);
+  pushProduto("Roupas masculinas","Exemplo 2 de produto estoque zerado", 150,0, true);
 
   pushProduto("Roupas Femininas","Camiseta Feminina Branca Tamanho P", 150,16, true);
   pushProduto("Roupas Femininas","Camiseta Feminina Branca Tamanho M", 160,17, true);
   pushProduto("Roupas Femininas","Camiseta Feminina Branca Tamanho G", 170,18, true);
+  pushProduto("Roupas Femininas","Exemplo 3 de produto excluído", 150,12, false);
+  pushProduto("Roupas Femininas","Exemplo 3 de produto estoque zerado", 150,0, true);
 
   pushProduto("Calçados Femininos","Sapato Feminino Preto Tamanho 35", 150,19, true);
   pushProduto("Calçados Femininos","Sapato Feminino Preto Tamanho 36", 150,20, true);
   pushProduto("Calçados Femininos","Sapato Feminino Preto Tamanho 37", 150,21, true);
+  pushProduto("Calçados Femininos","Exemplo 4 de produto excluído", 150,12, false);
+  pushProduto("Calçados Femininos","Exemplo 4 de produto estoque zerado", 150,0, true);
+
 
   pushProduto("Calçados Femininos","Sapato Feminino Branco Tamanho 35", 150,22, true);
   pushProduto("Calçados Femininos","Sapato Feminino Branco Tamanho 36", 150,23, true);
   pushProduto("Calçados Femininos","Sapato Feminino Branco Tamanho 37", 150,24, true);
+  pushProduto("Calçados Femininos","Exemplo 5 de produto excluído", 150,12, false);
+  pushProduto("Calçados Femininos","Exemplo 5 de produto estoque zerado", 150,0, true);
 
   console.log("\n🎉 Carga Inicial realizada com sucesso!");
   return true;
@@ -245,16 +273,36 @@ function listarProdutosIndisponiveis(){
 }
 
 function listarProdutosExcluidos(){
-    const obterProdutosExcluidos = (): Produto[] => estoque.filter(p => p.visivel===false);
-    return obterProdutosExcluidos();
+    console.log("lista de produtos excluídos:");
+    const obterProdutosExcluidos = (): Produto[] => estoque.filter(p => !p.visivel);
+    
+    console.log( obterProdutosExcluidos());
+    console.log( estoque.filter(p => !p.visivel));
+    
+    return true
+
 }
 
 
+function removerProduto(): boolean {
+    //to do: remover/marcar como indisponível o mesmo Produto no Carrinho e de Pedidos em aberto 
+  const produto = estoque.find(p => p.id === id);
+  if (produto) {
+    produto.visivel = false;
+    return true;
+  }
+  return false;
 
-function removerProduto(){
+  //removerProdutoByID(id);
+}
 
-
-
+function removerProdutoByID(id: number): boolean {
+  const produto = estoque.find(p => p.id === id);
+  if (produto) {
+    produto.visivel = false;
+    return true;
+  }
+  return false;
 }
 
 

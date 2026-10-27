@@ -41,7 +41,7 @@ const prompt = promptSync();
 function getMsgAlerta():string{
   let msgAlerta:string = "";
   if (getFiltroCategiria().trim() !== ''){
-    msgAlerta = `🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
+    msgAlerta = `\n🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
   }
   return msgAlerta;
 }
