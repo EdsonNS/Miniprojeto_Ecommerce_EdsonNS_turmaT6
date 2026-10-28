@@ -4,26 +4,6 @@
 // utiliza-se o caractere barra vertical (|).
 type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 
-//isto não devia estar aqui, mas ainda não aprendemos a usar interface
-function definirCamposNumerosInteiros(): Record<string, string[]> {
-    const camposNumerosInteiros: Record<string, string[]> = {
-        Cliente:['id'],    
-        Produto: ['id', 'qtdeEstoque'],
-        Pedido: ['id', 'clienteId'],
-        ItemPedido: ['id', 'produtoId'] // Se houver algum
-    };
-    return camposNumerosInteiros;
-}
-
-function definirCamposComRestricaoNaEdicao(): Record<string, string[]> {
-    const camposComEdicaoRestrita: Record<string, string[]> = {
-        Cliente:['id'],    
-        Produto: ['id', 'qtdeEstoque'],
-        Pedido: ['id', 'clienteId'],
-        ItemPedido: ['id', 'produtoId', 'indisponivel'] // Se houver algum
-    };
-    return camposComEdicaoRestrita;
-}
 
 type Cliente = {
     nomeEntidade: "Cliente";
@@ -62,7 +42,8 @@ type Pedido = {
     finalizado:boolean
 }
 
-
+//tipo da função que vai tratar a restrição de edição|exclusão das Entidades
+type FuncaoTratamento = (campo: string, valor: any) => void;
 
 // Definição do tipo: um array contendo [número, texto, função]
 type OpcaoMenu = [number, string, () => (void|boolean)];
@@ -82,6 +63,7 @@ type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
     retornoFuncao:boolean
 }
 
+
 export type {   
     Entidades,
     Cliente,
@@ -92,7 +74,4 @@ export type {
     PerguntasRespostas,
     
 }
-export  {   
 
-    definirCamposNumerosInteiros
-}

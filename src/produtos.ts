@@ -57,61 +57,20 @@ const geraIdProduto = criarGeradorId();
 
 let filtroCategoria:string="";
 
-function getFiltroCategiria():string{
-    return filtroCategoria;
-}
-function setFiltroCategoria(outraCategoria:string){
-    filtroCategoria=outraCategoria;
-}
 
-function removerFiltroProdutoPorCategoria(){
-    filtroCategoria="";
-}
+/////////////////////////////////////////////
+//          Funções de Verificação
+/////////////////////////////////////////////
 
-// Obtém a lista filtrada
 
-function getProdutosVisiveis():Produto[]{
-    return estoque.filter(p => p.visivel);
-}
 
-function getProdutosNaoVisiveis():Produto[]{
-    return estoque.filter(p => !p.visivel);
-}
+/////////////////////////////////////////////
+//      Funções de Inserção de dados
+/////////////////////////////////////////////
 
-function getListaCategorias():string[] {
 
-    const produtosVisiveis=getProdutosVisiveis();
-    const categoriasUnicas: string[] = [...new Set(produtosVisiveis.map(produto => produto.categoria))];
-    return categoriasUnicas;
-    /*
-    Para obter um array com valores únicos das categorias do estoque, 
-    a forma mais eficiente e moderna em JavaScript/TypeScript é utilizar
-     o Set combinado com o método .map(). 
-     O Set descarta automaticamente qualquer valor duplicado.
-
-    Funcionamento:
-
-    1. estoque.map(p => p.categoria): Cria um novo array contendo apenas as strings de categoria
-    de cada produto (ex: ["Roupas masculinas", "Roupas masculinas", "Roupas Femininas", ...]).
-    2. new Set(...): O objeto Set armazena apenas valores únicos, removendo todas as repetições de texto.
-    3. [... ] (Spread Operator): Transforma o Set de volta em um array convencional do TypeScript (string[]).
-    */
-}
-
-//iniciar com 10 produtos cadastrados para facilitar os testes das funcionalidades
+//iniciar com produtos já cadastrados para facilitar os testes das funcionalidades
 function cargaIncialEstoque():boolean{
-
-/*
-type Produto = {
-    nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
-    id: number
-    categoria: string
-    nome: string
-    preco: number
-    qtdeEstoque: number
-    visivel:boolean //indica que foi excluído  
-}
-*/
 
   console.log("\n⚠️ Iniciando Carga Inicial do Estoque...");
   pushProduto("Roupas masculinas","Calça Masculina Preta Tamanho P", 130,0, true);
@@ -165,6 +124,112 @@ function pushProduto(categoria: string,nome: string,preco: number,qtdeEstoque: n
 }
 
 
+
+/////////////////////////////////////////////
+//          Funções de Busca
+/////////////////////////////////////////////
+function getFiltroCategiria():string{
+    return filtroCategoria;
+}
+
+// Obtém a lista filtrada
+function getProdutosVisiveis():Produto[]{
+    return estoque.filter(p => p.visivel);
+}
+
+function getProdutosNaoVisiveis():Produto[]{
+    return estoque.filter(p => !p.visivel);
+}
+
+function getProdutoById(idProduto:number):Produto | undefined {
+    return estoque.find(produto => produto.id === idProduto);
+}
+
+function getListaCategorias():string[] {
+
+    const produtosVisiveis=getProdutosVisiveis();
+    const categoriasUnicas: string[] = [...new Set(produtosVisiveis.map(produto => produto.categoria))];
+    return categoriasUnicas;
+    /*
+    Para obter um array com valores únicos das categorias do estoque, 
+    a forma mais eficiente e moderna em JavaScript/TypeScript é utilizar
+     o Set combinado com o método .map(). 
+     O Set descarta automaticamente qualquer valor duplicado.
+
+    Funcionamento:
+
+    1. estoque.map(p => p.categoria): Cria um novo array contendo apenas as strings de categoria
+    de cada produto (ex: ["Roupas masculinas", "Roupas masculinas", "Roupas Femininas", ...]).
+    2. new Set(...): O objeto Set armazena apenas valores únicos, removendo todas as repetições de texto.
+    3. [... ] (Spread Operator): Transforma o Set de volta em um array convencional do TypeScript (string[]).
+    */
+}
+
+function buscarProdutoPeloID():Produto | undefined {
+    return buscarEntidadePeloID("Exibir","Produto",getProdutoById);
+}
+
+
+function buscarProdutoPorParteNomeInformado(){
+
+/*
+    const chaveBusca="";
+
+    return estoque.filter(elemento => 
+        elemento.nome?.toLowerCase().includes(chaveBusca.toLowerCase())
+    );
+*/
+
+}
+
+/////////////////////////////////////////////
+//          Funções de Edição 
+/////////////////////////////////////////////
+function setFiltroCategoria(outraCategoria:string){
+    filtroCategoria=outraCategoria;
+}
+
+function editarProduto(){
+    return buscarEntidadePeloID('Editar',"Produto",getProdutoById);
+}
+
+
+
+/////////////////////////////////////////////
+//          Funções de Exclusão 
+/////////////////////////////////////////////
+function removerFiltroProdutoPorCategoria(){
+    filtroCategoria="";
+}
+
+function removerProduto(): boolean {
+    //to do: remover/marcar como indisponível o mesmo Produto no Carrinho e de Pedidos em aberto 
+  const produto = estoque.find(p => p.id === id);
+  if (produto) {
+    produto.visivel = false;
+    return true;
+  }
+  return false;
+
+  //removerProdutoByID(id);
+}
+
+function removerProdutoByID(id: number): boolean {
+  const produto = estoque.find(p => p.id === id);
+  if (produto) {
+    produto.visivel = false;
+    return true;
+  }
+  return false;
+}
+
+
+
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                 camada view
+///////////////////////////////////////////////////////////
 
 function cadastrarProduto():boolean {
     let tentativa:number=1;
@@ -231,13 +296,6 @@ function cadastrarProduto():boolean {
 }
 
 
-function buscarProdutoPeloID():Produto | undefined {
-    return buscarEntidadePeloID("Exibir","Produto",getProdutoById);
-}
-
-function editarProduto(){
-    return buscarEntidadePeloID('Editar',"Produto",getProdutoById);
-}
 
 function listarProdutosDisponiveis(){
 
@@ -283,29 +341,6 @@ function listarProdutosExcluidos(){
 
 }
 
-
-function removerProduto(): boolean {
-    //to do: remover/marcar como indisponível o mesmo Produto no Carrinho e de Pedidos em aberto 
-  const produto = estoque.find(p => p.id === id);
-  if (produto) {
-    produto.visivel = false;
-    return true;
-  }
-  return false;
-
-  //removerProdutoByID(id);
-}
-
-function removerProdutoByID(id: number): boolean {
-  const produto = estoque.find(p => p.id === id);
-  if (produto) {
-    produto.visivel = false;
-    return true;
-  }
-  return false;
-}
-
-
 function ativarFiltroProdutoPorCategoria():boolean{
 
      const categorias=getListaCategorias();
@@ -337,22 +372,6 @@ function ativarFiltroProdutoPorCategoria():boolean{
   return true;
 }
 
-
-function getProdutoById(idProduto:number):Produto | undefined {
-    return estoque.find(produto => produto.id === idProduto);
-}
-
-function buscarProdutoPorParteNomeInformado(){
-
-/*
-    const chaveBusca="";
-
-    return estoque.filter(elemento => 
-        elemento.nome?.toLowerCase().includes(chaveBusca.toLowerCase())
-    );
-*/
-
-}
 
 
 export { 

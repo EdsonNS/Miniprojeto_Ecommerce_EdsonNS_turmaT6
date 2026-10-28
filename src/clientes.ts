@@ -9,6 +9,28 @@ const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
 const geraIdCliente = criarGeradorId();
 
+/////////////////////////////////////////////
+//          Funções de Verificação
+/////////////////////////////////////////////
+function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgErro:string):boolean{
+
+    const perguntaDois = perguntasRespostas.find(item => item.idPergunta === 2);
+    const emailRespondido = perguntaDois!.resposta;
+    //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
+    const clienteEncontrado = getClienteByEmail(emailRespondido);
+    if (clienteEncontrado) {
+        console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
+        return false;
+    }
+    return true;
+}
+
+
+
+
+/////////////////////////////////////////////
+//      Funções de Inserção de dados
+/////////////////////////////////////////////
 
 //O sistema deverá iniciar com pelo menos 3 clientes cadastrados para facilitar os
 //testes das funcionalidades
@@ -29,6 +51,47 @@ function pushCliente(iNome:string,iEmail:string):boolean {
         nomeEntidade: 'Cliente'
     }
     clientes.push(novoCliente);
+    return true;
+}
+
+
+
+/////////////////////////////////////////////
+//          Funções de Busca
+/////////////////////////////////////////////
+//interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
+function buscarClientePeloID():Cliente | undefined {
+    return buscarEntidadePeloID("Exibir","Cliente",getClienteById);
+}
+
+function getClienteByEmail(idEmail:string):Cliente | undefined {
+    return clientes.find(cliente => cliente.email === idEmail);
+}
+
+function getClienteById(idCliente:number):Cliente | undefined {
+    return clientes.find(cliente => cliente.id === idCliente);
+}
+
+
+/////////////////////////////////////////////
+//          Funções de Edição 
+/////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+//          Funções de Exclusão 
+/////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                 camada view
+///////////////////////////////////////////////////////////
+function listarClientes():boolean{
+    console.log("lista de clientes:");
+    console.log( clientes);
     return true;
 }
 
@@ -90,37 +153,7 @@ function cadastrarCliente():boolean {
 
 }
 
-function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgErro:string):boolean{
 
-    const perguntaDois = perguntasRespostas.find(item => item.idPergunta === 2);
-    const emailRespondido = perguntaDois!.resposta;
-    //Impedir o cadastro de clientes com identificadores ou e-mails já utilizados
-    const clienteEncontrado = getClienteByEmail(emailRespondido);
-    if (clienteEncontrado) {
-        console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
-        return false;
-    }
-    return true;
-}
-
-function listarClientes():boolean{
-    console.log("lista de clientes:");
-    console.log( clientes);
-    return true;
-}
-
-//interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
-function buscarClientePeloID():Cliente | undefined {
-    return buscarEntidadePeloID("Exibir","Cliente",getClienteById);
-}
-
-function getClienteByEmail(idEmail:string):Cliente | undefined {
-    return clientes.find(cliente => cliente.email === idEmail);
-}
-
-function getClienteById(idCliente:number):Cliente | undefined {
-    return clientes.find(cliente => cliente.id === idCliente);
-}
 
 
 export { 

@@ -1,7 +1,7 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
 import { ehInteiroPositivo } from "./helpers";
 import type { PerguntasRespostas, Produto, Entidades } from "./types";
-import { definirCamposNumerosInteiros } from "./types";
+import { definirCamposNumerosInteiros } from "./types.functions";
 import promptSync = require("prompt-sync");
 const prompt = promptSync({ sigint: true });
 
@@ -55,7 +55,7 @@ function fazPerguntas(
 }
 
 ///////////////////////////////////////////////////////
-//            Busca pelo ID - busca e (Exibi ou não)
+//            Busca pelo ID - pergunta, busca e (Exibi ou não)
 ///////////////////////////////////////////////////////
 
 // o tipo genérico <T> para que retorne exatamente o tipo da função que foi passada
@@ -97,15 +97,16 @@ function buscarEntidadePeloID<T extends Entidades>(
     switch (acao) {
       case "Editar":
         editarEntidade(entidadeEncontrado);
+        console.log(entidadeEncontrado);
         break;
       case "Exibir":
         console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
+        console.log(entidadeEncontrado);
         break;
       case "Excluir":
         console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
         break;
     }
-    console.log(entidadeEncontrado);
   }
 
   return entidadeEncontrado;
@@ -163,17 +164,21 @@ function editarEntidade(entidade: Entidades): void {
      uma das opções dessa lista de propriedades válidas".
         
     */
-
+    //-------------------------
+    //  TRATA CAMPOS BOOLEANOS
+    //-------------------------
     let msgPrompt: string = "";
     const respFalse = ["false", "f", "0", "no", "n"];
     const respTrue = ["true", "t", "1", "yes", "s"];
     if (typeof valorAtual === "boolean") {
-      msgPrompt +=
-        "Instruções: \nAceita respostas:" +
-        respFalse +
-        " como NÃO ou DESATIVADO";
+      msgPrompt = "Instruções: \nAceita respostas:" + respFalse + " como NÃO ou DESATIVADO";
       msgPrompt += "\nAceita respostas:" + respTrue + " como SIM ou ATIVADO\n";
     }
+
+    //-------------------------
+    //  CAPTURA (LÊ) O VALOR
+    //-------------------------
+
     // Captura a resposta do usuário
     console.log(msgPrompt);
     const resposta = String(
@@ -187,8 +192,15 @@ function editarEntidade(entidade: Entidades): void {
       continue;
     }
 
+    //-------------------------
+    //  TRATA CAMPOS NUMÉRICOS
+    //-------------------------
     // Conversão e validação de tipos baseada no valor original
     if (typeof valorAtual === "number") {
+
+      //------------------------------------
+      //  TRATA CAMPOS NUMÉRICOS - INTEIROS
+      //------------------------------------
       const recordDeEntidadesComCamposNumberInteiros: Record<string, string[]> =
         definirCamposNumerosInteiros();
       const tipoEntidade = entidade.nomeEntidade; // "Produto" | "Pedido" | "ItemPedido"
@@ -206,7 +218,11 @@ function editarEntidade(entidade: Entidades): void {
             `⚠️ Valor inválido para número inteiro e positivo. Mantendo: ${valorAtual}`,
           );
         }
-      } else {
+      } 
+      //------------------------------------
+      //  TRATA CAMPOS NUMÉRICOS - FRACIONÁRIOS
+      //------------------------------------
+      else {
         // Trata como número decimal comum, podendo ter vírgula (fracionário)
         const novoNumero = Number(resposta);
         if (!isNaN(novoNumero)) {
@@ -221,7 +237,12 @@ function editarEntidade(entidade: Entidades): void {
           console.log(`⚠️ Valor inválido para número. Mantendo: ${valorAtual}`);
         }
       }
-    } else if (typeof valorAtual === "boolean") {
+    } 
+    //-------------------------
+    //  TRATA CAMPOS BOOLEANOS
+    //-------------------------
+    
+    else if (typeof valorAtual === "boolean") {
       // Aceita 'true', 't', '1', 'sim', 's' como verdadeiro
       const respostaLower = resposta.toLowerCase().trim();
       if (respFalse.includes(respostaLower)) {
@@ -231,7 +252,12 @@ function editarEntidade(entidade: Entidades): void {
       } else {
         console.log(`⚠️ Valor inválido para booleano. Mantendo: ${valorAtual}`);
       }
-    } else {
+    } 
+    
+    //-------------------------
+    //  TRATA CAMPOS DOUTROS TIPOS
+    //-------------------------
+    else {
       // Se for string ou outro tipo, salva diretamente
       (entidade as any)[chave] = resposta;
     }
