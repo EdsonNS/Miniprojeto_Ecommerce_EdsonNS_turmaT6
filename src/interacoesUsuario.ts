@@ -1,8 +1,8 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
-import { ehInteiroMaiorOuIgualaZero } from "./helpers";
-import type { PerguntasRespostas, Produto, Entidades } from "./types";
+import { ehInteiroMaiorOuIgualaZero, ehInteiroMaiorQueZero } from "./helpers";
+import type { PerguntasRespostas, Produto, FuncaoTratamento,Entidades } from "./types";
 import promptSync = require("prompt-sync");
-import { definirCamposNumerosInteiros } from "./types.functions";
+import { definirCamposNumerosInteiros,ifPrecisaSerInteiroPositivo ,getFuncaoEspecificaNaEdicaoDoCampo} from "./types.functions";
 const prompt = promptSync({ sigint: true });
 
 ///////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ function buscarEntidadePeloID<T extends Entidades>(
 
   const numIntPositivo: string = prompt(interacaoPergunta);
 
-  if (!ehInteiroMaiorOuIgualaZero(numIntPositivo)) {
+  if (!ehInteiroMaiorQueZero(numIntPositivo)) {
     return undefined as T; // Força o retorno condizente com o genérico
   }
 
@@ -132,6 +132,7 @@ function editarEntidade(entidade: Entidades): void {
 
   //  Loop por todas as chaves do objeto
   for (const chave in entidade) {
+
     // Evita ler propriedades herdadas do protótipo
     if (!Object.prototype.hasOwnProperty.call(entidade, chave)) continue;
 
@@ -202,18 +203,17 @@ function editarEntidade(entidade: Entidades): void {
       //------------------------------------
       //  TRATA CAMPOS NUMÉRICOS - INTEIROS
       //------------------------------------
-      const recordDeEntidadesComCamposNumberInteiros: Record<string, string[]> =
-        definirCamposNumerosInteiros();
-      const tipoEntidade = entidade.nomeEntidade; // "Produto" | "Pedido" | "ItemPedido"
-      const camposNumberInteirosDaEntidade =
-        recordDeEntidadesComCamposNumberInteiros[tipoEntidade] || [];
-      const precisaSerInteiroPositivo =
-        camposNumberInteirosDaEntidade.includes(chave);
-
+      const precisaSerInteiroPositivo = ifPrecisaSerInteiroPositivo( entidade.nomeEntidade, chave);
       if (precisaSerInteiroPositivo) {
         if (ehInteiroMaiorOuIgualaZero(resposta)) {
           const numeroConvertido = Number(resposta);
-          (entidade as any)[chave] = numeroConvertido;
+          
+         const funcaoEditar = getFuncaoEspecificaNaEdicaoDoCampo(entidade.nomeEntidade, chave );
+         if (funcaoEditar(entidade.id, chave, numeroConvertido)){
+                  (entidade as any)[chave] = numeroConvertido;
+              }
+          }
+
         } else {
           console.log(
             `⚠️ Valor inválido para número inteiro e positivo. Mantendo: ${valorAtual}`,
@@ -263,7 +263,10 @@ function editarEntidade(entidade: Entidades): void {
       (entidade as any)[chave] = resposta;
     }
   }
-
+ 
+      // Executa a função específica passando o nome do campo e o valor
+     
+ 
   console.log("\n✅ Edição concluída com sucesso!");
 }
 

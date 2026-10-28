@@ -43,7 +43,7 @@ type Pedido = {
 }
 
 //tipo da função que vai tratar a restrição de edição|exclusão das Entidades
-type FuncaoTratamento = (campo: string, valor: any) => void;
+type FuncaoTratamento = (id:number, campo: string, valor: any)  => (boolean);
 
 // Definição do tipo: um array contendo [número, texto, função]
 type OpcaoMenu = [number, string, () => (void|boolean)];
@@ -72,6 +72,7 @@ export type {
     Pedido,
     OpcaoMenu,
     PerguntasRespostas,
+    FuncaoTratamento
     
 }
 

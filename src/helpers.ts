@@ -201,5 +201,6 @@ export {
   isEmailValido,
   criarGeradorId,
   ehInteiroMaiorOuIgualaZero,
+  ehInteiroMaiorQueZero
   ehNumericoPositivo,
 };

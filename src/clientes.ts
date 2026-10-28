@@ -25,6 +25,17 @@ function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgE
     return true;
 }
 
+function verificarSeHaverahDoisEmaislAntesDaEdicao(campo, valor)){
+
+    const clienteEncontrado = getClienteByEmail(valor);
+    if (clienteEncontrado) {
+        console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
+        return false;
+    }
+    return true;
+
+
+}
 
 
 
