@@ -113,61 +113,6 @@ function buscarEntidadePeloID<T extends Entidades>(
 }
 
 
-// o tipo genérico <T> para que retorne exatamente o tipo da função que foi passada
-//
-//type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
-function buscarEntidadePeloID_OLD<T extends Entidades>(
-  acao: "Editar" | "Exibir" | "Excluir", //adapta a frase a ser exibida pro usuário
-  nomeEntidade: string,
-  funcaoGetEntidadeById: (id: number) => T,
-): T {
-  let interacaoPergunta = `👉 Digite o ID do ${nomeEntidade} a ser `;
-
-  switch (acao) {
-    case "Editar":
-      interacaoPergunta += "editado: ";
-      break;
-    case "Exibir":
-      interacaoPergunta += "exibido: ";
-      break;
-    case "Excluir":
-      interacaoPergunta += "excluído: ";
-  }
-
-  const numIntPositivo: string = prompt(interacaoPergunta);
-
-  if (!ehInteiroMaiorOuIgualaZero(numIntPositivo)) {
-    return undefined as T; // Força o retorno condizente com o genérico
-  }
-
-  const idEntidade: number = Number(numIntPositivo.trim());
-  const entidadeEncontrado: T = funcaoGetEntidadeById(idEntidade);
-
-  if (!entidadeEncontrado) {
-    console.log(
-      `\n❌ ${nomeEntidade} com o ID ${idEntidade} não foi encontrado.`,
-    );
-    return undefined as T;
-  } else {
-    switch (acao) {
-      case "Editar":
-        editarEntidade(entidadeEncontrado);
-        console.log(entidadeEncontrado);
-        break;
-      case "Exibir":
-        console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
-        console.log(entidadeEncontrado);
-        break;
-      case "Excluir":
-        console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
-        break;
-    }
-  }
-
-  return entidadeEncontrado;
-}
-
-
 ///////////////////////////////////////////////////////
 //            Busca pelo ID - EDITAR depois de localizar
 ///////////////////////////////////////////////////////
