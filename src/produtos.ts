@@ -47,7 +47,7 @@ const menuProdutoEstoque: OpcaoMenu[] = [
 //clientes.ts: cadastro e consulta de clientes.
 import type { OpcaoMenu,PerguntasRespostas, Produto} from './types';
 import {criarMenu} from './menus';
-import  { isTextoValido,criarGeradorId, ehInteiroPositivo, ehNumericoPositivo } from './helpers';
+import  { isTextoValido,criarGeradorId, ehInteiroMaiorOuIgualaZero, ehNumericoPositivo } from './helpers';
 import { fazPerguntas,buscarEntidadePeloID } from './interacoesUsuario';
 import promptSync = require('prompt-sync');
 const prompt = promptSync({ sigint: true });
@@ -204,11 +204,14 @@ function removerFiltroProdutoPorCategoria(){
 
 function removerProduto(): boolean {
     //to do: remover/marcar como indisponível o mesmo Produto no Carrinho e de Pedidos em aberto 
-  const produto = estoque.find(p => p.id === id);
+  
+  /*
+    const produto = estoque.find(p => p.id === id);
   if (produto) {
     produto.visivel = false;
     return true;
   }
+    */
   return false;
 
   //removerProdutoByID(id);
@@ -228,9 +231,10 @@ function removerProdutoByID(id: number): boolean {
 
 ////////////////////////////////////////////////////////////
 //    Funções de interação com usuário (se usa console.log)
-//                 camada view
+//                     camada view
+//
+//                      INSERÇÃO
 ///////////////////////////////////////////////////////////
-
 function cadastrarProduto():boolean {
     let tentativa:number=1;
     const maxTentativas:number=3;
@@ -270,7 +274,7 @@ function cadastrarProduto():boolean {
             numTentativa:1,
             msgErro:"", //função já emite mensagem própria de erro
             msgAcerto:"✔️",
-            funcaoValidadora:ehInteiroPositivo,
+            funcaoValidadora:ehInteiroMaiorOuIgualaZero,
             retornoFuncao:false,
         },
     ];
@@ -295,17 +299,20 @@ function cadastrarProduto():boolean {
 
 }
 
-
-
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                     camada view
+//
+//                      BUSCA
+///////////////////////////////////////////////////////////
 function listarProdutosDisponiveis(){
-
     const produtosVisiveis=getProdutosVisiveis();
     const produtosVisiveisEmEstoque = (): Produto[] => produtosVisiveis.filter(p => p.qtdeEstoque>0);
     console.log("lista de produtos disponíveis (Em estoque):");
     console.log( produtosVisiveisEmEstoque());
     return true;
-
 }
+
 
 function listarProdutosIndisponiveis(){
     /*
@@ -333,25 +340,25 @@ function listarProdutosIndisponiveis(){
 function listarProdutosExcluidos(){
     console.log("lista de produtos excluídos:");
     const obterProdutosExcluidos = (): Produto[] => estoque.filter(p => !p.visivel);
-    
     console.log( obterProdutosExcluidos());
     console.log( estoque.filter(p => !p.visivel));
-    
     return true
-
 }
 
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                     camada view
+//
+//                      EDIÇÃO
+///////////////////////////////////////////////////////////
+
 function ativarFiltroProdutoPorCategoria():boolean{
-
      const categorias=getListaCategorias();
-
-
     // 1. Organiza a lista em ordem alfabética (crescente)
     categorias.sort();
-
     // 2. Cria o array com opções de menu
     const menuEscolheCategoria: OpcaoMenu[] = [];
-
     // 3. Passa item por item da lista colocando no formato da lista de menu
     categorias.forEach((categoria, index) => {
     menuEscolheCategoria.push([
@@ -368,9 +375,36 @@ function ativarFiltroProdutoPorCategoria():boolean{
     menuEscolheCategoria.push([0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]);
     criarMenu(true,"Escolher uma Categoria",menuEscolheCategoria);
 
-  
   return true;
 }
+
+
+
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                     camada view
+//
+//                      EXCLUSÃO
+///////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                     camada view
+//
+//                      INTERAÇÃO
+///////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
 
 
 

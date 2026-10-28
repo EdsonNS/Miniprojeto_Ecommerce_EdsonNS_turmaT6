@@ -12,6 +12,8 @@ function definirCamposNumerosInteiros(): Record<string, string[]> {
 }
 
 //define as os campos 
+
+/*
 function definirCamposComRestricaoNaEdicao(): Record<string, Record<string, FuncaoTratamento>> {
     const camposComEdicaoRestrita: Record<string, Record<string, FuncaoTratamento>> = {
         Cliente: {
@@ -28,8 +30,9 @@ function definirCamposComRestricaoNaEdicao(): Record<string, Record<string, Func
     };
     return camposComEdicaoRestrita;
 }
-
+*/
 export  {   
 
     definirCamposNumerosInteiros
 }
+

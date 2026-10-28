@@ -1,8 +1,8 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
-import { ehInteiroPositivo } from "./helpers";
+import { ehInteiroMaiorOuIgualaZero } from "./helpers";
 import type { PerguntasRespostas, Produto, Entidades } from "./types";
-import { definirCamposNumerosInteiros } from "./types.functions";
 import promptSync = require("prompt-sync");
+import { definirCamposNumerosInteiros } from "./types.functions";
 const prompt = promptSync({ sigint: true });
 
 ///////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ function buscarEntidadePeloID<T extends Entidades>(
 
   const numIntPositivo: string = prompt(interacaoPergunta);
 
-  if (!ehInteiroPositivo(numIntPositivo)) {
+  if (!ehInteiroMaiorOuIgualaZero(numIntPositivo)) {
     return undefined as T; // Força o retorno condizente com o genérico
   }
 
@@ -111,6 +111,62 @@ function buscarEntidadePeloID<T extends Entidades>(
 
   return entidadeEncontrado;
 }
+
+
+// o tipo genérico <T> para que retorne exatamente o tipo da função que foi passada
+//
+//type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+function buscarEntidadePeloID_OLD<T extends Entidades>(
+  acao: "Editar" | "Exibir" | "Excluir", //adapta a frase a ser exibida pro usuário
+  nomeEntidade: string,
+  funcaoGetEntidadeById: (id: number) => T,
+): T {
+  let interacaoPergunta = `👉 Digite o ID do ${nomeEntidade} a ser `;
+
+  switch (acao) {
+    case "Editar":
+      interacaoPergunta += "editado: ";
+      break;
+    case "Exibir":
+      interacaoPergunta += "exibido: ";
+      break;
+    case "Excluir":
+      interacaoPergunta += "excluído: ";
+  }
+
+  const numIntPositivo: string = prompt(interacaoPergunta);
+
+  if (!ehInteiroMaiorOuIgualaZero(numIntPositivo)) {
+    return undefined as T; // Força o retorno condizente com o genérico
+  }
+
+  const idEntidade: number = Number(numIntPositivo.trim());
+  const entidadeEncontrado: T = funcaoGetEntidadeById(idEntidade);
+
+  if (!entidadeEncontrado) {
+    console.log(
+      `\n❌ ${nomeEntidade} com o ID ${idEntidade} não foi encontrado.`,
+    );
+    return undefined as T;
+  } else {
+    switch (acao) {
+      case "Editar":
+        editarEntidade(entidadeEncontrado);
+        console.log(entidadeEncontrado);
+        break;
+      case "Exibir":
+        console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
+        console.log(entidadeEncontrado);
+        break;
+      case "Excluir":
+        console.log(`\n🎉 ${nomeEntidade} com o ID ${idEntidade} encontrado: `);
+        break;
+    }
+  }
+
+  return entidadeEncontrado;
+}
+
 
 ///////////////////////////////////////////////////////
 //            Busca pelo ID - EDITAR depois de localizar
@@ -210,7 +266,7 @@ function editarEntidade(entidade: Entidades): void {
         camposNumberInteirosDaEntidade.includes(chave);
 
       if (precisaSerInteiroPositivo) {
-        if (ehInteiroPositivo(resposta)) {
+        if (ehInteiroMaiorOuIgualaZero(resposta)) {
           const numeroConvertido = Number(resposta);
           (entidade as any)[chave] = numeroConvertido;
         } else {

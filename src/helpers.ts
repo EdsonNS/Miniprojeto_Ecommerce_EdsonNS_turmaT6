@@ -1,13 +1,11 @@
 //helpers.ts: funções reutilizáveis
 
-//Closure que gera um incremento
-function criarGeradorId(): () => number {
-  let sequencial: number = 0;
-  return function (): number {
-    sequencial++;
-    return sequencial;
-  };
-}
+
+
+
+/////////////////////////////////////////////
+//          Funções de Verificação
+/////////////////////////////////////////////
 
 function isTextoValido(
   minhaVar: string | null | undefined,
@@ -32,6 +30,81 @@ function isTextoValido(
     return true;
   }
 }
+
+function ehNaoNuloNemVazio(valor: unknown): boolean {
+    // Elimina null, undefined e booleanos
+    if (valor === null || valor === undefined || typeof valor === "boolean") {
+      ifIsTextoValidoPrint(
+        "\n❌ Valor não pode ser null, undefined ou booleanos!",
+      );
+      return false;
+    }
+
+    // Elimina strings vazias ou que contêm apenas espaços em branco
+    if (typeof valor === "string" && valor.trim() === "") {
+      ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
+      return false;
+    }
+    return true;
+
+}
+
+function ehInteiroMaiorOuIgualaZero(valor: unknown): boolean {
+      if (!ehNaoNuloNemVazio(valor)){
+        return false;
+      } 
+
+      // Converte para número
+      const numeroConvertido = Number(valor);
+
+      // Verifica se é um número inteiro válido E se é maior ou igual a zero
+      if (Number.isInteger(numeroConvertido) && numeroConvertido >= 0) {
+        return true;
+      } else {
+        ifIsTextoValidoPrint(
+          "\n❌ Valor tem que ser Inteiro e maior ou igual a zero!",
+        );
+        return false;
+      }
+}
+
+function ehInteiroMaiorQueZero(valor: unknown): boolean {
+      if (!ehNaoNuloNemVazio(valor)){
+        return false;
+      } 
+
+      // Converte para número
+      const numeroConvertido = Number(valor);
+
+      // Verifica se é um número inteiro válido E se é maior ou igual a zero
+      if (Number.isInteger(numeroConvertido) && numeroConvertido > 0) {
+        return true;
+      } else {
+        ifIsTextoValidoPrint(
+          "\n❌ Valor tem que ser Inteiro e maior que zero!",
+        );
+        return false;
+      }
+}
+
+function ehNumericoPositivo(valor: unknown): boolean {
+  if (!ehNaoNuloNemVazio(valor)){
+    return false;
+  } 
+
+  // Converte para número
+  const numeroConvertido = Number(valor);
+
+  // Verifica se é um número válido E se é maior ou igual a zero
+  if (numeroConvertido >= 0) {
+    return true;
+  } else {
+    ifIsTextoValidoPrint("\n❌ Valor tem que ser maior ou igual a zero!");
+    return false;
+  }
+}
+
+
 
 function ifIsTextoValidoPrint(msgToPrint: string | null | undefined): boolean {
   if (!msgToPrint || msgToPrint.trim() === "") {
@@ -78,66 +151,55 @@ function isEmailValido(
   }
 }
 
-function ehInteiroPositivo(valor: unknown): boolean {
-  // Elimina null, undefined e booleanos
-  if (valor === null || valor === undefined || typeof valor === "boolean") {
-    ifIsTextoValidoPrint(
-      "\n❌ Valor não pode ser null, undefined ou booleanos!",
-    );
-    return false;
-  }
+/////////////////////////////////////////////
+//      Funções de Inserção de dados
+/////////////////////////////////////////////
 
-  // Elimina strings vazias ou que contêm apenas espaços em branco
-  if (typeof valor === "string" && valor.trim() === "") {
-    ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
-    return false;
-  }
-
-  // Converte para número
-  const numeroConvertido = Number(valor);
-
-  // Verifica se é um número inteiro válido E se é maior ou igual a zero
-  if (Number.isInteger(numeroConvertido) && numeroConvertido >= 0) {
-    return true;
-  } else {
-    ifIsTextoValidoPrint(
-      "\n❌ Valor tem que ser Inteiro e maior ou igual a zero!",
-    );
-    return false;
-  }
+//Closure que gera um incremento
+function criarGeradorId(): () => number {
+  let sequencial: number = 0;
+  return function (): number {
+    sequencial++;
+    return sequencial;
+  };
 }
 
-function ehNumericoPositivo(valor: unknown): boolean {
-  // Elimina null, undefined e booleanos
-  if (valor === null || valor === undefined || typeof valor === "boolean") {
-    ifIsTextoValidoPrint(
-      "\n❌ Valor não pode ser null, undefined ou booleanos!",
-    );
-    return false;
-  }
 
-  // Elimina strings vazias ou que contêm apenas espaços em branco
-  if (typeof valor === "string" && valor.trim() === "") {
-    ifIsTextoValidoPrint("\n❌ Valor não pode ser vazio!");
-    return false;
-  }
 
-  // Converte para número
-  const numeroConvertido = Number(valor);
+/////////////////////////////////////////////
+//          Funções de Busca
+/////////////////////////////////////////////
 
-  // Verifica se é um número válido E se é maior ou igual a zero
-  if (numeroConvertido >= 0) {
-    return true;
-  } else {
-    ifIsTextoValidoPrint("\n❌ Valor tem que ser maior ou igual a zero!");
-    return false;
-  }
-}
+
+
+
+/////////////////////////////////////////////
+//          Funções de Edição 
+/////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////
+//          Funções de Exclusão 
+/////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////
+//    Funções de interação com usuário (se usa console.log)
+//                 camada view
+///////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 export {
   isTextoValido,
   isEmailValido,
   criarGeradorId,
-  ehInteiroPositivo,
+  ehInteiroMaiorOuIgualaZero,
   ehNumericoPositivo,
 };

@@ -2,7 +2,7 @@
 import promptSync = require('prompt-sync');
 import type {Cliente, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
-import { isEmailValido,isTextoValido,criarGeradorId, ehInteiroPositivo } from './helpers';
+import { isEmailValido,isTextoValido,criarGeradorId } from './helpers';
 import { buscarEntidadePeloID, fazPerguntas} from './interacoesUsuario'
 
 const prompt = promptSync({ sigint: true });
