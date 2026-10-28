@@ -1,5 +1,6 @@
 //types.functions.ts :: contem funções relativas aos Types
 
+import { verificarSeHaverahDoisEmaislAntesDaEdicao } from "./clientes";
 import type { Entidades,FuncaoTratamento } from "./types";
 
 /////////////////////////////////////////////
@@ -18,13 +19,18 @@ function definirCamposNumerosInteiros(): Record<string, string[]> {
 }
 
 
+ 
 
 // Define quais Campos e suas respectivas funções que tratarão dos detalhes da Edição 
-function definirCamposComRestricaoNaEdicao(): Record<string, Record<string, FuncaoTratamento>> {
+function definirFuncaoEspecificaNaEdicaoDoCampo(): Record<string, Record<string, FuncaoTratamento>> {
     const camposComEdicaoRestrita: Record<string, Record<string, FuncaoTratamento>> = {
         Cliente: {
             id: (id, campo, valor)  => {return false;},
-            email:(id, campo, valor)  => {return true;} //verificarSeHaverahDoisEmaislAntesDaEdicao}
+            //email:(id, campo, valor)  => {verificarSeHaverahDoisEmaislAntesDaEdicao},
+            // OPÇÃO A (Retorno implícito - mais limpa):
+            email: (id, campo, valor) => verificarSeHaverahDoisEmaislAntesDaEdicao(id, campo, valor),            
+            // OPÇÃO B (Se manter as chaves, precisará do 'return'):
+            // email: (id, campo, valor) => { return verificarSeHaverahDoisEmaislAntesDaEdicao(id, campo, valor); },            
         },
         Produto: {
             id:(id, campo, valor)  => {return false;},
@@ -68,9 +74,10 @@ function ifPrecisaSerInteiroPositivo(tipoEntidadeStr: string,campoDoTipoDaEntida
 /////////////////////////////////////////////
 function getFuncaoEspecificaNaEdicaoDoCampo(tipoEntidadeStr: string,campoDoTipoDaEntidade: string):FuncaoTratamento {
 
-    const recordDeRestricoes = definirCamposComRestricaoNaEdicao();
+    const recordDeRestricoes = definirFuncaoEspecificaNaEdicaoDoCampo();
     const restricoesDaEntidade = recordDeRestricoes[tipoEntidadeStr] ;
     // Se a entidade não tiver restrições cadastradas, assume que a edição é permitida
+   
     if (!restricoesDaEntidade) {
         return ()=>true; 
     }

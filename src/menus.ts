@@ -23,7 +23,7 @@ Digite uma opção:
     */
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
-import { buscarClientePeloID, cadastrarCliente, listarClientes } from './clientes';
+import { buscarClientePeloID, cadastrarCliente, editarCliente, listarClientes } from './clientes';
 import {  ativarFiltroProdutoPorCategoria, buscarProdutoPeloID, 
           buscarProdutoPorParteNomeInformado, 
           cadastrarProduto,
@@ -41,7 +41,7 @@ const prompt = promptSync();
 function getMsgAlerta():string{
   let msgAlerta:string = "";
   if (getFiltroCategiria().trim() !== ''){
-    msgAlerta = `\n🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
+    msgAlerta = `🚨 Filtro de categoria está ativado: ["${getFiltroCategiria()}"]`;
   }
   return msgAlerta;
 }
@@ -72,8 +72,9 @@ function exibeMenuPrincipal(){
 function exibeMenuClientes(){
   const menuClientes: OpcaoMenu[] = [
     [1, '🪪 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [2, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
-    [3, '🔍 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [2, '📝 Editar Cliente', () => {editarCliente(); return false;}],
+    [3, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
+    [4, '🔍 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];

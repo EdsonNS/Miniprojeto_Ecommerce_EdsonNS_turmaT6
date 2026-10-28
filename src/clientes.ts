@@ -1,6 +1,6 @@
 //clientes.ts: cadastro e consulta de clientes.
 import promptSync = require('prompt-sync');
-import type {Cliente, OpcaoMenu,PerguntasRespostas} from './types';
+import type {Cliente, FuncaoTratamento, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
 import { isEmailValido,isTextoValido,criarGeradorId } from './helpers';
 import { buscarEntidadePeloID, fazPerguntas} from './interacoesUsuario'
@@ -25,11 +25,15 @@ function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgE
     return true;
 }
 
-function verificarSeHaverahDoisEmaislAntesDaEdicao(campo, valor)){
+
+
+function verificarSeHaverahDoisEmaislAntesDaEdicao(id: number, campo: string, valor: any):boolean{
 
     const clienteEncontrado = getClienteByEmail(valor);
-    if (clienteEncontrado) {
-        console.log(msgErro,clienteEncontrado.id);//anexa a informação de qual Cliente já tem o e-mail
+    //Só barra se encontrar OUTRO cliente (ID diferente) usando o e-mail
+    if (clienteEncontrado && clienteEncontrado.id !== id) {
+        const msgErro=`\n❌ E-mail já está em uso pelo cliente com o ID: ${clienteEncontrado.id}`;
+        console.log(msgErro,);
         return false;
     }
     return true;
@@ -87,7 +91,9 @@ function getClienteById(idCliente:number):Cliente | undefined {
 /////////////////////////////////////////////
 //          Funções de Edição 
 /////////////////////////////////////////////
-
+function editarCliente(){
+    return buscarEntidadePeloID('Editar',"Cliente",getClienteById);
+}
 
 
 /////////////////////////////////////////////
@@ -172,6 +178,8 @@ export {
     getClienteById,
     cadastrarCliente, 
     listarClientes,
-    buscarClientePeloID
+    buscarClientePeloID,
+    editarCliente,
+    verificarSeHaverahDoisEmaislAntesDaEdicao
 
 };

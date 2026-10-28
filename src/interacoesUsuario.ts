@@ -183,7 +183,7 @@ function editarEntidade(entidade: Entidades): void {
 
     // Captura a resposta do usuário
     console.log(msgPrompt);
-    const resposta = String(
+    let resposta = String(
       prompt(
         ` Digite um conteúdo para [${chave}] (Conteúdo atual: ${valorAtual}): `,
       ),
@@ -193,6 +193,10 @@ function editarEntidade(entidade: Entidades): void {
     if (resposta === null || resposta.trim() === "") {
       continue;
     }
+    
+    //memoriza pra salvar o campo após a analise
+    let podeSalvarOcampo:boolean=false; 
+    let respostaToSave:any=undefined;
 
     //-------------------------
     //  TRATA CAMPOS NUMÉRICOS
@@ -205,19 +209,13 @@ function editarEntidade(entidade: Entidades): void {
       //------------------------------------
       const precisaSerInteiroPositivo = ifPrecisaSerInteiroPositivo( entidade.nomeEntidade, chave);
       if (precisaSerInteiroPositivo) {
-        if (ehInteiroMaiorOuIgualaZero(resposta)) {
-          const numeroConvertido = Number(resposta);
-          
-         const funcaoEditar = getFuncaoEspecificaNaEdicaoDoCampo(entidade.nomeEntidade, chave );
-         if (funcaoEditar(entidade.id, chave, numeroConvertido)){
-                  (entidade as any)[chave] = numeroConvertido;
-              }
-          }
-
+        if (ehInteiroMaiorOuIgualaZero(resposta)) {     
+          podeSalvarOcampo=true; 
+          respostaToSave=Number(resposta); ;
         } else {
-          console.log(
-            `⚠️ Valor inválido para número inteiro e positivo. Mantendo: ${valorAtual}`,
-          );
+            console.log(
+              `⚠️ Valor inválido para número inteiro e positivo. Mantendo: ${valorAtual}`,
+            );
         }
       } 
       //------------------------------------
@@ -227,13 +225,9 @@ function editarEntidade(entidade: Entidades): void {
         // Trata como número decimal comum, podendo ter vírgula (fracionário)
         const novoNumero = Number(resposta);
         if (!isNaN(novoNumero)) {
-          (entidade as any)[chave] = novoNumero;
-          /*         
-                A expressão (entidade as any)[chave] = novoNumero; (e as similares logo abaixo dela)
-                é um artifício usado para burlar temporariamente a rigidez do TypeScript, 
-                permitindo que você grave um novo valor dentro do objeto sem que o 
-                compilador aponte um erro de tipo
-                */
+          podeSalvarOcampo=true; 
+          respostaToSave=novoNumero;
+
         } else {
           console.log(`⚠️ Valor inválido para número. Mantendo: ${valorAtual}`);
         }
@@ -247,9 +241,14 @@ function editarEntidade(entidade: Entidades): void {
       // Aceita 'true', 't', '1', 'sim', 's' como verdadeiro
       const respostaLower = resposta.toLowerCase().trim();
       if (respFalse.includes(respostaLower)) {
-        (entidade as any)[chave] = false;
+          podeSalvarOcampo=true; 
+          respostaToSave=false;
+
+
       } else if (respTrue.includes(respostaLower)) {
-        (entidade as any)[chave] = true;
+          podeSalvarOcampo=true; 
+          respostaToSave=true;
+
       } else {
         console.log(`⚠️ Valor inválido para booleano. Mantendo: ${valorAtual}`);
       }
@@ -260,7 +259,23 @@ function editarEntidade(entidade: Entidades): void {
     //-------------------------
     else {
       // Se for string ou outro tipo, salva diretamente
-      (entidade as any)[chave] = resposta;
+        podeSalvarOcampo=true; 
+        respostaToSave=resposta;
+
+    }
+    if (podeSalvarOcampo){
+        const funcaoEditar = getFuncaoEspecificaNaEdicaoDoCampo(entidade.nomeEntidade, chave );
+        if (funcaoEditar(entidade.id, chave, respostaToSave)){
+                  (entidade as any)[chave] = respostaToSave;
+                    /*         
+                    A expressão (entidade as any)[chave] = respostaToSave; 
+                    é um artifício usado para burlar temporariamente a rigidez do TypeScript, 
+                    permitindo que se grave um novo valor dentro do objeto sem que o 
+                    compilador aponte um erro de tipo
+                    */              
+          } else {
+            console.log(`⚠️ Devido a uma restrição específica foi mantido o vamor: ${valorAtual}`,);
+          }
     }
   }
  
