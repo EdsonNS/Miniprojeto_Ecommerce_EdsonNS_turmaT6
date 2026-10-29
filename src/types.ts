@@ -64,6 +64,10 @@ type PerguntasRespostas<TArgs extends any[] = any[], TReturn = any> = {
 }
 
 
+///////////////////////////////////////////////////////
+//                 EXPORTAÇÔES
+///////////////////////////////////////////////////////
+
 export type {   
     Entidades,
     Cliente,

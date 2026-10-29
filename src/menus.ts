@@ -74,7 +74,8 @@ function exibeMenuClientes(){
     [1, '🪪 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
     [2, '📝 Editar Cliente', () => {editarCliente(); return false;}],
     [3, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
-    [4, '🔍 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [4, '🔍🫆 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
+    [5, '🔍🔤 Buscar Clientes por parte do nome informado', () => {buscarClientePorParteNomeInformado(); return false;}],
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
@@ -183,6 +184,13 @@ const meuMenu: OpcaoMenu[] = [
 // Executa o menu
 criarMenu("Menu Principal",meuMenu);
 */
+
+
+
+///////////////////////////////////////////////////////
+//                 EXPORTAÇÔES
+///////////////////////////////////////////////////////
+
 
 export {criarMenu, exibeMenuPrincipal,exibeMenuClientes,exibeMenuEstoque};
 

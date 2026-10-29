@@ -135,6 +135,12 @@ function definirCamposComRestricaoNaEdicao(): Record<string, Record<string, Func
     return camposComEdicaoRestrita;
 }
 */
+
+
+///////////////////////////////////////////////////////
+//                 EXPORTAÇÔES
+///////////////////////////////////////////////////////
+
 export  {   
 
     definirCamposNumerosInteiros, ifPrecisaSerInteiroPositivo , getFuncaoEspecificaNaEdicaoDoCampo

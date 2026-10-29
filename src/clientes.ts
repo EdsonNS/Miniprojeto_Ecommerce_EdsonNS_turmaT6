@@ -9,7 +9,10 @@ const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
 const geraIdCliente = criarGeradorId();
 
-/////////////////////////////////////////////
+//////////////////////////////////////////////
+//      Funções de interação com dados
+//              camada model
+//////////////////////////////////////////////
 //          Funções de Verificação
 /////////////////////////////////////////////
 function funcaoVerificaEmailUnico(perguntasRespostas : PerguntasRespostas[],msgErro:string):boolean{
@@ -77,6 +80,9 @@ function pushCliente(iNome:string,iEmail:string):boolean {
 //interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
 function buscarClientePeloID():Cliente | undefined {
     return buscarEntidadePeloID("Exibir","Cliente",getClienteById);
+}
+function buscarClientePorParteNomeInformado{
+    return buscarEntidadePorParteDoTexto("Exibir","Cliente",getClienteById);
 }
 
 function getClienteByEmail(idEmail:string):Cliente | undefined {
@@ -171,6 +177,10 @@ function cadastrarCliente():boolean {
 }
 
 
+
+///////////////////////////////////////////////////////
+//                 EXPORTAÇÔES
+///////////////////////////////////////////////////////
 
 
 export { 

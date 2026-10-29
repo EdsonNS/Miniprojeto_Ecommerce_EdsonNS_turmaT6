@@ -44,6 +44,8 @@
   "exclude": [
     "node_modules",
     "dist" ,                   // IMPORTANTE: Adicione a pasta dist aqui para o TS nunca tentar lê-la como entrada
-    "src/teste1.ts" 
+    //"./src/testes",
+    "./testes",
+    //"src/testes" 
   ]
 }
