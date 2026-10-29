@@ -119,7 +119,9 @@ function pushProduto(categoria: string,nome: string,preco: number,qtdeEstoque: n
         preco: preco,
         qtdeEstoque: qtdeEstoque,
         visivel: visivel, //se for excluído
-        nomeEntidade: 'Produto'
+        bloqueioEdicao:false, //se editar o Carrinho ficará órfão
+        nomeEntidade: 'Produto' 
+
     }
     estoque.push(novoProduto);
     return true;

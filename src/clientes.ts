@@ -67,6 +67,8 @@ function pushCliente(iNome:string,iEmail:string):boolean {
         id: geraIdCliente(),
         nome: iNome,
         email: iEmail,
+        visivel: true, //indica que foi excluído
+        bloqueioEdicao:false, //se editar o Carrinho ficará órfão
         nomeEntidade: 'Cliente'
     }
     clientes.push(novoCliente);
