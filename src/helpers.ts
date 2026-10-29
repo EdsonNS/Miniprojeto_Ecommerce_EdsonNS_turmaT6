@@ -207,4 +207,5 @@ export {
   ehInteiroMaiorOuIgualaZero,
   ehInteiroMaiorQueZero,
   ehNumericoPositivo,
+  ehNaoNuloNemVazio
 };

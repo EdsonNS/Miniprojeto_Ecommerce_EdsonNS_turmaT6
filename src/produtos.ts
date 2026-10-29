@@ -172,7 +172,7 @@ function buscarProdutoPeloID():Produto | undefined {
 }
 
 
-function buscarProdutoPorParteNomeInformado(){
+function buscarProdutosPorParteNomeInformado(){
 
 /*
     const chaveBusca="";
@@ -200,9 +200,7 @@ function editarProduto(){
 /////////////////////////////////////////////
 //          Funções de Exclusão 
 /////////////////////////////////////////////
-function removerFiltroProdutoPorCategoria(){
-    filtroCategoria="";
-}
+
 
 function removerProduto(): boolean {
     //to do: remover/marcar como indisponível o mesmo Produto no Carrinho e de Pedidos em aberto 
@@ -354,7 +352,9 @@ function listarProdutosExcluidos(){
 //
 //                      EDIÇÃO
 ///////////////////////////////////////////////////////////
-
+function desativarFiltroProdutoPorCategoria(){
+    filtroCategoria="";
+}
 function ativarFiltroProdutoPorCategoria():boolean{
      const categorias=getListaCategorias();
     // 1. Organiza a lista em ordem alfabética (crescente)
@@ -372,7 +372,7 @@ function ativarFiltroProdutoPorCategoria():boolean{
         },
     ]);
     });
-    menuEscolheCategoria.push([98, '🔓📌 Remover Filtro de Produto por Categoria', () => {removerFiltroProdutoPorCategoria(); return false;}]);
+   // menuEscolheCategoria.push([98, '🔓📌 Remover Filtro de Produto por Categoria', () => {removerFiltroProdutoPorCategoria(); return false;}]);
     menuEscolheCategoria.push([99, '🧹 Limpar a tela', () => { console.clear(); return false; }]);
     menuEscolheCategoria.push([0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]);
     criarMenu(true,"Escolher uma Categoria",menuEscolheCategoria);
@@ -420,12 +420,12 @@ export {
     editarProduto,
     removerProduto,
     ativarFiltroProdutoPorCategoria,
-    removerFiltroProdutoPorCategoria,
+    desativarFiltroProdutoPorCategoria,
     listarProdutosDisponiveis,
     listarProdutosIndisponiveis,
     listarProdutosExcluidos,
     buscarProdutoPeloID,
-    buscarProdutoPorParteNomeInformado,
+    buscarProdutosPorParteNomeInformado,
     getFiltroCategiria
     
 };

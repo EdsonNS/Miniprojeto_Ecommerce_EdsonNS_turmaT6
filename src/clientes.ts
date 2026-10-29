@@ -3,11 +3,12 @@ import promptSync = require('prompt-sync');
 import type {Cliente, FuncaoTratamento, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
 import { isEmailValido,isTextoValido,criarGeradorId } from './helpers';
-import { buscarEntidadePeloID, fazPerguntas} from './interacoesUsuario'
+import { buscarEntidadePeloID,buscarEntidadesPorParteDoTexto, fazPerguntas} from './interacoesUsuario'
 
 const prompt = promptSync({ sigint: true });
 const clientes : Cliente[]=[];
 const geraIdCliente = criarGeradorId();
+
 
 //////////////////////////////////////////////
 //      Funções de interação com dados
@@ -77,13 +78,15 @@ function pushCliente(iNome:string,iEmail:string):boolean {
 /////////////////////////////////////////////
 //          Funções de Busca
 /////////////////////////////////////////////
+
 //interage com o usuário, fazendo perguntas padrões para o usuário informar o IDnumérico
 function buscarClientePeloID():Cliente | undefined {
     return buscarEntidadePeloID("Exibir","Cliente",getClienteById);
 }
-function buscarClientePorParteNomeInformado{
-    return buscarEntidadePorParteDoTexto("Exibir","Cliente",getClienteById);
+function buscarClientesPorParteNomeInformado(){
+    return buscarEntidadesPorParteDoTexto("Exibir","Cliente","nome", getClienteByParteTexto);
 }
+
 
 function getClienteByEmail(idEmail:string):Cliente | undefined {
     return clientes.find(cliente => cliente.email === idEmail);
@@ -91,6 +94,18 @@ function getClienteByEmail(idEmail:string):Cliente | undefined {
 
 function getClienteById(idCliente:number):Cliente | undefined {
     return clientes.find(cliente => cliente.id === idCliente);
+}
+
+
+function getClienteByParteTexto(nomePropriedade: keyof Cliente, termoBusca: string): Cliente[] {
+  const termoMinusculo = termoBusca.toLowerCase();
+  return clientes.filter(elemento => {
+    const valorPropriedade = elemento[nomePropriedade];
+    if (valorPropriedade !== undefined && valorPropriedade !== null) {
+      return String(valorPropriedade).toLowerCase().includes(termoMinusculo);
+    }
+    return false;
+  });
 }
 
 
@@ -190,6 +205,7 @@ export {
     listarClientes,
     buscarClientePeloID,
     editarCliente,
-    verificarSeHaverahDoisEmaislAntesDaEdicao
+    verificarSeHaverahDoisEmaislAntesDaEdicao,
+    buscarClientesPorParteNomeInformado
 
 };

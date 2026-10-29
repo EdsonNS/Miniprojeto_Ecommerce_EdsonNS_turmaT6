@@ -1,11 +1,12 @@
 //interacoesUsuario.ts: Faz pergunta e memoriza a resposta e trata a resposta
-import { ehInteiroMaiorOuIgualaZero, ehInteiroMaiorQueZero } from "./helpers";
+import { ehInteiroMaiorOuIgualaZero,ehNaoNuloNemVazio, ehInteiroMaiorQueZero } from "./helpers";
 import type { PerguntasRespostas, Produto, FuncaoTratamento,Entidades } from "./types";
 import promptSync = require("prompt-sync");
 import { definirCamposNumerosInteiros,ifPrecisaSerInteiroPositivo ,getFuncaoEspecificaNaEdicaoDoCampo} from "./types.functions";
+import { stringToToken } from "typescript/unstable/ast";
 const prompt = promptSync({ sigint: true });
 
-
+type ExibirOuExcluir = 'Exibir' | 'Excluir';
 
 //////////////////////////////////////////////
 //      Funções de interação com dados
@@ -171,7 +172,68 @@ function buscarEntidadePeloID<T extends Entidades>(
   return entidadeEncontrado;
 }
 
+///////////////////////////////////////////////////////
+//            Busca por parte do TEXTO
+///////////////////////////////////////////////////////
 
+
+
+// o tipo genérico <T> para que retorne exatamente o tipo da função que foi passada
+//
+//type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+function buscarEntidadesPorParteDoTexto<T extends Entidades, K extends string>(
+  acao: ExibirOuExcluir , //adapta a frase a ser exibida pro usuário
+  nomeEntidade: string,
+  nomePropriedade: K,
+  funcaoParametroGetEntidadeByParteTexto: (nomePropriedade:any,termoBusca:string) => T[]
+): T[] {
+
+  
+   let linha01:string =  `Busca ${nomeEntidade}s por parte do texto.`;
+  console.log(linha01);
+   
+  let interacaoPergunta :string= `👉 Digite a parte do texto do ${nomePropriedade} a ser `;
+
+  switch (acao) {
+    case "Exibir":
+      interacaoPergunta += "exibido: ";
+      break;
+    case "Excluir":
+      interacaoPergunta += "excluído: ";
+  }
+
+  const termoBusca: string = prompt(interacaoPergunta);
+  
+  if (!ehNaoNuloNemVazio(termoBusca)) {
+    return []; // Força o retorno condizente com o genérico
+  }
+
+  const entidadeEncontrado: T[] = funcaoParametroGetEntidadeByParteTexto (nomePropriedade, termoBusca) ;
+
+  if (!entidadeEncontrado || entidadeEncontrado.length === 0) {
+    console.log(
+      `\n❌ Não foi encontrado ${nomePropriedade} no ${nomeEntidade} .`,
+    );
+    return [];
+  } else {
+
+
+    console.log(entidadeEncontrado);
+     console.log(`\n🎉 Foi encontrado ${nomePropriedade} no ${nomeEntidade} .`);
+
+    switch (acao) {
+      case "Exibir":
+
+      break;
+      case "Excluir":
+
+      break;
+       
+    }
+  }
+
+  return entidadeEncontrado;
+}
 
 //////////////////////////////////////////////
 //    Funções de interação com usuário 
@@ -365,12 +427,11 @@ function editarEntidade(entidade: Entidades): void {
 
 
 
-///////////////////////////////////////////////////////
-//            Busca pelo ID - EDITAR depois de localizar
-///////////////////////////////////////////////////////
 
-buscarEntidadePorParteDoTexto
 
+///////////////////////////////////////////////////////
+//                TESTES
+///////////////////////////////////////////////////////
 
 function nomeDasEntidades(entidade: Entidades): string {
   // 1. Tratamento prévio caso seja undefined
@@ -399,4 +460,4 @@ function nomeDasEntidades(entidade: Entidades): string {
 //                 EXPORTAÇÔES
 ///////////////////////////////////////////////////////
 
-export { fazPerguntas, buscarEntidadePeloID };
+export { fazPerguntas, buscarEntidadePeloID, buscarEntidadesPorParteDoTexto };

@@ -23,16 +23,16 @@ Digite uma opção:
     */
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
-import { buscarClientePeloID, cadastrarCliente, editarCliente, listarClientes } from './clientes';
+import { buscarClientePeloID,  buscarClientesPorParteNomeInformado, cadastrarCliente, editarCliente, listarClientes } from './clientes';
 import {  ativarFiltroProdutoPorCategoria, buscarProdutoPeloID, 
-          buscarProdutoPorParteNomeInformado, 
+          buscarProdutosPorParteNomeInformado, 
           cadastrarProduto,
           editarProduto,            
           getFiltroCategiria,
           listarProdutosDisponiveis, 
           listarProdutosExcluidos, 
           listarProdutosIndisponiveis, 
-          removerFiltroProdutoPorCategoria, 
+          desativarFiltroProdutoPorCategoria, 
           removerProduto, 
             } from './produtos';
 const prompt = promptSync();
@@ -72,10 +72,11 @@ function exibeMenuPrincipal(){
 function exibeMenuClientes(){
   const menuClientes: OpcaoMenu[] = [
     [1, '🪪 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [2, '📝 Editar Cliente', () => {editarCliente(); return false;}],
+    [2, '✏️ Editar Cliente', () => {editarCliente(); return false;}],
     [3, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
-    [4, '🔍🫆 Buscar Clientes pelo ID', () => {buscarClientePeloID(); return false;}],
-    [5, '🔍🔤 Buscar Clientes por parte do nome informado', () => {buscarClientePorParteNomeInformado(); return false;}],
+    [4, '🔍🫆 Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
+    [5, '🔍🔤 Buscar Clientes por parte do nome informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
+   // [6, '🔍✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
@@ -89,15 +90,16 @@ function exibeMenuClientes(){
 function exibeMenuEstoque(){
   const menuProduto: OpcaoMenu[] = [
     [1, '🪪 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
-    [2, '📝 Editar Produto', () => {editarProduto(); return false;}],
+    [2, '✏️ Editar Produto', () => {editarProduto(); return false;}],
     [3, '🗑️ Remover Produto', () => {removerProduto(); return false;}],    
-    [4, '🔒📌 Ativar  Filtro de Produto por Categoria', () => {ativarFiltroProdutoPorCategoria(); return false;}],
-    [5, '🔓📌 Remover Filtro de Produto por Categoria', () => {removerFiltroProdutoPorCategoria(); return false;}],
-    [6, '🖨️🪫 Listar Produto disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
-    [7, '🖨️🔋 Listar Produto indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
-    [8, '🖨️🗑️ Listar Produto excluídos', () => {listarProdutosExcluidos(); return false;}],
+    [4, '🔴🛍️ Ativar  Filtro de Produto por Categoria', () => {ativarFiltroProdutoPorCategoria(); return false;}],
+    [5, '❌🛍️ Desativar Filtro de Produto por Categoria', () => {desativarFiltroProdutoPorCategoria(); return false;}],
+    [6, '🖨️🪫 Listar Produtos disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
+    [7, '🖨️🔋 Listar Produtos indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
+    [8, '🖨️🗑️ Listar Produtos excluídos', () => {listarProdutosExcluidos(); return false;}],
     [9, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
-    [10, '🔍🔤 Buscar Produto por parte do nome informado', () => {buscarProdutoPorParteNomeInformado(); return false;}],
+    [10, '🔍🔤 Buscar Produtos por parte do nome informado', () => {buscarProdutosPorParteNomeInformado(); return false;}],
+   // [11, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
     
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
@@ -105,7 +107,25 @@ function exibeMenuEstoque(){
   criarMenu(true,"📦 Menu Produto",menuProduto);
 }
 
+///////////////////////////////////////////////////////////////////////
+//                          Menu Pedidos
+///////////////////////////////////////////////////////////////////////
 
+/*
+function exibeMenuPedidos(){
+  const menuPedidos: OpcaoMenu[] = [
+    [1, '🪪 Cadastrar Pedido', () => {cadastrarPedido(); return false;}],
+    [2, '✏️ Editar Pedido', () => {editarPedido(); return false;}],
+    [3, '🖨️ Listar Pedidos', () => {listarPedidos(); return false;}],
+    [4, '🔍🫆 Buscar Pedido pelo ID', () => {buscarClientePeloID(); return false;}],
+    [5, '🔍🔤 Buscar Pedidos por parte do nome informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
+    [6, '🔍✉ Buscar Pedidos por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
+    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+  ];
+  criarMenu(true,"📝 Menu Pedidos",menuPedidos);
+}
+*/
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 

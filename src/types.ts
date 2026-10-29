@@ -6,7 +6,7 @@ type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 
 
 type Cliente = {
-    nomeEntidade: "Cliente";
+    nomeEntidade: 'Cliente';
     //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
     id:number;
     nome:string;
@@ -14,7 +14,7 @@ type Cliente = {
 }
 
 type Produto = {
-    nomeEntidade: "Produto";//Propriedade Discriminadora (Tagged Union)
+    nomeEntidade: 'Produto';//Propriedade Discriminadora (Tagged Union)
     id: number
     categoria: string
     nome: string
@@ -24,7 +24,7 @@ type Produto = {
 }
 
 type ItemPedido = {
-    nomeEntidade: "ItemPedido";//Propriedade Discriminadora (Tagged Union)
+    nomeEntidade: 'ItemPedido';//Propriedade Discriminadora (Tagged Union)
     id: number
     produtoId: number
     qtdeComprada:number
@@ -33,9 +33,11 @@ type ItemPedido = {
 }
 
 type Pedido = {
-    nomeEntidade: "Pedido";//Propriedade Discriminadora (Tagged Union)
+    nomeEntidade: 'Pedido';//Propriedade Discriminadora (Tagged Union)
     id: number
     clienteId: number
+    nomeCliente:string //preserva se mudarem ou excluirem o nome
+    emailCliente:string //preserva se mudarem ou excluirem o nome
     itens:ItemPedido[]
     valorTotal:number
     data:Date
