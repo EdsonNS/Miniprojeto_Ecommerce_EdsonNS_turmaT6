@@ -48,7 +48,7 @@ const menuProdutoEstoque: OpcaoMenu[] = [
 import type { OpcaoMenu,PerguntasRespostas, Produto} from './types';
 import {criarMenu} from './menus';
 import  { isTextoValido,criarGeradorId, ehInteiroMaiorOuIgualaZero, ehNumericoPositivo } from './helpers';
-import { fazPerguntas,buscarEntidadePeloID } from './interacoesUsuario';
+import { fazPerguntas,buscarEntidadePeloID, buscarEntidadesPorParteDoTexto } from './interacoesUsuario';
 import promptSync = require('prompt-sync');
 const prompt = promptSync({ sigint: true });
 
@@ -172,17 +172,27 @@ function buscarProdutoPeloID():Produto | undefined {
 }
 
 
+
 function buscarProdutosPorParteNomeInformado(){
+    return buscarEntidadesPorParteDoTexto("Exibir","Cliente","nome", getProdutoByParteTexto);
+}
+
+function buscarProdutosPorParteCategoriaformada(){
+    return buscarEntidadesPorParteDoTexto("Exibir","Cliente","categoria", getProdutoByParteTexto);
+}
+
+function getProdutoByParteTexto(nomePropriedade: keyof Produto, termoBusca: string): Produto[] {
+  const termoMinusculo = termoBusca.toLowerCase();
+  return estoque.filter(elemento => {
+    const valorPropriedade = elemento[nomePropriedade];
+    if (valorPropriedade !== undefined && valorPropriedade !== null) {
+      return String(valorPropriedade).toLowerCase().includes(termoMinusculo);
+    }
+    return false;
+  });
+}
 
 /*
-    const chaveBusca="";
-
-    return estoque.filter(elemento => 
-        elemento.nome?.toLowerCase().includes(chaveBusca.toLowerCase())
-    );
-*/
-
-}
 
 /////////////////////////////////////////////
 //          Funções de Edição 
@@ -426,6 +436,7 @@ export {
     listarProdutosExcluidos,
     buscarProdutoPeloID,
     buscarProdutosPorParteNomeInformado,
+    buscarProdutosPorParteCategoriaformada,
     getFiltroCategiria
     
 };

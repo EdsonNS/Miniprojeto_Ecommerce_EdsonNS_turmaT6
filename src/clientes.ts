@@ -87,6 +87,12 @@ function buscarClientesPorParteNomeInformado(){
     return buscarEntidadesPorParteDoTexto("Exibir","Cliente","nome", getClienteByParteTexto);
 }
 
+function buscarClientesPorParteEMAILInformado(){
+    return buscarEntidadesPorParteDoTexto("Exibir","Cliente","email", getClienteByParteTexto);
+}
+
+
+
 
 function getClienteByEmail(idEmail:string):Cliente | undefined {
     return clientes.find(cliente => cliente.email === idEmail);
@@ -206,6 +212,7 @@ export {
     buscarClientePeloID,
     editarCliente,
     verificarSeHaverahDoisEmaislAntesDaEdicao,
-    buscarClientesPorParteNomeInformado
+    buscarClientesPorParteNomeInformado,
+    buscarClientesPorParteEMAILInformado
 
 };

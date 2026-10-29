@@ -23,7 +23,12 @@ Digite uma opção:
     */
 import promptSync from 'prompt-sync';
 import type {OpcaoMenu} from './types';
-import { buscarClientePeloID,  buscarClientesPorParteNomeInformado, cadastrarCliente, editarCliente, listarClientes } from './clientes';
+import {  buscarClientePeloID,  
+          buscarClientesPorParteNomeInformado, 
+          buscarClientesPorParteEMAILInformado,
+          cadastrarCliente,
+          editarCliente,
+          listarClientes } from './clientes';
 import {  ativarFiltroProdutoPorCategoria, buscarProdutoPeloID, 
           buscarProdutosPorParteNomeInformado, 
           cadastrarProduto,
@@ -33,7 +38,8 @@ import {  ativarFiltroProdutoPorCategoria, buscarProdutoPeloID,
           listarProdutosExcluidos, 
           listarProdutosIndisponiveis, 
           desativarFiltroProdutoPorCategoria, 
-          removerProduto, 
+          removerProduto,
+          buscarProdutosPorParteCategoriaformada, 
             } from './produtos';
 const prompt = promptSync();
 
@@ -76,7 +82,7 @@ function exibeMenuClientes(){
     [3, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
     [4, '🔍🫆 Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
     [5, '🔍🔤 Buscar Clientes por parte do nome informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
-   // [6, '🔍✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
+    [6, '🔍✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
@@ -99,7 +105,7 @@ function exibeMenuEstoque(){
     [8, '🖨️🗑️ Listar Produtos excluídos', () => {listarProdutosExcluidos(); return false;}],
     [9, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
     [10, '🔍🔤 Buscar Produtos por parte do nome informado', () => {buscarProdutosPorParteNomeInformado(); return false;}],
-   // [11, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
+    [11, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
     
     [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
