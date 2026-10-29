@@ -25,12 +25,16 @@ function definirCamposNumerosInteiros(): Record<string, string[]> {
 function definirFuncaoEspecificaNaEdicaoDoCampo(): Record<string, Record<string, FuncaoTratamento>> {
     const camposComEdicaoRestrita: Record<string, Record<string, FuncaoTratamento>> = {
         Cliente: {
-            id: (id, campo, valor)  => {return false;},
+            id: (id, campo, valor)  => {return false;},//não permite edição
+            visivel: (id, campo, valor)  => {return false;},//não permite edição
+            bloqueioEdicao:(id, campo, valor)  => {return false;},//não permite edição
             //email:(id, campo, valor)  => {verificarSeHaverahDoisEmaislAntesDaEdicao},
+            //---------------
             // OPÇÃO A (Retorno implícito - mais limpa):
             email: (id, campo, valor) => verificarSeHaverahDoisEmaislAntesDaEdicao(id, campo, valor),            
             // OPÇÃO B (Se manter as chaves, precisará do 'return'):
             // email: (id, campo, valor) => { return verificarSeHaverahDoisEmaislAntesDaEdicao(id, campo, valor); },            
+            //---------------
         },
         Produto: {
             id:(id, campo, valor)  => {return false;},

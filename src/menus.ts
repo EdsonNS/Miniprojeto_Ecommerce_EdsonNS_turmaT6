@@ -58,35 +58,15 @@ function getMsgAlerta():string{
 
 function exibeMenuPrincipal(){
   const menuPrincipal: OpcaoMenu[] = [
-    [1, '📦 Menu Produtos e Estoque', exibeMenuEstoque],
-    [2, '👥 Menu Clientes', exibeMenuClientes],
-    [3, '🛒 Menu Carrinho de Compra', () => { return false; }],   
-    [4, '📝 Menu Pedidos', () => { return false; }],
-    [5, '🖨️ Menu Relatórios', () => { return false; }],  
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
+    [100, '📦 Menu Produtos e Estoque', exibeMenuEstoque],
+    [200, '👥 Menu Clientes', exibeMenuClientes],
+    [300, '🛒 Menu Carrinho de Compra', () => { return false; }],   
+    [400, '📝 Menu Pedidos', () => { return false; }],
+    [500, '🖨️ Menu Relatórios', () => { return false; }],  
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [999, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
   ];
   criarMenu(false,"Menu Principal",menuPrincipal);
-}
-
-
-///////////////////////////////////////////////////////////////////////
-//                          Menu Clientes
-///////////////////////////////////////////////////////////////////////
-
-
-function exibeMenuClientes(){
-  const menuClientes: OpcaoMenu[] = [
-    [1, '🪪 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [2, '✏️ Editar Cliente', () => {editarCliente(); return false;}],
-    [3, '🖨️ Listar Clientes', () => {listarClientes(); return false;}],
-    [4, '🔍🫆 Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
-    [5, '🔍🔤 Buscar Clientes por parte do nome informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
-    [6, '🔍✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
-  ];
-  criarMenu(true,"👥 Menu Clientes",menuClientes);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -95,43 +75,102 @@ function exibeMenuClientes(){
 
 function exibeMenuEstoque(){
   const menuProduto: OpcaoMenu[] = [
-    [1, '🪪 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
-    [2, '✏️ Editar Produto', () => {editarProduto(); return false;}],
-    [3, '🗑️ Remover Produto', () => {removerProduto(); return false;}],    
-    [4, '🔴🛍️ Ativar  Filtro de Produto por Categoria', () => {ativarFiltroProdutoPorCategoria(); return false;}],
-    [5, '❌🛍️ Desativar Filtro de Produto por Categoria', () => {desativarFiltroProdutoPorCategoria(); return false;}],
-    [6, '🖨️🪫 Listar Produtos disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
-    [7, '🖨️🔋 Listar Produtos indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
-    [8, '🖨️🗑️ Listar Produtos excluídos', () => {listarProdutosExcluidos(); return false;}],
-    [9, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
-    [10, '🔍🔤 Buscar Produtos por parte do nome informado', () => {buscarProdutosPorParteNomeInformado(); return false;}],
-    [11, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
-    
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [101, '🪪📦 Cadastrar Produto', () => {cadastrarProduto(); return false;}],
+    [102, '✏️📦 Editar Produto', () => {editarProduto(); return false;}],
+    [103, '🗑️📦 Remover Produto', () => {removerProduto(); return false;}],    
+    [104, '🔴🛍️ Ativar Filtro de Produto por Categoria', () => {ativarFiltroProdutoPorCategoria(); return false;}],
+    [105, '❌🛍️ Desativar Filtro de Produto por Categoria', () => {desativarFiltroProdutoPorCategoria(); return false;}],
+    [106, '🖨️🔋 Listar Produtos disponíveis (em estoque)', () => {listarProdutosDisponiveis(); return false;}],
+    [107, '🖨️🪫 Listar Produtos indisponíveis (estoque zerado)', () => {listarProdutosIndisponiveis(); return false;}],
+    [108, '🖨️🗑️ Listar Produtos excluídos', () => {listarProdutosExcluidos(); return false;}],
+    [109, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
+    [110, '🔍🔤 Buscar Produtos por parte do nome do Produto informado', () => {buscarProdutosPorParteNomeInformado(); return false;}],
+    [111, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
+
+    [301, '➕📦🛒 Adicionar Produto no Carrinho', () => { return false; }],   
+    [302, '➖📦🛒 Remover Produto do Carrinho', () => { return false; }], 
+    [303, '✏️📦🛒 Editar Item do Carrinho', () => { return false;}],
+    [304, '🖨️📦🛒 Listar Itens do Carrinho', () => { return false;}], 
+
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
   criarMenu(true,"📦 Menu Produto",menuProduto);
 }
 
 ///////////////////////////////////////////////////////////////////////
+//                          Menu Clientes
+///////////////////////////////////////////////////////////////////////
+
+
+function exibeMenuClientes(){
+  const menuClientes: OpcaoMenu[] = [
+    [201, '🪪👥 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
+    [202, '✏️👥 Editar Cliente', () => {editarCliente(); return false;}],
+    [203, '🖨️👥 Listar Clientes', () => {listarClientes(); return false;}],
+    [204, '🔍🫆 Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
+    [205, '🔍🔤👥 Buscar Clientes por parte do nome do Cliente informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
+    [206, '🔍🔤✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
+
+    [305, '➕👥🛒 Adicionar CLiente ao Carrinho', () => { return false;}],
+    [306, '🔄👥🛒 Trocar CLiente do Carrinho', () => { return false;}],
+
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+  ];
+  criarMenu(true,"👥 Menu Clientes",menuClientes);
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
+//                          Menu Carrinho
+///////////////////////////////////////////////////////////////////////
+
+
+function exibeMenuCarrinho(){
+  const menuCarrinho: OpcaoMenu[] = [
+    [301, '➕📦 Adicionar Produto no Carrinho', () => { return false; }],
+    [302, '➖📦 Remover Produto do Carrinho', () => { return false; }],
+    [303, '✏️📦 Editar Item do Carrinho', () => { return false;}],
+    [304, '🖨️📦 Listar Itens do Carrinho', () => { return false;}],
+    [305, '➕👥 Adicionar Cliente ao Carrinho', () => { return false;}],
+    [306, '🔄👥 Trocar Cliente do Carrinho', () => { return false;}],
+    [307, '🔄🛒 Trocar de Carrinho', () => { return false;}],
+   
+    [401, '🛒📝 Fechar Carrinho - Abrir Pedido', () => { return false;}],
+
+     
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+  ];
+  criarMenu(true,"🛒 Menu Carrinho",menuCarrinho);
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
 //                          Menu Pedidos
 ///////////////////////////////////////////////////////////////////////
 
-/*
+
 function exibeMenuPedidos(){
   const menuPedidos: OpcaoMenu[] = [
-    [1, '🪪 Cadastrar Pedido', () => {cadastrarPedido(); return false;}],
-    [2, '✏️ Editar Pedido', () => {editarPedido(); return false;}],
-    [3, '🖨️ Listar Pedidos', () => {listarPedidos(); return false;}],
-    [4, '🔍🫆 Buscar Pedido pelo ID', () => {buscarClientePeloID(); return false;}],
-    [5, '🔍🔤 Buscar Pedidos por parte do nome informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
-    [6, '🔍✉ Buscar Pedidos por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
-    [99, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [401, '🛒📝 Fechar Carrinho - Abrir Pedido', () => { return false;}],
+    [402, '✏️📝 Editar Pedido - Reabrir Carrinho', () => { return false;}],
+    [403, '🗑️📝 Cancelar Pedido', () => { return false;}], 
+    [404, '🖨️📝 Listar Pedidos', () => { return false;}],
+    [405, '🔍🫆 Buscar Pedido pelo ID', () => { return false;}],
+    [406, '🔍🔤👥 Buscar Pedidos por parte do nome do Cliente informado', () => { return false;}],
+    [406, '🔍🔤📦 Buscar Pedidos por parte do nome do Produto informado', () => { return false;}],
+    [407, '🔍✉ Buscar Pedidos por parte do e-mail informado', () => { return false;}],
+
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
   criarMenu(true,"📝 Menu Pedidos",menuPedidos);
 }
-*/
+
 // Definição do tipo: um array contendo [número, texto, função]
 //type OpcaoMenu = [number, string, () => void];
 

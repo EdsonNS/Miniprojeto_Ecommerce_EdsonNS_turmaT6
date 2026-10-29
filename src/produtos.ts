@@ -172,7 +172,6 @@ function buscarProdutoPeloID():Produto | undefined {
 }
 
 
-
 function buscarProdutosPorParteNomeInformado(){
     return buscarEntidadesPorParteDoTexto("Exibir","Cliente","nome", getProdutoByParteTexto);
 }
@@ -192,7 +191,7 @@ function getProdutoByParteTexto(nomePropriedade: keyof Produto, termoBusca: stri
   });
 }
 
-/*
+
 
 /////////////////////////////////////////////
 //          Funções de Edição 

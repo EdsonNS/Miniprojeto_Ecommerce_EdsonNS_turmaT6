@@ -11,6 +11,8 @@ type Cliente = {
     id:number;
     nome:string;
     email:string;
+    visivel:boolean //indica que foi excluído
+    bloqueioEdicao:boolean //se editar o Carrinho ficará órfão
 }
 
 type Produto = {
@@ -21,6 +23,7 @@ type Produto = {
     preco: number
     qtdeEstoque: number
     visivel:boolean //indica que foi excluído  
+    bloqueioEdicao:boolean //se editar o Carrinho ficará órfão
 }
 
 type ItemPedido = {
