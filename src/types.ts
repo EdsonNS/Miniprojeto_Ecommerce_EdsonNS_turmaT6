@@ -4,6 +4,7 @@
 // utiliza-se o caractere barra vertical (|).
 type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 
+type EstatusPedido = 'Carrinho Aberto' | 'Carrinho Excluido' | 'Pedido Aberto' | 'Pedido Concluído' | 'Pedido Cancelado'
 
 type Cliente = {
     nomeEntidade: 'Cliente';
@@ -29,22 +30,25 @@ type Produto = {
 type ItemPedido = {
     nomeEntidade: 'ItemPedido';//Propriedade Discriminadora (Tagged Union)
     id: number
+    itemPedidoQtde:number
+    itemPedidoEsgotado:boolean
     produtoId: number
-    qtdeComprada:number
-    valorUnitario:number
-    indisponivel:boolean
+    produtoCategoria: string
+    produtoNome: string
+    produtoPrecoUnitario: number
+    pedidoId:number
+
 }
 
 type Pedido = {
     nomeEntidade: 'Pedido';//Propriedade Discriminadora (Tagged Union)
     id: number
     clienteId: number
-    nomeCliente:string //preserva se mudarem ou excluirem o nome
-    emailCliente:string //preserva se mudarem ou excluirem o nome
-    itens:ItemPedido[]
-    valorTotal:number
-    data:Date
-    finalizado:boolean
+    clienteNome:string //preserva se mudarem ou excluirem o nome
+    clienteEmail:string //preserva se mudarem ou excluirem o nome
+    pedidoValorTotal:number
+    pedidoData:Date
+    pedidoStatus: EstatusPedido
 }
 
 //tipo da função que vai tratar a restrição de edição|exclusão das Entidades

@@ -60,9 +60,9 @@ function exibeMenuPrincipal(){
   const menuPrincipal: OpcaoMenu[] = [
     [100, '📦 Menu Produtos e Estoque', exibeMenuEstoque],
     [200, '👥 Menu Clientes', exibeMenuClientes],
-    [300, '🛒 Menu Carrinho de Compra', () => { return false; }],   
-    [400, '📝 Menu Pedidos', () => { return false; }],
-    [500, '🖨️ Menu Relatórios', () => { return false; }],  
+    [300, '🛒 Menu Carrinho de Compra', exibeMenuCarrinho],   
+    [400, '📝 Menu Pedidos', exibeMenuPedidos],
+    [500, '🖨️ Menu Relatórios', exibeMenuRelatorios],  
     [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
     [999, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
   ];
@@ -86,7 +86,6 @@ function exibeMenuEstoque(){
     [109, '🔍🫆 Buscar Produto pelo ID', () => {buscarProdutoPeloID(); return false;}],
     [110, '🔍🔤 Buscar Produtos por parte do nome do Produto informado', () => {buscarProdutosPorParteNomeInformado(); return false;}],
     [111, '🔍🛍️ Buscar Produtos por parte da categoria informada', () => {buscarProdutosPorParteCategoriaformada(); return false;}],
-
     [301, '➕📦🛒 Adicionar Produto no Carrinho', () => { return false; }],   
     [302, '➖📦🛒 Remover Produto do Carrinho', () => { return false; }], 
     [303, '✏️📦🛒 Editar Item do Carrinho', () => { return false;}],
@@ -105,18 +104,16 @@ function exibeMenuEstoque(){
 
 function exibeMenuClientes(){
   const menuClientes: OpcaoMenu[] = [
-    [201, '🪪👥 Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
-    [202, '✏️👥 Editar Cliente', () => {editarCliente(); return false;}],
-    [203, '🖨️👥 Listar Clientes', () => {listarClientes(); return false;}],
-    [204, '🔍🫆 Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
+    [201, '🪪👥   Cadastrar Clientes', () => {cadastrarCliente(); return false;}],
+    [202, '✏️👥   Editar Cliente', () => {editarCliente(); return false;}],
+    [203, '🖨️👥   Listar Clientes', () => {listarClientes(); return false;}],
+    [204, '🔍🫆   Buscar Cliente pelo ID', () => {buscarClientePeloID(); return false;}],
     [205, '🔍🔤👥 Buscar Clientes por parte do nome do Cliente informado', () => {buscarClientesPorParteNomeInformado(); return false;}],
-    [206, '🔍🔤✉ Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
-
-    [305, '➕👥🛒 Adicionar CLiente ao Carrinho', () => { return false;}],
-    [306, '🔄👥🛒 Trocar CLiente do Carrinho', () => { return false;}],
-
-    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+    [206, '🔍🔤✉  Buscar Clientes por parte do e-mail informado', () => {buscarClientesPorParteEMAILInformado(); return false;}],
+    [305, '➕👥🛒 Adicionar Cliente ao Carrinho', () => { return false;}],
+    [306, '🔄👥🛒 Trocar Cliente do Carrinho', () => { return false;}],
+    [888, '  🧹    Limpar a tela', () => { console.clear(); return false; }],
+    [0,   '  🔙    Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
   criarMenu(true,"👥 Menu Clientes",menuClientes);
 }
@@ -130,19 +127,19 @@ function exibeMenuClientes(){
 
 function exibeMenuCarrinho(){
   const menuCarrinho: OpcaoMenu[] = [
-    [301, '➕📦 Adicionar Produto no Carrinho', () => { return false; }],
-    [302, '➖📦 Remover Produto do Carrinho', () => { return false; }],
-    [303, '✏️📦 Editar Item do Carrinho', () => { return false;}],
-    [304, '🖨️📦 Listar Itens do Carrinho', () => { return false;}],
-    [305, '➕👥 Adicionar Cliente ao Carrinho', () => { return false;}],
-    [306, '🔄👥 Trocar Cliente do Carrinho', () => { return false;}],
-    [307, '🔄🛒 Trocar de Carrinho', () => { return false;}],
-   
-    [401, '🛒📝 Fechar Carrinho - Abrir Pedido', () => { return false;}],
-
-     
-    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+    [301, '➕📦   Adicionar Produto no Carrinho', () => { return false; }],
+    [302, '➖📦   Remover Produto do Carrinho', () => { return false; }],
+    [303, '✏️📦   Editar Item do Carrinho', () => { return false;}],
+    [304, '🖨️📦   Listar Itens do Carrinho', () => { return false;}],
+    [304, '🖨️📦🛒 Listar Carrinhos', () => { return false;}],
+    [305, '➕👥   Adicionar Cliente ao Carrinho', () => { return false;}],
+    [306, '🔄👥   Trocar Cliente do Carrinho', () => { return false;}],
+    [307, '🔄🛒   Trocar de Carrinho', () => { return false;}],
+    [308, '❌🛒   Excluir Carrinho', () => { return false;}],
+    [401, '🛒📝   Fechar Carrinho - Abrir Pedido', () => { return false;}],
+    
+    [888, ' 🧹     Limpar a tela', () => { console.clear(); return false; }],
+    [0,   ' 🔙     Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
   criarMenu(true,"🛒 Menu Carrinho",menuCarrinho);
 }
@@ -156,19 +153,34 @@ function exibeMenuCarrinho(){
 
 function exibeMenuPedidos(){
   const menuPedidos: OpcaoMenu[] = [
-    [401, '🛒📝 Fechar Carrinho - Abrir Pedido', () => { return false;}],
-    [402, '✏️📝 Editar Pedido - Reabrir Carrinho', () => { return false;}],
-    [403, '🗑️📝 Cancelar Pedido', () => { return false;}], 
-    [404, '🖨️📝 Listar Pedidos', () => { return false;}],
-    [405, '🔍🫆 Buscar Pedido pelo ID', () => { return false;}],
+    [401, '🛒📝   Fechar Carrinho - Abrir Pedido', () => { return false;}],
+    [402, '✏️📝   Editar Pedido - Reabrir Carrinho', () => { return false;}],
+    [403, '🗑️📝   Cancelar Pedido', () => { return false;}], 
+    [404, '🖨️📝   Listar Pedidos', () => { return false;}],
+    [405, '🔍🫆   Buscar Pedido pelo ID', () => { return false;}],
     [406, '🔍🔤👥 Buscar Pedidos por parte do nome do Cliente informado', () => { return false;}],
     [406, '🔍🔤📦 Buscar Pedidos por parte do nome do Produto informado', () => { return false;}],
-    [407, '🔍✉ Buscar Pedidos por parte do e-mail informado', () => { return false;}],
-
-    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
-    [0, '🔙 Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
+    [407, '🔍✉    Buscar Pedidos por parte do e-mail informado', () => { return false;}],
+    [888, '  🧹    Limpar a tela', () => { console.clear(); return false; }],
+    [0  , '  🔙    Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
   ];
   criarMenu(true,"📝 Menu Pedidos",menuPedidos);
+}
+
+///////////////////////////////////////////////////////////////////////
+//                        Menu Relatórios
+///////////////////////////////////////////////////////////////////////
+
+
+function exibeMenuRelatorios(){
+  const menuRelatorios: OpcaoMenu[] = [
+    [501, '📦🛒 Lista de Compras - Itens de Carrinhos com saldo zero', () => { return false;}],
+    [502, '💰📦 Vendas por Produto', () => { return false;}],
+    [503, '💰👥 Vendas por Cliente', () => { return false;}],
+    [888, '🧹 Limpar a tela', () => { console.clear(); return false; }],
+    [999, '🔙 Sair', () => { console.log("\n👋 saindo...\n"); return true; }]
+  ];
+  criarMenu(false,"🖨️ Menu Relatórios",menuRelatorios);
 }
 
 // Definição do tipo: um array contendo [número, texto, função]
