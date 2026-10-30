@@ -136,7 +136,7 @@ function exibeMenuCarrinho(){
     [306, '🔄👥   Trocar Cliente do Carrinho', () => { return false;}],
     [307, '🔄🛒   Trocar de Carrinho', () => { return false;}],
     [308, '❌🛒   Excluir Carrinho', () => { return false;}],
-    [401, '🛒📝   Fechar Carrinho - Abrir Pedido', () => { return false;}],
+    [401, '🛒📝   Finalizar Compra - Gerar Pedido', () => { return false;}],
     
     [888, ' 🧹     Limpar a tela', () => { console.clear(); return false; }],
     [0,   ' 🔙     Retornar', () => {console.log("\n👋 retornando...\n"); return true; }]
@@ -153,9 +153,8 @@ function exibeMenuCarrinho(){
 
 function exibeMenuPedidos(){
   const menuPedidos: OpcaoMenu[] = [
-    [401, '🛒📝   Fechar Carrinho - Abrir Pedido', () => { return false;}],
-    [402, '✏️📝   Editar Pedido - Reabrir Carrinho', () => { return false;}],
-    [403, '🗑️📝   Cancelar Pedido', () => { return false;}], 
+    [401, '🛒📝   Finalizar Compra - Gerar Pedido', () => { return false;}],
+    [403, '🗑️📝   Cancelar Pedido - Devolução', () => { return false;}], 
     [404, '🖨️📝   Listar Pedidos', () => { return false;}],
     [405, '🔍🫆   Buscar Pedido pelo ID', () => { return false;}],
     [406, '🔍🔤👥 Buscar Pedidos por parte do nome do Cliente informado', () => { return false;}],

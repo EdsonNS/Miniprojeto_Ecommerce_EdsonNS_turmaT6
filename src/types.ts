@@ -4,8 +4,6 @@
 // utiliza-se o caractere barra vertical (|).
 type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
 
-type EstatusPedido = 'Carrinho Aberto' | 'Carrinho Excluido' | 'Pedido Aberto' | 'Pedido Concluído' | 'Pedido Cancelado'
-
 type Cliente = {
     nomeEntidade: 'Cliente';
     //Propriedade Discriminadora (Tagged Union), usada para saber o type quando usado em Entidades
@@ -30,15 +28,34 @@ type Produto = {
 type ItemPedido = {
     nomeEntidade: 'ItemPedido';//Propriedade Discriminadora (Tagged Union)
     id: number
-    itemPedidoQtde:number
-    itemPedidoEsgotado:boolean
+    itemPedidoQtde: number
+    itemPedidoEsgotado: boolean
     produtoId: number
     produtoCategoria: string
     produtoNome: string
     produtoPrecoUnitario: number
-    pedidoId:number
-
+    pedidoId: number
 }
+
+type EstatusCarrinho =
+  'Carrinho vazio' 
+| 'Carrinho em uso' 
+| 'Carrinho excluido' 
+| 'Carrinho fechado'
+
+type Carrinho = {
+    nomeEntidade: 'Carrinho';//Propriedade Discriminadora (Tagged Union)
+    id: number
+    clienteId: number
+    clienteNome:string //preserva se mudarem ou excluirem o nome
+    clienteEmail:string //preserva se mudarem ou excluirem o nome
+    carrinhoValorTotal:number
+    carrinhoData:Date
+    carrinhotatus: EstatusPedido
+}
+type EstatusPedido =
+  'Pedido concluído' 
+| 'Pedido cancelado'
 
 type Pedido = {
     nomeEntidade: 'Pedido';//Propriedade Discriminadora (Tagged Union)
@@ -85,7 +102,8 @@ export type {
     Pedido,
     OpcaoMenu,
     PerguntasRespostas,
-    FuncaoTratamento
+    FuncaoTratamento,
+    EstatusPedido
     
 }
 

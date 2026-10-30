@@ -54,10 +54,12 @@ function verificarSeHaverahDoisEmaislAntesDaEdicao(id: number, campo: string, va
 //O sistema deverá iniciar com pelo menos 3 clientes cadastrados para facilitar os
 //testes das funcionalidades
 function cargaIncialClientes():boolean{
-    console.log("\n⚠️ Iniciando Carga Inicial...");
+    console.log("\n⚠️ Iniciando Carga Inicial de Clientes...");
     pushCliente('Edson Nilton','edson.nilton@dominio.com');
     pushCliente('Adriano Ferreira','adriano.ferreira@dominio.com');
-    pushCliente('Manoel Martins','manoel.martins@dominio.com');
+    pushCliente('Manoel Martins','manoel.martins@dominio.com.br');
+    pushCliente('Filipe Martins','filipe.martins@dominio.com.pt');
+    pushCliente('Maria Clara','maria.clara@dominio.com.uk');
     console.log("\n🎉 Carga Inicial realizada com sucesso!");
     return true;
 }
