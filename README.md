@@ -77,3 +77,6 @@ https://discord.com/channels/1369678920995045498/1461059777378385971/15636301509
 
 >como validar email e senha em javascript
 https://cursos.alura.com.br/app/forum/topic/80469
+
+
+Projeto continua noutra branch: https://github.com/EdsonNS/Miniprojeto_Ecommerce_EdsonNS_turmaT6/tree/continua02
