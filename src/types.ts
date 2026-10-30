@@ -2,7 +2,7 @@
 
 //Union Types (Tipos de União). Para juntar vários tipos possíveis em um único tipo, 
 // utiliza-se o caractere barra vertical (|).
-type Entidades = Cliente | Produto | ItemPedido | Pedido | undefined;
+type Entidades = (Cliente | Produto | Carrinho | ItemCarrinho | undefined);
 
 type Cliente = {
     nomeEntidade: 'Cliente';
@@ -25,50 +25,36 @@ type Produto = {
     bloqueioEdicao:boolean //se editar o Carrinho ficará órfão
 }
 
-type ItemPedido = {
-    nomeEntidade: 'ItemPedido';//Propriedade Discriminadora (Tagged Union)
-    id: number
-    itemPedidoQtde: number
-    itemPedidoEsgotado: boolean
+type ItemCarrinho = {
+    nomeEntidade: 'ItemCarrinho';//Propriedade Discriminadora (Tagged Union)
+    id: number,    
+    itemCarrinhoEsgotado: boolean
     produtoId: number
     produtoCategoria: string
     produtoNome: string
     produtoPrecoUnitario: number
-    pedidoId: number
+    carrinhoId: number
 }
 
 type EstatusCarrinho =
   'Carrinho vazio' 
 | 'Carrinho em uso' 
 | 'Carrinho excluido' 
-| 'Carrinho fechado'
+| 'Carrinho fechado' //'Pedido concluído'
+| 'Carrinho Cancelado' //'Pedido cancelado'
 
 type Carrinho = {
     nomeEntidade: 'Carrinho';//Propriedade Discriminadora (Tagged Union)
     id: number
-    clienteId: number
     clienteNome:string //preserva se mudarem ou excluirem o nome
     clienteEmail:string //preserva se mudarem ou excluirem o nome
     carrinhoValorTotal:number
+    carrinhoQtdeItens:number
     carrinhoData:Date
-    carrinhotatus: EstatusPedido
-}
-type EstatusPedido =
-  'Pedido concluído' 
-| 'Pedido cancelado'
-
-type Pedido = {
-    nomeEntidade: 'Pedido';//Propriedade Discriminadora (Tagged Union)
-    id: number
-    clienteId: number
-    clienteNome:string //preserva se mudarem ou excluirem o nome
-    clienteEmail:string //preserva se mudarem ou excluirem o nome
-    pedidoValorTotal:number
-    pedidoData:Date
-    pedidoStatus: EstatusPedido
+    carrinhoStatus: EstatusCarrinho
 }
 
-//tipo da função que vai tratar a restrição de edição|exclusão das Entidades
+//declara qual função que vai tratar a restrição de edição|exclusão das Entidades
 type FuncaoTratamento = (id:number, campo: string, valor: any)  => (boolean);
 
 // Definição do tipo: um array contendo [número, texto, função]
@@ -98,12 +84,12 @@ export type {
     Entidades,
     Cliente,
     Produto,
-    ItemPedido,
-    Pedido,
     OpcaoMenu,
     PerguntasRespostas,
     FuncaoTratamento,
-    EstatusPedido
+    EstatusCarrinho,
+    Carrinho,
+    ItemCarrinho
     
 }
 

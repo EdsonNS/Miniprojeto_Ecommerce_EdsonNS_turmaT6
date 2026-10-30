@@ -1,14 +1,14 @@
-//pedidos.ts: operações do carrinho e pedidos, carrinho é o embrião do Pedido, ou um Pedido que não amadureceu
+//carrinho.ts: operações do carrinho, um pedido é o mesmo que um carrinho Finalizado
 
 import promptSync = require('prompt-sync');
-import type {Cliente, EstatusPedido, FuncaoTratamento, OpcaoMenu,Pedido,PerguntasRespostas} from './types';
+import type {Carrinho, Cliente, EstatusCarrinho, FuncaoTratamento, ItemCarrinho, OpcaoMenu,PerguntasRespostas} from './types';
 import {criarMenu} from './menus';
 import { isEmailValido,isTextoValido,criarGeradorId } from './helpers';
 import { buscarEntidadePeloID,buscarEntidadesPorParteDoTexto, fazPerguntas} from './interacoesUsuario'
 
 const prompt = promptSync({ sigint: true });
-const pedidos : Pedido[]=[];
-const geraIdPedido = criarGeradorId();
+const itemCarrinhos : ItemCarrinho[]=[];
+const geraIdItemCarrinho = criarGeradorId();
 
 //////////////////////////////////////////////
 //      Funções de interação com dados
@@ -26,46 +26,44 @@ const geraIdPedido = criarGeradorId();
 /////////////////////////////////////////////
 //O sistema deverá iniciar com pelo menos 3 clientes cadastrados para facilitar os
 //testes das funcionalidades
-function cargaIncialPedidos():boolean{
+function cargaIncialItemsCarrinho():boolean{
     console.log("\n⚠️ Iniciando Carga Inicial...");
     /*
-    pushPedidos(
-        iClienteId:number,
+    pushCarrinho(
         iClienteNome:string,
         iClienteEmail:string,
-        iPedidoValorTotal:number,
-        iPedidoData:Date,
-        iPedidoStatus: EstatusPedido)
+        iCarrinhoValorTotal:number,
+        iCarrinhoData:Date,
+        iCarrinhoStatus: EstatusCarrinho)
     );
-    pushPedidos('Adriano Ferreira','adriano.ferreira@dominio.com');
-    pushPedidos('Manoel Martins','manoel.martins@dominio.com.br');
-    pushPedidos('Filipe Martins','filipe.martins@dominio.com.pt');
-    pushPedidos('Maria Clara','maria.clara@dominio.com.uk');
+
     */
     console.log("\n🎉 Carga Inicial realizada com sucesso!");
     return true;
 }
-    
-function pushPedidos(
-        iClienteId:number,
-        iClienteNome:string,
-        iClienteEmail:string,
-        iPedidoValorTotal:number,
-        iPedidoData:Date,
-        iPedidoStatus: EstatusPedido):boolean {    
-    const novoPedido: Pedido = {
-        id: geraIdPedido(),
-        nomeEntidade: 'Pedido',//Propriedade Discriminadora (Tagged Union)
-        clienteId: iClienteId,
-        clienteNome:iClienteNome,
-        clienteEmail:iClienteEmail,
-        pedidoValorTotal:iPedidoValorTotal,
-        pedidoData:iPedidoData,
-        pedidoStatus:iPedidoStatus,
+
+function pushItemsCarrinho(
+    iItemCarrinhoEsgotado: boolean,
+    iProdutoId: number,
+    iProdutoCategoria: string,
+    iProdutoNome: string,
+    iProdutoPrecoUnitario: number,
+    iCarrinhoId: number):boolean {    
+    const novoItemCarrinho: ItemCarrinho = {
+        produtoId: iProdutoId,
+        id: geraIdItemCarrinho(),
+        itemCarrinhoEsgotado: iItemCarrinhoEsgotado,
+        nomeEntidade: 'ItemCarrinho',//Propriedade Discriminadora (Tagged Union)   
+        produtoCategoria: iProdutoCategoria,
+        produtoNome: iProdutoNome,
+        produtoPrecoUnitario: iProdutoPrecoUnitario,
+        carrinhoId: iCarrinhoId
+
     }
-    pedidos.push(novoPedido);
+    itemCarrinhos.push(novoItemCarrinho);
     return true;
-}
+}       
+
 
 //////////////////////////////////////////////
 //      Funções de interação com dados
